@@ -1,0 +1,45 @@
+﻿@model AcompanhamentoDocente.Models.TbAtribuicaoColaboradorEscola
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>TbAtribuicaoColaboradorEscola</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Codigo" />
+            <div class="form-group">
+                <label asp-for="CodigoEscola" class="control-label"></label>
+                <select asp-for="CodigoEscola" class="form-control" asp-items="ViewBag.CodigoEscola"></select>
+                <span asp-validation-for="CodigoEscola" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoColaborador" class="control-label"></label>
+                <select asp-for="CodigoColaborador" class="form-control" asp-items="ViewBag.CodigoColaborador"></select>
+                <span asp-validation-for="CodigoColaborador" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ativa" class="control-label"></label>
+                <input asp-for="Ativa" class="form-control" />
+                <span asp-validation-for="Ativa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
