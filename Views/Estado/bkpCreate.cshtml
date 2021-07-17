@@ -1,19 +1,11 @@
 ﻿@model AcompanhamentoDocente.Models.TbEstado
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Create";
+    
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
-
-<h4>TbEstado</h4>
+<h3>Inserir Estado</h3>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,11 +29,9 @@
 </div>
 
 <div>
-    
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-</body>
-</html>
