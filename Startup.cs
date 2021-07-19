@@ -26,9 +26,9 @@ namespace AcompanhamentoDocente
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers().AddNewtonsoftJson();
-            services.AddControllersWithViews().AddNewtonsoftJson();
-            services.AddRazorPages().AddNewtonsoftJson();
+            services.AddControllers();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddDbContext<dbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("AcompanhamentoDocente")));
 

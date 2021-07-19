@@ -1,19 +1,18 @@
-﻿
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcompanhamentoDocente.Models;
-using Newtonsoft.Json;
-
-
+using System.Collections.Generic;
+using System.Net;
 
 namespace AcompanhamentoDocente.Controllers
 {
     public class EscolaController : Controller
     {
         private readonly dbContext _context;
+
 
         public EscolaController(dbContext context)
         {
@@ -49,28 +48,15 @@ namespace AcompanhamentoDocente.Controllers
         // GET: Escola/Create
         public IActionResult Create()
         {
+
+            
+
             ViewData["CodigoEstado"] = new SelectList(_context.TbEstados, "Codigo", "Estado");
-            ViewData["CodigoCidade"] = new SelectList(_context.TbCidades, "Codigo", "Cidade");
+            
             return View();
         }
 
 
-        [HttpGet]
-        public JsonResult ListaCidade()
-        {
-            //Cria uma lista de Clientes
-            //List<TbCidade> oCliente = new List<TbCidade>()
-            //{
-            //Adicionar objetos na lista
-            var cidade = new TbCidade { Codigo = 1, Cidade = "Lins", CodigoEstado = 1 };
-                //new TbCidade {Codigo=1,Cidade="Lins",CodigoEstado=1 },
-                //new TbCidade {Codigo=1,Cidade="Lins",CodigoEstado=1 }
-            //};
-            string json = JsonConvert.SerializeObject(cidade);
-            //string rjson = cjson.Serialize(oCliente,Formatting.Indented);
-            //retorna uma lista de objetos JSON
-            return Json(json, System.Web.Mvc.JsonRequestBehavior.AllowGet);
-        }
 
 
         // POST: Escola/Create
@@ -176,6 +162,24 @@ namespace AcompanhamentoDocente.Controllers
         private bool TbEscolaExists(int id)
         {
             return _context.TbEscolas.Any(e => e.Codigo == id);
+        }
+        
+        public ActionResult ListaCidade(int? id)
+
+        {
+
+            List<TbCidade> lista = new List<TbCidade>();
+            var dbContext = _context.TbCidades
+                            .Where(l => l.CodigoEstado == id).ToList();
+
+
+            foreach (var item in dbContext)
+            {
+                lista.Add(new TbCidade() { Codigo = item.Codigo, Cidade = item.Cidade, CodigoEstado = item.CodigoEstado });
+            }
+
+            return this.Json(new { Resultado = lista }, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            
         }
     }
 }

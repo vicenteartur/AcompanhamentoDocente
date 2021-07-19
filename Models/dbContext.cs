@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using AcompanhamentoDocente.Models;
+
 
 #nullable disable
 
@@ -300,5 +302,11 @@ namespace AcompanhamentoDocente.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        
+
+        
+
+        
     }
 }

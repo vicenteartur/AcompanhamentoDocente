@@ -27,29 +27,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         $("#teste").load("https://localhost:44313/Estado/Create/", function () {
-            $('#modal1').modal("show");
+            $('#modal1').Modal("show");
         });
             });
         });
 
 //atualiza select cidade em funcao do estado
 
-$('#CodigoEstado').load(function () {
-    var CodigoEstado = $(this).val();
-
-    $.get('/Escola/Create/ListaEstado/', { }).done(function (data) {
-        var drop = $('#CodigoEstado');
-        drop.html("");
-        $.each(data, function (i, item) {
-            drop.append('<option val="' + item + '">' + item + '</option>');
-        });
-    });
-});
-
 $('#CodigoEstado').change(function () {
     var CodigoEstado = $(this).val();
 
-    $.get('/Escola/Create/ListaCidade/', { Codigo: Codigo }).done(function (data) {
+    $.post('/EscolaView/ListaEstado/' + CodigoEstado, {}).done(function (data) {
         var drop = $('#CodigoCidade');
         drop.html("");
         $.each(data, function (i, item) {
@@ -57,3 +45,4 @@ $('#CodigoEstado').change(function () {
         });
     });
 });
+
