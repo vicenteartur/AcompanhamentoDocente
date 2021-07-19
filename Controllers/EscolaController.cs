@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcompanhamentoDocente.Models;
 using Newtonsoft.Json;
-
+using System.Collections.Generic;
 
 
 namespace AcompanhamentoDocente.Controllers
@@ -14,6 +14,7 @@ namespace AcompanhamentoDocente.Controllers
     public class EscolaController : Controller
     {
         private readonly dbContext _context;
+        private readonly object consulta;
 
         public EscolaController(dbContext context)
         {
@@ -56,20 +57,27 @@ namespace AcompanhamentoDocente.Controllers
 
 
         [HttpGet]
-        public JsonResult ListaCidade()
+        public System.String ListaCidade(int? id)
         {
-            //Cria uma lista de Clientes
-            //List<TbCidade> oCliente = new List<TbCidade>()
-            //{
-            //Adicionar objetos na lista
-            var cidade = new TbCidade { Codigo = 1, Cidade = "Lins", CodigoEstado = 1 };
-                //new TbCidade {Codigo=1,Cidade="Lins",CodigoEstado=1 },
-                //new TbCidade {Codigo=1,Cidade="Lins",CodigoEstado=1 }
-            //};
-            string json = JsonConvert.SerializeObject(cidade);
-            //string rjson = cjson.Serialize(oCliente,Formatting.Indented);
-            //retorna uma lista de objetos JSON
-            return Json(json, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+
+            
+            System.Collections.Generic.List<TbCidade> dbContext = _context.TbCidades
+                            .Include(t => t.CodigoEstadoNavigation)
+                            .Where(l => l.CodigoEstado == id).ToList();
+            List<TbCidade> lista = new List<TbCidade>();    
+            foreach (var item in dbContext)
+            {
+                lista.Add(new TbCidade() { Codigo = item.Codigo, Cidade = item.Cidade, CodigoEstado = item.CodigoEstado });
+            }
+
+            /*
+            foreach (var item in lista)
+            {
+                Console.WriteLine(item);
+            }
+            */
+            //return Json(new { Resultado = dbContext } , System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            return "oioi";
         }
 
 
