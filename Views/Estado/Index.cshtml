@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <h1>Index</h1>
 
 <p>
@@ -25,69 +23,20 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sigla)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Codigo">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Codigo">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Codigo">Delete</a>
-                </td>
-            </tr>
-        }
-
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sigla)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Codigo">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.Codigo">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.Codigo">Delete</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>
-<button id="createbtn" class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</button>
-
-<!-- Modal Structure -->
-<div id="modal1" class="modal">
-    <div class="modal-content">
-        
-
-            
-            <div class="modal-body">
-                <div id="teste"></div>
-
-            </div>
-
-
-        
-        <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Voltar</a>
-        </div>
-    </div>
-
-
-<!--JavaScript at end of body for optimized loading-->
-<script type="text/javascript" src="~/lib/materialize/js/materialize.min.js"></script>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/materialize/js/materialize.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" type="text/javascript"></script>
-
-
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        $.ajaxSetup({ cache: false });
-        $("#createbtn").click(function () {
-
-
-            $("#teste").load("https://localhost:44313/Estado/Create/", function () {
-                $('#modal1').modal("show");
-            });
-        });
-    });
-</script>
-<script type="text/javascript">
-    var elem = document.querySelector('.modal');
-    var options = {};
-    var instance = new M.Modal(elem, options);
-</script>
-

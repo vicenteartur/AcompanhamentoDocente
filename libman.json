@@ -5,6 +5,11 @@
     {
       "library": "materialize@1.0.0",
       "destination": "wwwroot/lib/materialize/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "material-design-icons-iconfont@6.1.0",
+      "destination": "wwwroot/lib/material-design-icons-iconfont/"
     }
   ]
 }

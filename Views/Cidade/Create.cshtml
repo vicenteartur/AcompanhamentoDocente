@@ -20,7 +20,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="CodigoEstado" class="control-label"></label>
-                <select asp-for="CodigoEstado" class ="form-control" asp-items="ViewBag.CodigoEstado"></select>
+                <div class="input-field col s12">
+                    <select class="input-field col s12" asp-for="CodigoEstado" asp-items="ViewBag.CodigoEstado"></select>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -33,6 +35,13 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<script type="text/javascript" src="~/lib/materialize/js/materialize.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/materialize/js/materialize.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/site.js"></script>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+

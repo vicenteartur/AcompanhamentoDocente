@@ -25,8 +25,29 @@ namespace AcompanhamentoDocente.Controllers
             return View(await dbContext.ToListAsync());
         }
 
-        // GET: Cidade/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> ListaCidade(int? id)
+        {
+           
+
+            var dbContext = _context.TbCidades
+                .Include(t => t.CodigoEstadoNavigation)
+                .Where(l => l.CodigoEstado == id);
+                           //
+                           //from q in _context.TbCidades
+                           //orderby q.Cidade
+                           //
+                           //where q.CodigoEstado == _codigoestado
+                           //select q;
+
+            
+                return View(await dbContext.ToListAsync());
+            }
+            
+    
+
+
+// GET: Cidade/Details/5
+public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {

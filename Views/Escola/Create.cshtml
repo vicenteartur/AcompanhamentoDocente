@@ -28,9 +28,15 @@
                 <input asp-for="Bairro" class="form-control" />
                 <span asp-validation-for="Bairro" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label value="CodigoEstado" class="control-label"></label>
+                @Html.DropDownList("CodigoEstado", ViewBag.id_sistama as SelectList, "", htmlAttributes: new { @class = "form-control", onchange = "PegaCategoria(this.value)" })
+            </div>
+
             <div class="form-group">
                 <label asp-for="CodigoCidade" class="control-label"></label>
-                <select asp-for="CodigoCidade" class ="form-control" asp-items="ViewBag.CodigoCidade"></select>
+                @Html.DropDownList("CodigoCidade", ViewBag.CodigoCidade as SelectList, "", htmlAttributes: new { @class = "form-control", onChange = "ListaCidade(this.value)" })
             </div>
             <div class="form-group">
                 <label asp-for="Inep" class="control-label"></label>
@@ -52,7 +58,29 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+<script type="text/javascript">
+function PegaCategoria(CodigoEstado) {
+        $("#CodigoEstado").empty();
+        $("#CodigoEstado").append('<option value=""></option>');
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ListaCidade")',
+            dataType: "json",
+            data: "{idSistema: '" + idSistema + "'}",
+            contentType: "application/json; charset=utf-8",
+            success: function (sist) {
+            $.each(sist, function (i, state) {
+            $("#CodigoEstado").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+            });
+            ListaCidades($("#CodigoEstado").val());
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+            },
+            error: function (ex) {
+            //alert('Failed to retrieve states.' + ex);
+            }
+            });
+            }
+</script>
+            @section Scripts {
+                @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+            }

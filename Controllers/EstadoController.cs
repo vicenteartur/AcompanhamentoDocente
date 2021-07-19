@@ -24,6 +24,11 @@ namespace AcompanhamentoDocente.Controllers
             return View(await _context.TbEstados.ToListAsync());
         }
 
+        public async Task<IActionResult> ListaEstado()
+        {
+            return View(await _context.TbEstados.ToListAsync());
+        }
+
         // GET: Estado/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcompanhamentoDocente.Models;
+using Newtonsoft.Json;
+
+
 
 namespace AcompanhamentoDocente.Controllers
 {
@@ -47,9 +49,29 @@ namespace AcompanhamentoDocente.Controllers
         // GET: Escola/Create
         public IActionResult Create()
         {
+            ViewData["CodigoEstado"] = new SelectList(_context.TbEstados, "Codigo", "Estado");
             ViewData["CodigoCidade"] = new SelectList(_context.TbCidades, "Codigo", "Cidade");
             return View();
         }
+
+
+        [HttpGet]
+        public JsonResult ListaCidade()
+        {
+            //Cria uma lista de Clientes
+            //List<TbCidade> oCliente = new List<TbCidade>()
+            //{
+            //Adicionar objetos na lista
+            var cidade = new TbCidade { Codigo = 1, Cidade = "Lins", CodigoEstado = 1 };
+                //new TbCidade {Codigo=1,Cidade="Lins",CodigoEstado=1 },
+                //new TbCidade {Codigo=1,Cidade="Lins",CodigoEstado=1 }
+            //};
+            string json = JsonConvert.SerializeObject(cidade);
+            //string rjson = cjson.Serialize(oCliente,Formatting.Indented);
+            //retorna uma lista de objetos JSON
+            return Json(json, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+        }
+
 
         // POST: Escola/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
