@@ -14,7 +14,7 @@ namespace AcompanhamentoDocente.Models
 
         public int Codigo { get; set; }
         public string Cargo { get; set; }
-        public string NiveldeAcesso { get; set; }
+        public int NiveldeAcesso { get; set; }
 
         public virtual ICollection<TbColaborador> TbColaboradors { get; set; }
     }

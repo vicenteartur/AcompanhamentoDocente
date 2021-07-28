@@ -17,7 +17,7 @@ namespace AcompanhamentoDocente.Models
         public string Rua { get; set; }
         public string Bairro { get; set; }
         public int CodigoCidade { get; set; }
-        public short Inep { get; set; }
+        public int Inep { get; set; }
         public byte Ativa { get; set; }
 
         public virtual TbCidade CodigoCidadeNavigation { get; set; }

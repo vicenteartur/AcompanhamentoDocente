@@ -34,15 +34,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //atualiza select cidade em funcao do estado
 
-$('#CodigoEstado').change(function () {
-    var CodigoEstado = $(this).val();
-
-    $.post('/EscolaView/ListaEstado/' + CodigoEstado, {}).done(function (data) {
-        var drop = $('#CodigoCidade');
-        drop.html("");
-        $.each(data, function (i, item) {
-            drop.append('<option val="' + item + '">' + item + '</option>');
-        });
-    });
-});
 

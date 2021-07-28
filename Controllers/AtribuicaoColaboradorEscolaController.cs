@@ -11,9 +11,9 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class AtribuicaoColaboradorEscolaController : Controller
     {
-        private readonly dbContext _context;
+        private readonly dbAcompanhamentoContext _context;
 
-        public AtribuicaoColaboradorEscolaController(dbContext context)
+        public AtribuicaoColaboradorEscolaController(dbAcompanhamentoContext context)
         {
             _context = context;
         }

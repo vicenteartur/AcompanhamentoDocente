@@ -1,0 +1,56 @@
+﻿
+@using AcompanhamentoDocente.ViewModel
+
+<h3>EscolaViewIndex</h3>
+
+<table class="table">
+    <tr>
+        <th>
+            Escola
+        </th>
+
+        <th>
+            INEP
+        </th>
+
+        <th>
+            Cidade
+        </th>
+        <th>
+            Estado
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Escola)
+    {
+        <tr>
+            <td>
+                @item.Escola
+            </td>
+
+            <td>
+                @item.INEP
+            </td>
+
+            <td>
+                @item.nomeCidade
+            </td>
+            <td>
+                @item.sigla
+            </td>
+            <td>
+                <a href="EscolaView/Edit/"></a>
+
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+@code {
+
+    [Parameter] public IEnumerable<EscolaViewModel> Escola { get; set; }
+
+}

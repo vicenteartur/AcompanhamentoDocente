@@ -1,0 +1,65 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.EscolaViewModel>
+
+
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.colaborador.Codigo })
+</p>
+
+
+<p><input disabled="" value="@ViewBag.colaborador.Codigo" /></p>
+<p><input disabled="" value="@ViewBag.colaborador.Nome" /></p>
+<p><input disabled="" value="@ViewBag.colaborador.Email" /></p>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Escola)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.INEP)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.nomeCidade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sigla)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Escola)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.INEP)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.nomeCidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sigla)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Codigo, col = @ViewBag.Colaborador.Codigo }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Codigo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Codigo })
+            </td>
+        </tr>
+    }
+
+</table>

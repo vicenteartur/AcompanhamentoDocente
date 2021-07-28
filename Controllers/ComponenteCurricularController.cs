@@ -11,9 +11,9 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class ComponenteCurricularController : Controller
     {
-        private readonly dbContext _context;
+        private readonly dbAcompanhamentoContext _context;
 
-        public ComponenteCurricularController(dbContext context)
+        public ComponenteCurricularController(dbAcompanhamentoContext context)
         {
             _context = context;
         }

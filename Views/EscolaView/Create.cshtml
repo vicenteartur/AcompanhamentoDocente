@@ -1,0 +1,108 @@
+﻿@model AcompanhamentoDocente.ViewModel.EscolaViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="form-horizontal">
+    <h4>EscolaViewModel</h4>
+    <hr />
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <dt>
+        @Html.DisplayNameFor(model => model.colaborador.Codigo)
+
+        <dd>
+
+            @Html.EditorFor(model => model.CodigoColaborador, new { @id = "CodigoColaborador" })
+
+        </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.colaborador.Nome)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.colaborador.Nome)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.colaborador.Email)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.colaborador.Email)
+    </dd>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Escola, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Escola, new { htmlAttributes = new { @class = "form-control", @id = "Escola" } })
+            @Html.ValidationMessageFor(model => model.Escola, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rua, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Rua, new { htmlAttributes = new { @class = "form-control", @id = "Rua" } })
+            @Html.ValidationMessageFor(model => model.Rua, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control", @id = "Bairro" } })
+            @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CodigoEstado, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.CodigoEstado, Model.estado, "--Selecione" , new { @id = "CodigoEstado", @class = "form-control" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CodigoCidade, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.CodigoCidade, Model.cidade, "--Selecione", new { @id = "CodigoCidade", @class = "form-control" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.INEP, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.INEP, new { htmlAttributes = new { @class = "form-control", @id = "INEP" } })
+            @Html.ValidationMessageFor(model => model.INEP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Ativa, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Ativa, new { htmlAttributes = new { @class = "form-control", @id = "Ativa" } })
+            @Html.ValidationMessageFor(model => model.Ativa, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+
+</form>
+
+    
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script type="text/javascript" src="~/Scripts/SelecionaCidade.js"></script>

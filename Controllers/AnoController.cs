@@ -11,9 +11,9 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class AnoController : Controller
     {
-        private readonly dbContext _context;
+        private readonly dbAcompanhamentoContext _context;
 
-        public AnoController(dbContext context)
+        public AnoController(dbAcompanhamentoContext context)
         {
             _context = context;
         }

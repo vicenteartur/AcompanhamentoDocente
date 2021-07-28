@@ -11,10 +11,10 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class EscolaController : Controller
     {
-        private readonly dbContext _context;
+        private readonly dbAcompanhamentoContext _context;
 
 
-        public EscolaController(dbContext context)
+        public EscolaController(dbAcompanhamentoContext context)
         {
             _context = context;
         }
@@ -178,7 +178,7 @@ namespace AcompanhamentoDocente.Controllers
                 lista.Add(new TbCidade() { Codigo = item.Codigo, Cidade = item.Cidade, CodigoEstado = item.CodigoEstado });
             }
 
-            return this.Json(new { Resultado = lista }, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            return Json(new { Resultado = lista });
             
         }
     }

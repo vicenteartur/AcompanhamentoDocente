@@ -11,9 +11,9 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class AtrCCAnoColEscController : Controller
     {
-        private readonly dbContext _context;
+        private readonly dbAcompanhamentoContext _context;
 
-        public AtrCCAnoColEscController(dbContext context)
+        public AtrCCAnoColEscController(dbAcompanhamentoContext context)
         {
             _context = context;
         }
