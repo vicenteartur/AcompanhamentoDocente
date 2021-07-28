@@ -11,9 +11,9 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class CargoController : Controller
     {
-        private readonly dbContext _context;
+        private readonly dbAcompanhamentoContext _context;
 
-        public CargoController(dbContext context)
+        public CargoController(dbAcompanhamentoContext context)
         {
             _context = context;
         }

@@ -11,10 +11,10 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class EscolaController : Controller
     {
-        private readonly dbContext _context;
+        private readonly dbAcompanhamentoContext _context;
 
 
-        public EscolaController(dbContext context)
+        public EscolaController(dbAcompanhamentoContext context)
         {
             _context = context;
         }

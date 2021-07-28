@@ -11,9 +11,9 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class EstadoController : Controller
     {
-        private readonly dbContext _context;
+        private readonly dbAcompanhamentoContext _context;
 
-        public EstadoController(dbContext context)
+        public EstadoController(dbAcompanhamentoContext context)
         {
             _context = context;
         }

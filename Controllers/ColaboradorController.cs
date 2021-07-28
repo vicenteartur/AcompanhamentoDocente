@@ -11,9 +11,9 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class ColaboradorController : Controller
     {
-        private readonly dbContext _context;
+        private readonly dbAcompanhamentoContext _context;
 
-        public ColaboradorController(dbContext context)
+        public ColaboradorController(dbAcompanhamentoContext context)
         {
             _context = context;
         }

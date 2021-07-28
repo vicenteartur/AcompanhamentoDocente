@@ -28,9 +28,10 @@ namespace AcompanhamentoDocente
 
             services.AddControllers();
             services.AddControllersWithViews();
+            services.AddServerSideBlazor();
             services.AddRazorPages();
-            services.AddDbContext<dbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("AcompanhamentoDocente")));
+            services.AddDbContext<dbAcompanhamentoContext>(options =>
+              options.UseSqlServer(Configuration.GetConnectionString("AcompanhamentoDocente")));
 
 
         }
@@ -60,6 +61,7 @@ namespace AcompanhamentoDocente
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapBlazorHub();
             });
         }
     }

@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using AcompanhamentoDocente.Models;
-
 
 #nullable disable
 
@@ -14,7 +12,7 @@ namespace AcompanhamentoDocente.Models
         {
         }
 
-        public dbContext(DbContextOptions<dbContext> options)
+        public dbContext(DbContextOptions<dbAcompanhamentodoTrabalhoDocenteContext> options)
             : base(options)
         {
         }
@@ -38,7 +36,7 @@ namespace AcompanhamentoDocente.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=dbAcompanhamentodoTrabalhoDocente;Trusted_Connection=True;user=sa;password=123456");
+                optionsBuilder.UseSqlServer("Server=localhost;Database=dbAcompanhamentoDocente;Trusted_Connection=True;");
             }
         }
 
@@ -140,10 +138,6 @@ namespace AcompanhamentoDocente.Models
                 entity.Property(e => e.Cargo)
                     .IsRequired()
                     .HasMaxLength(50);
-
-                entity.Property(e => e.NiveldeAcesso)
-                    .IsRequired()
-                    .HasMaxLength(2);
             });
 
             modelBuilder.Entity<TbCidade>(entity =>
@@ -260,6 +254,9 @@ namespace AcompanhamentoDocente.Models
 
                 entity.ToTable("tbEscola");
 
+                entity.HasIndex(e => e.Codigo, "UN_tbEscola_INEP")
+                    .IsUnique();
+
                 entity.Property(e => e.Bairro)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -302,11 +299,5 @@ namespace AcompanhamentoDocente.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-        
-
-        
-
-        
     }
 }
