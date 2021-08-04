@@ -122,8 +122,11 @@ namespace AcompanhamentoDocente.Services
                 var consulta = await (from e in db.TbEscolas
                                 join c in db.TbCidades
                                 on e.CodigoCidade equals c.Codigo
+                                join st in db.TbEstados
+                                on c.CodigoEstado equals st.Codigo
                                 where e.Codigo == CodigoEscola
-                                select new { Codigo = e.Codigo, Escola = e.Escola, Rua = e.Rua, Bairro = e.Bairro, INEP = e.Inep, Ativa = e.Ativa, CodigoCidade = e.CodigoCidade, CodigoEstado = c.CodigoEstado }).FirstAsync();
+                                select new { Codigo = e.Codigo, Escola = e.Escola, Rua = e.Rua, Bairro = e.Bairro, INEP = e.Inep, 
+                                Ativa = e.Ativa, CodigoCidade = e.CodigoCidade, CodigoEstado = c.CodigoEstado, nomeCidade = c.Cidade, sigla = st.Sigla }).FirstAsync();
                 var colaborador = await db.TbColaboradors.Where(t => t.Codigo == CodigoColaborador).FirstAsync();
                 var escola = new EscolaViewModel();
 
@@ -138,6 +141,8 @@ namespace AcompanhamentoDocente.Services
                 escola.Ativa =              consulta.Ativa;
                 escola.CodigoColaborador =  CodigoColaborador;
                 escola.colaborador       =  colaborador;
+                escola.nomeCidade =         consulta.nomeCidade;
+                escola.sigla =              consulta.sigla;
                 
                                 
                 return escola;
@@ -283,36 +288,43 @@ namespace AcompanhamentoDocente.Services
 
         public async Task ApagarEscola(EscolaViewModel Escola)
         {
-            var remover = new TbEscola();
-            remover.Codigo = Escola.Codigo;
-            remover.Escola = Escola.Escola;
-            remover.Rua = Escola.Rua;
-            remover.Bairro = Escola.Bairro;
-            remover.CodigoCidade = Escola.CodigoCidade;
-            remover.Inep = Escola.INEP;
-            remover.Ativa = 0;
-            db.TbEscolas.Remove(remover);
-
-            var removerartibuicao = new List<TbAtribuicaoColaboradorEscola>();
-            removerartibuicao = (from at in db.TbAtribuicaoColaboradorEscolas where at.CodigoEscola == Escola.Codigo 
-                                     select at ).ToList<TbAtribuicaoColaboradorEscola>();
-
-            foreach (var item in removerartibuicao)
-            {
-                TbAtribuicaoColaboradorEscola apagaratribuicao = new TbAtribuicaoColaboradorEscola();
-                {
-                    apagaratribuicao.Codigo =               item.Codigo;
-                    apagaratribuicao.CodigoColaborador =    item.CodigoColaborador;
-                    apagaratribuicao.CodigoEscola =         item.CodigoEscola;
-                    apagaratribuicao.Ativa = item.Ativa;
-                }
-
-                db.TbAtribuicaoColaboradorEscolas.Remove(apagaratribuicao);
-
-            }
+            
             
 
-            await db.SaveChangesAsync();
+            var removerartibuicao = new List<TbAtribuicaoColaboradorEscola>();
+            removerartibuicao = await (from at in db.TbAtribuicaoColaboradorEscolas where at.CodigoEscola == Escola.Codigo 
+                                     select at ).AsNoTracking().ToListAsync();
+
+            foreach (var item in removerartibuicao)
+                {
+                    var apagaratribuicao = new TbAtribuicaoColaboradorEscola();
+                    {
+                    dbContext db = new dbContext();
+                        apagaratribuicao.Codigo =               item.Codigo;
+                        apagaratribuicao.CodigoColaborador =    item.CodigoColaborador;
+                        apagaratribuicao.CodigoEscola =         item.CodigoEscola;
+                        apagaratribuicao.Ativa =                item.Ativa;
+                    }
+
+                    db.TbAtribuicaoColaboradorEscolas.Remove(apagaratribuicao);
+                    await db.SaveChangesAsync();
+            }
+                
+
+                var remover = new TbEscola();
+                remover.Codigo = Escola.Codigo;
+                remover.Escola = Escola.Escola;
+                remover.Rua = Escola.Rua;
+                remover.Bairro = Escola.Bairro;
+                remover.CodigoCidade = Escola.CodigoCidade;
+                remover.Inep = Escola.INEP;
+                remover.Ativa = 0;
+
+                db.TbEscolas.Remove(remover);
+
+                await db.SaveChangesAsync();
+
+
         }
 
         public void Salvar()

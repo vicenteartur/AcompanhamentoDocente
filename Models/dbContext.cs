@@ -74,15 +74,19 @@ namespace AcompanhamentoDocente.Models
             modelBuilder.Entity<TbAtribuicaoColaboradorEscola>(entity =>
             {
                 entity.HasKey(e => e.Codigo)
-                    .HasName("pkAtribuicaoColaboradorEscola");
+                    .HasName("PK_dbo.tbAtribuicaoColaboradorEscola");
 
                 entity.ToTable("tbAtribuicaoColaboradorEscola");
+
+                entity.HasIndex(e => e.CodigoColaborador, "IX_CodigoColaborador");
+
+                entity.HasIndex(e => e.CodigoEscola, "IX_CodigoEscola");
 
                 entity.HasOne(d => d.CodigoColaboradorNavigation)
                     .WithMany(p => p.TbAtribuicaoColaboradorEscolas)
                     .HasForeignKey(d => d.CodigoColaborador)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fkColaborador");
+                    .HasConstraintName("fkCodigoColaborador");
 
                 entity.HasOne(d => d.CodigoEscolaNavigation)
                     .WithMany(p => p.TbAtribuicaoColaboradorEscolas)

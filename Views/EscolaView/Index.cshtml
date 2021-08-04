@@ -56,8 +56,8 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Codigo, col = @ViewBag.Colaborador.Codigo }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Codigo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Codigo })
+                @Html.ActionLink("Details", "Details", new { id = item.Codigo, col = @ViewBag.Colaborador.Codigo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Codigo, col = @ViewBag.Colaborador.Codigo })
             </td>
         </tr>
     }

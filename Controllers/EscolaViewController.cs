@@ -28,6 +28,15 @@ namespace AcompanhamentoDocente.Controllers
             return View(escola);
         }
 
+        public async Task<IActionResult> Inativas(int? id)
+        {
+            var escola = new List<EscolaViewModel>();
+            escola = await _escolaview.ListaEscolasInativas((int)id);
+            var colaborador = await _escolaview.MontarColaborador((int)id);
+            ViewData["colaborador"] = colaborador;
+            return View(escola);
+        }
+
         // GET: Escola/Create
         public async Task<IActionResult> Create(int? id)
         {
@@ -86,7 +95,7 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("Codigo,Escola,Rua,Bairro,CodigoCidade,Inep,Ativa,CodigoColaborador")] EscolaViewModel tbEscola)
+        public async Task<IActionResult> Edit(int? id, [Bind("Codigo,Escola,Rua,Bairro,CodigoCidade,INEP,Ativa,CodigoColaborador")] EscolaViewModel tbEscola)
         {
             if (id != tbEscola.Codigo)
             {
@@ -124,14 +133,41 @@ namespace AcompanhamentoDocente.Controllers
             
         }
 
-        public async Task<IActionResult> Delete(int? id, int? codigocolaborador)
+        public async Task<IActionResult> Details(int? id, int? col)
         {
-            if (codigocolaborador == null)
+            if (col == null)
             {
                 return NotFound();
             }
 
-            var apagarescola = await _escolaview.MontarEscola((int)id, (int)codigocolaborador);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var detalheescola = await _escolaview.MontarEscola((int)id, (int)col);
+            if (detalheescola == null)
+            {
+                return NotFound();
+            }
+
+            return View(detalheescola);
+        }
+
+
+        public async Task<IActionResult> Delete(int? id, int? col)
+        {
+            if (col == null)
+            {
+                return NotFound();
+            }
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var apagarescola = await _escolaview.MontarEscola((int)id, (int)col);
             if (apagarescola == null)
             {
                 return NotFound();

@@ -1,0 +1,73 @@
+﻿@model AcompanhamentoDocente.ViewModel.EscolaViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Escola</h4>
+    <hr />
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.CodigoColaborador)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.CodigoColaborador)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.colaborador.Nome)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.colaborador.Nome)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.colaborador.Email)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.colaborador.Email)
+    </dd>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Escola)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Escola)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.INEP)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.INEP)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rua)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rua)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Bairro)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Bairro)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.nomeCidade)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.nomeCidade)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.sigla)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.sigla)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Codigo, col = Model.colaborador.Codigo }) |
+    @Html.ActionLink("Voltar", "Index", new { id = Model.colaborador.Codigo }) |
+</div>

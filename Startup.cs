@@ -1,4 +1,6 @@
+using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
+using AcompanhamentoDocente.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,7 +27,7 @@ namespace AcompanhamentoDocente
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddScoped<IEscolaViewModel, EscolaViewModelService>();
             services.AddControllers();
             services.AddControllersWithViews();
             services.AddServerSideBlazor();
