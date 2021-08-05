@@ -15,7 +15,7 @@
 
                 $.each(result.resultado, function (i, item) {
                     $list.append('<option value="' + item.value + '"> ' + item.text + ' </option>');
-                    console.log("entrei");
+                    
                 });
                 console.log(result);
             },
