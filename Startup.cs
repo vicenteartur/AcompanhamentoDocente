@@ -28,6 +28,7 @@ namespace AcompanhamentoDocente
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IEscolaViewModel, EscolaViewModelService>();
+            services.AddScoped<IColaboradorViewModel, ColaboradorViewModelService>();
             services.AddControllers();
             services.AddControllersWithViews();
             services.AddServerSideBlazor();

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AcompanhamentoDocente.Models.TbColaborador>
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.ColaboradorViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,6 +10,8 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -20,13 +22,10 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Senha)
+                @Html.DisplayNameFor(model => model.CodigoCargo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ativo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CodigoCargoNavigation)
             </th>
             <th></th>
         </tr>
@@ -41,18 +40,15 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Senha)
+                @Html.DisplayFor(modelItem => item.Cargo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Ativo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CodigoCargoNavigation.Cargo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Codigo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Codigo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Codigo">Delete</a>
+                @Html.ActionLink("Editar", "Editar", new { id = item.CodigoAdministrador, col = item.Codigo }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })
             </td>
         </tr>
 }

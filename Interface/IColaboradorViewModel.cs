@@ -1,20 +1,19 @@
 ﻿using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.ViewModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Interface
 {
     interface IColaboradorViewModel
     {
-        Task<List<SelectListItem>> ListaEscolas(int CodigoAdministrador, ColaboradorViewModel colaborador);
-        Task<List<SelectListItem>> ListaCargos(int CodigoAdministrador, ColaboradorViewModel Colaborador);
-        Task<TbColaborador> MontarColaborador(int CodigoColaborador, int CodigoEscola, int CodigoAdministrador);
-        Task <List<TbColaborador>> ColaboradorAtivo(int CodigoColaborador, int CodigoAdministrador);
-        Task<List<TbColaborador>> ColaboradorInativo(int CodigoColaborador, int CodigoAdministrador);
+        Task<List<SelectListItem>> ListaEscolas(int CodigoAdministrador, int CodigoEscola);
+        Task<List<SelectListItem>> ListaCargos(int CodigoAdministrador, int CodigoCargo);
+        Task<TbColaborador> localizaColaborador(int codigo);
+        Task<ColaboradorViewModel> MontarColaborador(int CodigoAdministrador, int CodigoEscola, TbColaborador colaborador  );
+        Task <List<ColaboradorViewModel>> ColaboradorAtivo(int CodigoAdministrador, int CodigoEscola);
+        Task<List<TbColaborador>> ColaboradorInativo(int CodigoAdministrador, int CodigoEscola);
         Task InserirColaborador(ColaboradorViewModel colaborador);
         Task AtualizarColaborador(ColaboradorViewModel colaborador);
         Task AtivarColaborador(ColaboradorViewModel colaborador);
