@@ -4,6 +4,7 @@ using AcompanhamentoDocente.Services;
 using AcompanhamentoDocente.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +27,12 @@ namespace AcompanhamentoDocente.Controllers
 // ############erro de consulta.
 
         // GET: ColaboradorViewController
-        public async Task<IActionResult> Index(int id, int esc)
+        public async Task<ActionResult> Index(int id, int esc)
         {
             var model = new List<ColaboradorViewModel>();
             model = await _colabview.ColaboradorAtivo(id, esc);
-            //ViewData["escola"] = await _colabview.ListaEscolas(id,0);
+            ViewData["id"] = id;
+            ViewData["esc"] = esc;
             return View(model);
         }
 
@@ -52,58 +54,98 @@ namespace AcompanhamentoDocente.Controllers
         // POST: ColaboradorViewController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int? id, [Bind("Codigo,Escola,Rua,Bairro,CodigoCidade,Inep,Ativa")] EscolaViewModel evm)
+        public async Task<IActionResult> Create(int? id, [Bind("Codigo,Nome,Email,Ativo,CodigoCargo,Cargo,CodigoEscola,CodigoAdministrador")] ColaboradorViewModel colaborador)
         {
-            try
+            int esc = colaborador.CodigoEscola;
+
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+
+                try
+                {
+                    await _colabview.InserirColaborador(colaborador);
+                    return RedirectToAction("Index", new { id = id, esc });
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                }
+                return RedirectToAction("Index", new { id = id, esc });
             }
-            catch
-            {
-                return View();
-            }
+            
+            var colab = await _colabview.MontarColaborador((int)id, esc, null);
+            return View(colaborador);
         }
 
         // GET: ColaboradorViewController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id, int esc, int col)
         {
-            return View();
+            var colaborador = await _colabview.localizaColaborador(col);
+            return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
 
         // POST: ColaboradorViewController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int? id, [Bind("Codigo,Nome,Email,Ativo,CodigoCargo,Cargo,CodigoEscola,CodigoAdministrador")] ColaboradorViewModel colaborador)
         {
-            try
+
+            int esc = colaborador.CodigoEscola;
+
+            if (id != colaborador.CodigoAdministrador)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+
+            if (ModelState.IsValid)
             {
-                return View();
+                
+                try
+                {
+                    await _colabview.AtualizarColaborador(colaborador);
+                    return RedirectToAction("Index", new { id = id, esc });
+                    
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                }
+                return RedirectToAction("Index", new { id = id, esc });
             }
+            var col = await _colabview.localizaColaborador(colaborador.Codigo);
+            var colab = await _colabview.MontarColaborador((int)id, esc, col);
+            return View(colaborador);
+
         }
 
         // GET: ColaboradorViewController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id, int esc, int col)
         {
-            return View();
+            var colaborador = await _colabview.localizaColaborador(col);
+            return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
 
         // POST: ColaboradorViewController/Delete/5
         [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteConfirmed([Bind("Codigo,Nome,Email,Ativo,CodigoCargo,Cargo,CodigoEscola,CodigoAdministrador")] ColaboradorViewModel colaborador)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+
+                var removercolab = await _colabview.localizaColaborador(colaborador.Codigo);
+                var montarremovido = await _colabview.MontarColaborador(colaborador.CodigoAdministrador, colaborador.CodigoEscola, removercolab);
+                await _colabview.RemoverColaborador(montarremovido);
+
+                return RedirectToAction("Index", new { id = montarremovido.CodigoAdministrador, esc = montarremovido.CodigoEscola });
             }
             catch
             {
-                return View();
+                return View(colaborador);
             }
+            return RedirectToAction("Index", new { id = colaborador.CodigoAdministrador, esc = colaborador.CodigoEscola });
         }
     }
 }

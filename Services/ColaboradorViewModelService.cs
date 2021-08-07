@@ -250,7 +250,7 @@ namespace AcompanhamentoDocente.Services
                            join cg in db.TbCargos
                            on c.CodigoCargo equals cg.Codigo
                            where c.Ativo != 0 && at.CodigoEscola == CodigoEscola && cg.NiveldeAcesso <= admin
-                           select new ColaboradorViewModel { Codigo = c.Codigo, Nome = c.Nome, Email = c.Email, Cargo = cg.Cargo, CodigoAdministrador = CodigoAdministrador, CodigoEscola = CodigoEscola } ).ToListAsync();
+                           select new ColaboradorViewModel { Codigo = c.Codigo, Nome = c.Nome, Email = c.Email, Cargo = cg.Cargo, Ativo = c.Ativo, CodigoAdministrador = CodigoAdministrador, CodigoEscola = CodigoEscola } ).ToListAsync();
 
             return consulta;
         }
@@ -284,6 +284,7 @@ namespace AcompanhamentoDocente.Services
                 Nome = colaborador.Nome,
                 Email = colaborador.Email,
                 CodigoCargo = colaborador.CodigoCargo,
+                Senha = "1",
                 Ativo = 1
             };
 
@@ -307,11 +308,13 @@ namespace AcompanhamentoDocente.Services
 
         public async Task AtualizarColaborador(ColaboradorViewModel colaborador)
         {
+            colaborador.cargo = await ListaCargos(colaborador.CodigoAdministrador, colaborador.CodigoCargo);
             var col = new TbColaborador()
             {
                 Codigo = colaborador.Codigo,
                 Nome = colaborador.Nome,
                 Email = colaborador.Email,
+                Senha = "1",
                 CodigoCargo = colaborador.CodigoCargo,
                 Ativo = colaborador.Ativo
             };

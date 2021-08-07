@@ -8,7 +8,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @Html.ActionLink("Create", "Create", new { id = ViewBag.id, esc = ViewBag.esc })
 </p>
 
 
@@ -47,11 +47,14 @@
                     @Html.DisplayFor(modelItem => item.Ativo)
                 </td>
                 <td>
-                    @Html.ActionLink("Editar", "Editar", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo }) |
                     @Html.ActionLink("Details", "Details", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })
                 </td>
             </tr>
         }
+
+        
+
     </tbody>
 </table>
