@@ -120,7 +120,7 @@ namespace AcompanhamentoDocente.Controllers
         }
 
         // GET: ColaboradorViewController/Delete/5
-        public async Task<ActionResult> Delete(int id, int esc, int col)
+        public async Task<IActionResult> Delete(int id, int esc, int col)
         {
             var colaborador = await _colabview.localizaColaborador(col);
             return View(await _colabview.MontarColaborador(id, esc, colaborador));
@@ -130,7 +130,7 @@ namespace AcompanhamentoDocente.Controllers
         [HttpPost]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed([Bind("Codigo,Nome,Email,Ativo,CodigoCargo,Cargo,CodigoEscola,CodigoAdministrador")] ColaboradorViewModel colaborador)
+        public async Task<IActionResult> DeleteConfirmed([Bind("Codigo,Nome,Email,Ativo,CodigoCargo,Cargo,CodigoEscola,CodigoAdministrador")] ColaboradorViewModel colaborador)
         {
             try
             {

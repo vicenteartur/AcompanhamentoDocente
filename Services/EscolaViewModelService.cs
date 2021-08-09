@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using EFCore.BulkExtensions;
 
 namespace AcompanhamentoDocente.Services
 {
@@ -295,6 +296,8 @@ namespace AcompanhamentoDocente.Services
             removerartibuicao = await (from at in db.TbAtribuicaoColaboradorEscolas where at.CodigoEscola == Escola.Codigo 
                                      select at ).AsNoTracking().ToListAsync();
 
+            var bulkremocao = new List<TbAtribuicaoColaboradorEscola>();
+
             foreach (var item in removerartibuicao)
                 {
                     var apagaratribuicao = new TbAtribuicaoColaboradorEscola();
@@ -306,10 +309,12 @@ namespace AcompanhamentoDocente.Services
                         apagaratribuicao.Ativa =                item.Ativa;
                     }
 
-                    db.TbAtribuicaoColaboradorEscolas.Remove(apagaratribuicao);
-                    await db.SaveChangesAsync();
+                bulkremocao.Add(apagaratribuicao);
+                    //db.TbAtribuicaoColaboradorEscolas.Remove(apagaratribuicao);
+                    //await db.SaveChangesAsync();
             }
-                
+
+            await db.BulkDeleteAsync<TbAtribuicaoColaboradorEscola>(bulkremocao);
 
                 var remover = new TbEscola();
                 remover.Codigo = Escola.Codigo;

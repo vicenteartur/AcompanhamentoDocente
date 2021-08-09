@@ -17,7 +17,7 @@ namespace AcompanhamentoDocente.Models
         {
         }
 
-        public virtual DbSet<MigrationHistory> MigrationHistories { get; set; }
+        
         public virtual DbSet<TbAno> TbAnos { get; set; }
         public virtual DbSet<TbAtribuicaoColaboradorEscola> TbAtribuicaoColaboradorEscolas { get; set; }
         public virtual DbSet<TbAtribuicaoComponenteCurricularAnoColaboradorEscola> TbAtribuicaoComponenteCurricularAnoColaboradorEscolas { get; set; }
@@ -45,23 +45,7 @@ namespace AcompanhamentoDocente.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
 
-            modelBuilder.Entity<MigrationHistory>(entity =>
-            {
-                entity.HasKey(e => new { e.MigrationId, e.ContextKey })
-                    .HasName("PK_dbo.__MigrationHistory");
-
-                entity.ToTable("__MigrationHistory");
-
-                entity.Property(e => e.MigrationId).HasMaxLength(150);
-
-                entity.Property(e => e.ContextKey).HasMaxLength(300);
-
-                entity.Property(e => e.Model).IsRequired();
-
-                entity.Property(e => e.ProductVersion)
-                    .IsRequired()
-                    .HasMaxLength(32);
-            });
+            
 
             modelBuilder.Entity<TbAno>(entity =>
             {

@@ -7,6 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using IdentityModel.Client;
+using Microsoft.Data.SqlClient;
+using EFCore.BulkExtensions;
 
 namespace AcompanhamentoDocente.Services
 {
@@ -217,6 +220,7 @@ namespace AcompanhamentoDocente.Services
                                     Ativo = colaborador.Ativo,
                                     CodigoCargo = Convert.ToInt32(colaborador.CodigoCargo),
                                     Cargo = colaborador.CodigoCargoNavigation.Cargo,
+                                    NiveldeAcesso = colaborador.CodigoCargoNavigation.NiveldeAcesso,
                                     CodigoEscola = esc.Codigo,
                                     NomeEscola = esc.Escola,
                                     CodigoAdministrador = c.Codigo,
@@ -224,6 +228,7 @@ namespace AcompanhamentoDocente.Services
                                     CodigoCargoAdministrador = Convert.ToInt32(c.CodigoCargo),
                                     CargoAdministrador = cg.Cargo,
                                     cargo = cargo,
+                                    NiveldeAcessoAdministrador = cg.NiveldeAcesso,
                                     escola = escola
                                 }).FirstAsync();
 
@@ -291,19 +296,42 @@ namespace AcompanhamentoDocente.Services
             await db.TbColaboradors.AddAsync(col);
             await db.SaveChangesAsync();
 
-            var colab = await db.TbColaboradors.Where(c => c.Email == col.Email).FirstAsync();
-            
+            var colab = await db.TbColaboradors.Where(c => c.Email == col.Email).Include(cg => cg.CodigoCargoNavigation).FirstAsync();
 
-            var atribuicao = new TbAtribuicaoColaboradorEscola() 
-            { 
-                CodigoColaborador = colab.Codigo,
-                CodigoEscola = colaborador.CodigoEscola,
-                Ativa = 1
-            };
+            if (colab.CodigoCargoNavigation.NiveldeAcesso < 4)
+            {
+                   var atribuicao = new TbAtribuicaoColaboradorEscola() 
+                { 
+                    CodigoColaborador = colab.Codigo,
+                    CodigoEscola = colaborador.CodigoEscola,
+                    Ativa = 1
+                };
 
-            await db.TbAtribuicaoColaboradorEscolas.AddAsync(atribuicao);
-            await db.SaveChangesAsync();
+             
+                await db.TbAtribuicaoColaboradorEscolas.AddAsync(atribuicao);
+                await db.SaveChangesAsync();
 
+            }
+            else
+            {
+                var escolas = await db.TbEscolas.ToListAsync();
+
+                var atribuicao = new List<TbAtribuicaoColaboradorEscola>();
+                foreach (var item in escolas)
+                {
+                    var atrib = new TbAtribuicaoColaboradorEscola()
+                    {
+                        CodigoEscola = item.Codigo,
+                        CodigoColaborador = colab.Codigo,
+                        Ativa = 1
+                    };
+
+                    atribuicao.Add(atrib);
+                }
+
+                await db.BulkInsertAsync(atribuicao);
+
+            }
         }
 
         public async Task AtualizarColaborador(ColaboradorViewModel colaborador)
@@ -324,35 +352,55 @@ namespace AcompanhamentoDocente.Services
         }
         public async Task RemoverColaborador(ColaboradorViewModel colaborador)
         {
-            var removerartibuicao = new List<TbAtribuicaoColaboradorEscola>();
-            removerartibuicao = await (from at in db.TbAtribuicaoColaboradorEscolas
-                                       where at.CodigoColaborador == colaborador.Codigo
-                                       select at).ToListAsync();
 
-            foreach (var item in removerartibuicao)
-            {
-                var apagaratribuicao = new TbAtribuicaoColaboradorEscola();
-                {
-                    apagaratribuicao.Codigo = item.Codigo;
-                    apagaratribuicao.CodigoColaborador = item.CodigoColaborador;
-                    apagaratribuicao.CodigoEscola = item.CodigoEscola;
-                    apagaratribuicao.Ativa = item.Ativa;
-                }
+            var codigo = new SqlParameter("@CodigoColaborador", colaborador.Codigo);
+            
 
-                db.TbAtribuicaoColaboradorEscolas.Remove(apagaratribuicao);
-                await db.SaveChangesAsync();
-            }
-            var col = new TbColaborador()
-            {
-                Codigo = colaborador.Codigo,
-                Nome = colaborador.Nome,
-                Email = colaborador.Email,
-                CodigoCargo = colaborador.CodigoCargo,
-                Ativo = colaborador.Ativo
-            };
+            db.Database.ExecuteSqlRaw("exec spApagaAtribuicaoColaboradorEscola @CodigoColaborador", codigo);
 
-            db.TbColaboradors.Remove(col);
-            await db.SaveChangesAsync();
+            //using (var dbContextTransaction = db.Database.BeginTransaction())
+            //{
+            //    var removeratibuicao = new List<TbAtribuicaoColaboradorEscola>();
+            //    removeratibuicao = await (from at in db.TbAtribuicaoColaboradorEscolas
+            //                           where at.CodigoColaborador == colaborador.Codigo
+            //                           select at).AsNoTracking().ToListAsync();
+
+            
+                
+
+
+            //    foreach (var item in removeratibuicao)
+            //    {
+            //        var apagaratribuicao = new TbAtribuicaoColaboradorEscola();
+            //        {
+            //            apagaratribuicao.Codigo = item.Codigo;
+            //            apagaratribuicao.CodigoColaborador = item.CodigoColaborador;
+            //            apagaratribuicao.CodigoEscola = item.CodigoEscola;
+            //            apagaratribuicao.Ativa = item.Ativa;
+            //        }
+
+            //        if (apagaratribuicao != null)
+            //        {
+
+            //            db.TbAtribuicaoColaboradorEscolas.Remove(apagaratribuicao);
+            //            //db.SaveChanges();
+            //        }
+            //    }
+
+            //    var col = new TbColaborador()
+            //    {
+            //        Codigo = colaborador.Codigo,
+            //        Nome = colaborador.Nome,
+            //        Email = colaborador.Email,
+            //        CodigoCargo = colaborador.CodigoCargo,
+            //        Ativo = colaborador.Ativo
+            //    };
+
+            //    db.TbColaboradors.Remove(col);
+            //    db.SaveChanges();
+            //    dbContextTransaction.Commit();
+            //}
+
         }
         public async Task AtivarColaborador(ColaboradorViewModel colaborador)
         {

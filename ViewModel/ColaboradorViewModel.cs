@@ -11,6 +11,7 @@ namespace AcompanhamentoDocente.ViewModel
         public string Email { get; set; }
         public int CodigoCargo { get; set; }
         public string Cargo { get; set; }
+        public int NiveldeAcesso { get; set; }
         public byte Ativo { get; set; }
         public List<SelectListItem> cargo { get; set; }
         public int CodigoEscola { get; set; }
@@ -20,5 +21,6 @@ namespace AcompanhamentoDocente.ViewModel
         public string NomeAdministrador { get; set; }
         public int CodigoCargoAdministrador { get; set; }
         public string CargoAdministrador { get; set; }
+        public int NiveldeAcessoAdministrador { get; set; }
     }
 }
