@@ -31,6 +31,7 @@ namespace AcompanhamentoDocente
             services.AddScoped<IEscolaViewModel, EscolaViewModelService>();
             services.AddScoped<IColaboradorViewModel, ColaboradorViewModelService>();
             services.AddScoped<IAno, AnoService>();
+            services.AddScoped<IEstado, EstadoService>();
             services.AddControllers();
             services.AddControllersWithViews();
             services.AddRazorPages();

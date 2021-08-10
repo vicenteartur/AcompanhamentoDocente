@@ -30,11 +30,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var admin = await _ano.MontarAdmin((int)id);
             ViewData["admin"] = admin;
-            if (Codigo == null)
-            {
-                return NotFound();
-            }
-
+            
             var tbAno = await _ano.Details(Codigo);
             if (tbAno == null)
             {
@@ -76,11 +72,6 @@ namespace AcompanhamentoDocente.Controllers
             var admin = await _ano.MontarAdmin((int)id);
             ViewData["admin"] = admin;
 
-            if (Codigo == null)
-            {
-                return NotFound();
-            }
-
             var tbAno = await _ano.Details(Codigo);
             if (tbAno == null)
             {
@@ -99,10 +90,7 @@ namespace AcompanhamentoDocente.Controllers
             var admin = await _ano.MontarAdmin((int)id);
             ViewData["admin"] = admin;
 
-            if (id == null)
-            {
-                return NotFound();
-            }
+            
 
             if (ModelState.IsValid)
             {
@@ -132,11 +120,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var admin = await _ano.MontarAdmin((int)id);
             ViewData["admin"] = admin;
-            if (Codigo == null)
-            {
-                return NotFound();
-            }
-
+            
             var tbAno = await _ano.Details(Codigo);
             if (tbAno == null)
             {

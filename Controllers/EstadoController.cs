@@ -1,39 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
+using AcompanhamentoDocente.Services;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Controllers
 {
     public class EstadoController : Controller
     {
-        private readonly dbContext _context;
+        private readonly IEstado _estado;
 
-        public EstadoController(dbContext context)
+        public EstadoController()
         {
-            _context = context;
+            _estado = new EstadoService();
         }
 
+        
         // GET: Estado
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.TbEstados.ToListAsync());
+            var admin = await _estado.MontarAdmin((int)id);
+            
+            ViewData["admin"] = admin;
+            
+            return View(await _estado.ListaEstado());
         }
 
         // GET: Estado/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int Estado)
         {
+            var admin = await _estado.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbEstado = await _context.TbEstados
-                .FirstOrDefaultAsync(m => m.Codigo == id);
+            var tbEstado = await _estado.Detalhes(Estado);
+
             if (tbEstado == null)
             {
                 return NotFound();
@@ -43,8 +48,10 @@ namespace AcompanhamentoDocente.Controllers
         }
 
         // GET: Estado/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? id)
         {
+            var admin = await _estado.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
             return View();
         }
 
@@ -53,26 +60,33 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Codigo,Estado,Sigla")] TbEstado tbEstado)
+        public async Task<IActionResult> Create(int? id, [Bind("Codigo,Estado,Sigla")] TbEstado tbEstado)
         {
+            var admin = await _estado.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (ModelState.IsValid)
             {
-                _context.Add(tbEstado);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await _estado.Inserir(tbEstado);
+
+                return RedirectToAction("Index", new { id = id });
             }
             return View(tbEstado);
         }
 
         // GET: Estado/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? estado)
         {
+            var admin = await _estado.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbEstado = await _context.TbEstados.FindAsync(id);
+            var tbEstado = await _estado.Detalhes((int)estado);
+
             if (tbEstado == null)
             {
                 return NotFound();
@@ -87,21 +101,21 @@ namespace AcompanhamentoDocente.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Codigo,Estado,Sigla")] TbEstado tbEstado)
         {
-            if (id != tbEstado.Codigo)
-            {
-                return NotFound();
-            }
+            var admin = await _estado.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
+            
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(tbEstado);
-                    await _context.SaveChangesAsync();
+                    await _estado.Atualizar(tbEstado);
+                    
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!TbEstadoExists(tbEstado.Codigo))
+                    if (!_estado.TbEstadoExists(tbEstado.Codigo))
                     {
                         return NotFound();
                     }
@@ -110,21 +124,23 @@ namespace AcompanhamentoDocente.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = id });
             }
             return View(tbEstado);
         }
 
         // GET: Estado/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int estado)
         {
+            var admin = await _estado.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbEstado = await _context.TbEstados
-                .FirstOrDefaultAsync(m => m.Codigo == id);
+            var tbEstado = await _estado.Detalhes((int) estado);
             if (tbEstado == null)
             {
                 return NotFound();
@@ -136,17 +152,13 @@ namespace AcompanhamentoDocente.Controllers
         // POST: Estado/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int codigo)
         {
-            var tbEstado = await _context.TbEstados.FindAsync(id);
-            _context.TbEstados.Remove(tbEstado);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var tbEstado = await _estado.Detalhes(codigo);
+            await _estado.Deletar(tbEstado);
+
+            return RedirectToAction("Index", new { id = id });
         }
 
-        private bool TbEstadoExists(int id)
-        {
-            return _context.TbEstados.Any(e => e.Codigo == id);
-        }
-    }
+      }
 }

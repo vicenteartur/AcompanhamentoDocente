@@ -143,7 +143,6 @@ namespace AcompanhamentoDocente.Controllers
             {
                 return View(colaborador);
             }
-            return RedirectToAction("Index", new { id = colaborador.CodigoAdministrador, esc = colaborador.CodigoEscola });
         }
 
         public async Task<IActionResult> ListaColab(int id, int esc, string email)
