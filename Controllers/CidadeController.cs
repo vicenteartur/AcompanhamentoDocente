@@ -11,9 +11,9 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class CidadeController : Controller
     {
-        private readonly dbAcompanhamentoContext _context;
+        private readonly dbContext _context;
 
-        public CidadeController(dbAcompanhamentoContext context)
+        public CidadeController(dbContext context)
         {
             _context = context;
         }
@@ -25,29 +25,8 @@ namespace AcompanhamentoDocente.Controllers
             return View(await dbContext.ToListAsync());
         }
 
-        public async Task<IActionResult> ListaCidade(int? id)
-        {
-           
-
-            var dbContext = _context.TbCidades
-                .Include(t => t.CodigoEstadoNavigation)
-                .Where(l => l.CodigoEstado == id);
-                           //
-                           //from q in _context.TbCidades
-                           //orderby q.Cidade
-                           //
-                           //where q.CodigoEstado == _codigoestado
-                           //select q;
-
-            
-                return View(await dbContext.ToListAsync());
-            }
-            
-    
-
-
-// GET: Cidade/Details/5
-public async Task<IActionResult> Details(int? id)
+        // GET: Cidade/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -65,7 +44,6 @@ public async Task<IActionResult> Details(int? id)
             return View(tbCidade);
         }
 
-       
         // GET: Cidade/Create
         public IActionResult Create()
         {

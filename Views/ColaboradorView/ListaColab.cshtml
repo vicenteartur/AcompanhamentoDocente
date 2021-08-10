@@ -8,8 +8,16 @@
 <h1>Index</h1>
 
 <p>
-    @Html.ActionLink("Create", "Create", new { id = ViewBag.id, esc = ViewBag.esc })|
-    @Html.ActionLink("ListaColab", "ListaColab", new { id = ViewBag.id, esc = ViewBag.esc, email = "null" })
+    <form method="post" action="ListaColab">
+        <input name="id" value="@ViewBag.id" />
+        <input name="esc" value="@ViewBag.esc" />
+        <input name="email" />
+        <div class="form-group">
+            <input type="submit" value="Procurar" class="btn btn-primary" />
+        </div>
+    </form>
+
+
 </p>
 
 
@@ -48,9 +56,7 @@
                     @Html.DisplayFor(modelItem => item.Ativo)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })
+                    @Html.ActionLink("EstendeAtribuicao", "EstendeAtribuicao", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })
                 </td>
             </tr>
         }

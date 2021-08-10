@@ -18,6 +18,11 @@ namespace AcompanhamentoDocente.Services
 
         private dbContext db = new dbContext();
 
+        private bool TbColaboradorExists(string email)
+        {
+            return db.TbColaboradors.Any(e => e.Email == email);
+        }
+
         public async Task<TbColaborador> localizaColaborador(int codigo)
         {
             var colaborador = await db.TbColaboradors.FindAsync(codigo);
@@ -282,57 +287,87 @@ namespace AcompanhamentoDocente.Services
             return consulta;
         }
 
+        public async Task<List<ColaboradorViewModel>> EstenderJornada(int CodigoAdministrador, int CodigoEscola, string email)
+        {
+
+            string pemail = new ( "%" + email + "%" );
+
+            var admin = await (from ad in db.TbColaboradors
+                               join cgad in db.TbCargos
+                               on ad.CodigoCargo equals cgad.Codigo
+                               where ad.Codigo == CodigoAdministrador
+                               select cgad.NiveldeAcesso).FirstAsync();
+
+
+            var consulta = await (from c in db.TbColaboradors
+                                  join cg in db.TbCargos
+                                  on c.CodigoCargo equals cg.Codigo
+                                  where EF.Functions.Like(c.Email, pemail) && cg.NiveldeAcesso <= admin
+                                  select new ColaboradorViewModel { Codigo = c.Codigo, Nome = c.Nome, Email = c.Email, Cargo = cg.Cargo, Ativo = c.Ativo, CodigoAdministrador = CodigoAdministrador, CodigoEscola = CodigoEscola }).ToListAsync();
+
+            return consulta;
+        }
+
         public async Task InserirColaborador(ColaboradorViewModel colaborador)
         {
-            var col = new TbColaborador()
+
+            if (!TbColaboradorExists(colaborador.Email))
             {
-                Nome = colaborador.Nome,
-                Email = colaborador.Email,
-                CodigoCargo = colaborador.CodigoCargo,
-                Senha = "1",
-                Ativo = 1
-            };
-
-            await db.TbColaboradors.AddAsync(col);
-            await db.SaveChangesAsync();
-
-            var colab = await db.TbColaboradors.Where(c => c.Email == col.Email).Include(cg => cg.CodigoCargoNavigation).FirstAsync();
-
-            if (colab.CodigoCargoNavigation.NiveldeAcesso < 4)
-            {
-                   var atribuicao = new TbAtribuicaoColaboradorEscola() 
-                { 
-                    CodigoColaborador = colab.Codigo,
-                    CodigoEscola = colaborador.CodigoEscola,
-                    Ativa = 1
+                var col = new TbColaborador()
+                {
+                    Nome = colaborador.Nome,
+                    Email = colaborador.Email,
+                    CodigoCargo = colaborador.CodigoCargo,
+                    Senha = "1",
+                    Ativo = 1
                 };
 
-             
-                await db.TbAtribuicaoColaboradorEscolas.AddAsync(atribuicao);
+                await db.TbColaboradors.AddAsync(col);
                 await db.SaveChangesAsync();
 
-            }
-            else
-            {
-                var escolas = await db.TbEscolas.ToListAsync();
+                var colab = await db.TbColaboradors.Where(c => c.Email == col.Email).Include(cg => cg.CodigoCargoNavigation).FirstAsync();
 
-                var atribuicao = new List<TbAtribuicaoColaboradorEscola>();
-                foreach (var item in escolas)
+                if (colab.CodigoCargoNavigation.NiveldeAcesso < 4)
                 {
-                    var atrib = new TbAtribuicaoColaboradorEscola()
+                    var atribuicao = new TbAtribuicaoColaboradorEscola()
                     {
-                        CodigoEscola = item.Codigo,
                         CodigoColaborador = colab.Codigo,
+                        CodigoEscola = colaborador.CodigoEscola,
                         Ativa = 1
                     };
 
-                    atribuicao.Add(atrib);
+
+                    await db.TbAtribuicaoColaboradorEscolas.AddAsync(atribuicao);
+                    await db.SaveChangesAsync();
+
                 }
+                else
+                {
+                    var escolas = await db.TbEscolas.ToListAsync();
 
-                await db.BulkInsertAsync(atribuicao);
+                    var atribuicao = new List<TbAtribuicaoColaboradorEscola>();
+                    foreach (var item in escolas)
+                    {
+                        var atrib = new TbAtribuicaoColaboradorEscola()
+                        {
+                            CodigoEscola = item.Codigo,
+                            CodigoColaborador = colab.Codigo,
+                            Ativa = 1
+                        };
 
+                        atribuicao.Add(atrib);
+                    }
+
+                    await db.BulkInsertAsync(atribuicao);
+
+                }
             }
-        }
+
+            else
+            {
+                
+            }
+        }          
 
         public async Task AtualizarColaborador(ColaboradorViewModel colaborador)
         {
@@ -350,6 +385,7 @@ namespace AcompanhamentoDocente.Services
             db.TbColaboradors.Update(col);
             await db.SaveChangesAsync();
         }
+        
         public async Task RemoverColaborador(ColaboradorViewModel colaborador)
         {
 
@@ -402,6 +438,7 @@ namespace AcompanhamentoDocente.Services
             //}
 
         }
+        
         public async Task AtivarColaborador(ColaboradorViewModel colaborador)
         {
             var col = new TbColaborador()
@@ -416,7 +453,24 @@ namespace AcompanhamentoDocente.Services
             db.TbColaboradors.Update(col);
             await db.SaveChangesAsync();
         }
+        
+        public async Task AtribuirColaboradorEstendido(int Colaborador, int Escola)
+        {
 
+            
+            var atribuicao = new TbAtribuicaoColaboradorEscola()
+               {
+                   CodigoColaborador = Colaborador,
+                   CodigoEscola = Escola,
+                   Ativa = 1
+               };
+
+
+            await db.TbAtribuicaoColaboradorEscolas.AddAsync(atribuicao);
+            await db.SaveChangesAsync();
+
+        }
+        
         public async Task InativarColaborador(ColaboradorViewModel colaborador)
         {
             var col = new TbColaborador()

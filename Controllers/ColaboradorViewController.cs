@@ -24,8 +24,6 @@ namespace AcompanhamentoDocente.Controllers
         }
 
 
-// ############erro de consulta.
-
         // GET: ColaboradorViewController
         public async Task<ActionResult> Index(int id, int esc)
         {
@@ -146,6 +144,34 @@ namespace AcompanhamentoDocente.Controllers
                 return View(colaborador);
             }
             return RedirectToAction("Index", new { id = colaborador.CodigoAdministrador, esc = colaborador.CodigoEscola });
+        }
+
+        public async Task<IActionResult> ListaColab(int id, int esc, string email)
+        {
+            var model = new List<ColaboradorViewModel>();
+            
+            if (email != null)
+            
+            {
+                
+                model = await _colabview.EstenderJornada(id, esc, email);
+            }
+            
+            ViewData["id"] = id;
+            ViewData["esc"] = esc;
+            return View(model);
+        }
+
+        public async Task<IActionResult> EstendeAtribuicao(int id, int esc,int col)
+        {
+            
+
+            
+            await _colabview.AtribuirColaboradorEstendido(col, esc);
+
+
+
+            return RedirectToAction("Index", new { id = id, esc = esc});
         }
     }
 }

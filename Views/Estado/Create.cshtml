@@ -1,17 +1,11 @@
 ﻿@model AcompanhamentoDocente.Models.TbEstado
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
+<h1>Create</h1>
 
 <h4>TbEstado</h4>
 <hr />
@@ -37,11 +31,9 @@
 </div>
 
 <div>
-    
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-</body>
-</html>

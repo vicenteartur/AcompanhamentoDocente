@@ -11,20 +11,15 @@ namespace AcompanhamentoDocente.Controllers
 {
     public class EstadoController : Controller
     {
-        private readonly dbAcompanhamentoContext _context;
+        private readonly dbContext _context;
 
-        public EstadoController(dbAcompanhamentoContext context)
+        public EstadoController(dbContext context)
         {
             _context = context;
         }
 
         // GET: Estado
         public async Task<IActionResult> Index()
-        {
-            return View(await _context.TbEstados.ToListAsync());
-        }
-
-        public async Task<IActionResult> ListaEstado()
         {
             return View(await _context.TbEstados.ToListAsync());
         }
@@ -52,10 +47,6 @@ namespace AcompanhamentoDocente.Controllers
         {
             return View();
         }
-
-        
-
-
 
         // POST: Estado/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
