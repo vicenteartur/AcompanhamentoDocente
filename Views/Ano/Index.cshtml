@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AcompanhamentoDocente.Models.TbAno>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<input type="" name="id" value="@ViewBag.admin.Codigo" />
+
+
+<p>
+    <a asp-action="Create"asp-route-id="@ViewBag.admin.Codigo">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ano)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Turma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modalidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Periodo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ano)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Turma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modalidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Periodo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, Codigo = item.Codigo }) |
+                @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, Codigo = item.Codigo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, Codigo = item.Codigo })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

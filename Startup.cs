@@ -1,3 +1,4 @@
+using AcompanhamentoDocente.Controllers;
 using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.Services;
@@ -29,11 +30,11 @@ namespace AcompanhamentoDocente
         {
             services.AddScoped<IEscolaViewModel, EscolaViewModelService>();
             services.AddScoped<IColaboradorViewModel, ColaboradorViewModelService>();
+            services.AddScoped<IAno, AnoService>();
             services.AddControllers();
             services.AddControllersWithViews();
-            services.AddServerSideBlazor();
             services.AddRazorPages();
-            services.AddDbContext<dbAcompanhamentoContext>(options =>
+            services.AddDbContext<dbContext>(options =>
               options.UseSqlServer(Configuration.GetConnectionString("AcompanhamentoDocente")));
 
 
@@ -64,7 +65,7 @@ namespace AcompanhamentoDocente
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapBlazorHub();
+                
             });
         }
     }

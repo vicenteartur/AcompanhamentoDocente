@@ -12,7 +12,7 @@ namespace AcompanhamentoDocente.Models
         {
         }
 
-        public dbContext(DbContextOptions<dbAcompanhamentodoTrabalhoDocenteContext> options)
+        public dbContext(DbContextOptions<dbContext> options)
             : base(options)
         {
         }
