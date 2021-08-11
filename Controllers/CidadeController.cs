@@ -6,48 +6,57 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AcompanhamentoDocente.Models;
+using AcompanhamentoDocente.Interface;
+using AcompanhamentoDocente.Services;
 
 namespace AcompanhamentoDocente.Controllers
 {
     public class CidadeController : Controller
     {
-        private readonly dbContext _context;
+        private readonly ICidade _cidade;
 
-        public CidadeController(dbContext context)
+        public CidadeController()
         {
-            _context = context;
+            _cidade = new CidadeService();
         }
 
         // GET: Cidade
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var dbContext = _context.TbCidades.Include(t => t.CodigoEstadoNavigation);
-            return View(await dbContext.ToListAsync());
+            var admin = await _cidade.MontarAdmin((int)id);
+
+            ViewData["admin"] = admin;
+
+            return View(await _cidade.ListaCidade());
         }
 
         // GET: Cidade/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int cidade)
         {
+            var admin = await _cidade.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbCidade = await _context.TbCidades
-                .Include(t => t.CodigoEstadoNavigation)
-                .FirstOrDefaultAsync(m => m.Codigo == id);
-            if (tbCidade == null)
+            var tbcidade = await _cidade.Detalhes(cidade);
+
+            if (tbcidade == null)
             {
                 return NotFound();
             }
 
-            return View(tbCidade);
+            return View(tbcidade);
         }
 
         // GET: Cidade/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? id)
         {
-            ViewData["CodigoEstado"] = new SelectList(_context.TbEstados, "Codigo", "Estado");
+            var admin = await _cidade.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+            ViewData["CodigoEstado"] = _cidade.ListaEstado();
             return View();
         }
 
@@ -56,32 +65,39 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Codigo,Cidade,CodigoEstado")] TbCidade tbCidade)
+        public async Task<IActionResult> Create(int? id, [Bind("Codigo,Cidade,CodigoEstado")] TbCidade tbCidade)
         {
+            var admin = await _cidade.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (ModelState.IsValid)
             {
-                _context.Add(tbCidade);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await _cidade.Inserir(tbCidade);
+
+                return RedirectToAction("Index", new { id = id });
             }
-            ViewData["CodigoEstado"] = new SelectList(_context.TbEstados, "Codigo", "Estado", tbCidade.CodigoEstado);
+
+            ViewData["CodigoEstado"] = _cidade.ListaEstado();
             return View(tbCidade);
         }
 
         // GET: Cidade/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? cidade)
         {
+            var admin = await _cidade.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbCidade = await _context.TbCidades.FindAsync(id);
+            var tbCidade = await _cidade.Detalhes((int)cidade);
             if (tbCidade == null)
             {
                 return NotFound();
             }
-            ViewData["CodigoEstado"] = new SelectList(_context.TbEstados, "Codigo", "Estado", tbCidade.CodigoEstado);
+            ViewData["CodigoEstado"] = _cidade.ListaEstadoUp(tbCidade);
             return View(tbCidade);
         }
 
@@ -92,6 +108,10 @@ namespace AcompanhamentoDocente.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Codigo,Cidade,CodigoEstado")] TbCidade tbCidade)
         {
+
+            var admin = await _cidade.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (id != tbCidade.Codigo)
             {
                 return NotFound();
@@ -101,12 +121,11 @@ namespace AcompanhamentoDocente.Controllers
             {
                 try
                 {
-                    _context.Update(tbCidade);
-                    await _context.SaveChangesAsync();
+                    await _cidade.Atualizar(tbCidade);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!TbCidadeExists(tbCidade.Codigo))
+                    if (!_cidade.TbCidadeExists(tbCidade.Codigo))
                     {
                         return NotFound();
                     }
@@ -115,23 +134,24 @@ namespace AcompanhamentoDocente.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = id });
             }
-            ViewData["CodigoEstado"] = new SelectList(_context.TbEstados, "Codigo", "Estado", tbCidade.CodigoEstado);
+            ViewData["CodigoEstado"] = _cidade.ListaEstadoUp(tbCidade);
             return View(tbCidade);
         }
 
         // GET: Cidade/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int? cidade)
         {
+            var admin = await _cidade.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbCidade = await _context.TbCidades
-                .Include(t => t.CodigoEstadoNavigation)
-                .FirstOrDefaultAsync(m => m.Codigo == id);
+            var tbCidade = await _cidade.Detalhes((int)cidade);
             if (tbCidade == null)
             {
                 return NotFound();
@@ -143,17 +163,12 @@ namespace AcompanhamentoDocente.Controllers
         // POST: Cidade/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int? codigo)
         {
-            var tbCidade = await _context.TbCidades.FindAsync(id);
-            _context.TbCidades.Remove(tbCidade);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var tbCidade = await _cidade.Detalhes((int)codigo);
+            await _cidade.Deletar(tbCidade);
+            return RedirectToAction("Index", new { id = id });
         }
 
-        private bool TbCidadeExists(int id)
-        {
-            return _context.TbCidades.Any(e => e.Codigo == id);
-        }
     }
 }

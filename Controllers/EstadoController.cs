@@ -99,12 +99,15 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Codigo,Estado,Sigla")] TbEstado tbEstado)
+        public async Task<IActionResult> Edit(int? id, [Bind("Codigo,Estado,Sigla")] TbEstado tbEstado)
         {
             var admin = await _estado.MontarAdmin((int)id);
             ViewData["admin"] = admin;
 
-            
+            if (id != null)
+            {
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
@@ -152,9 +155,9 @@ namespace AcompanhamentoDocente.Controllers
         // POST: Estado/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, int codigo)
+        public async Task<IActionResult> DeleteConfirmed(int id, int? codigo)
         {
-            var tbEstado = await _estado.Detalhes(codigo);
+            var tbEstado = await _estado.Detalhes((int)codigo);
             await _estado.Deletar(tbEstado);
 
             return RedirectToAction("Index", new { id = id });
