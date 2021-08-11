@@ -1,4 +1,4 @@
-﻿@model AcompanhamentoDocente.Models.TbCidade
+﻿@model AcompanhamentoDocente.Models.TbCargo
 
 @{
     ViewData["Title"] = "Create";
@@ -7,20 +7,21 @@
 
 <h1>Create</h1>
 
-<h4>TbCidade</h4>
+<h4>TbCargo</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Cidade" class="control-label"></label>
-                <input asp-for="Cidade" class="form-control" />
-                <span asp-validation-for="Cidade" class="text-danger"></span>
+                <label asp-for="Cargo" class="control-label"></label>
+                <input asp-for="Cargo" class="form-control" />
+                <span asp-validation-for="Cargo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CodigoEstado" class="control-label"></label>
-                <select asp-for="CodigoEstado" class="form-control" asp-items="ViewBag.CodigoEstado"></select>
+                <label asp-for="NiveldeAcesso" class="control-label"></label>
+                <input asp-for="NiveldeAcesso" class="form-control" />
+                <span asp-validation-for="NiveldeAcesso" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -29,9 +30,8 @@
         </form>
     </div>
 </div>
-
 <div>
-    <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Cidades</a>
+    <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Cargos</a>
 </div>
 
 @section Scripts {

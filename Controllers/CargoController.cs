@@ -7,101 +7,100 @@ using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Controllers
 {
-    public class EstadoController : Controller
+    public class CargoController : Controller
     {
-        private readonly IEstado _estado;
+        private readonly ICargo _cargo;
 
-        public EstadoController()
+        public CargoController()
         {
-            _estado = new EstadoService();
+            _cargo = new CargoService();
         }
 
-        
-        // GET: Estado
+        // GET: Cargo
         public async Task<IActionResult> Index(int? id)
         {
-            var admin = await _estado.MontarAdmin((int)id);
-            
+            var admin = await _cargo.MontarAdmin((int)id);
+
             ViewData["admin"] = admin;
-            
-            return View(await _estado.ListaEstado());
+
+            return View(await _cargo.ListaCargo());
         }
 
-        // GET: Estado/Details/5
-        public async Task<IActionResult> Details(int? id, int Estado)
+        // GET: Cargo/Details/5
+        public async Task<IActionResult> Details(int? id, int? cargo)
         {
-            var admin = await _estado.MontarAdmin((int)id);
+            var admin = await _cargo.MontarAdmin((int)id);
             ViewData["admin"] = admin;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbEstado = await _estado.Detalhes(Estado);
+            var tbCargo = await _cargo.Detalhes((int)cargo);
 
-            if (tbEstado == null)
+            if (tbCargo == null)
             {
                 return NotFound();
             }
 
-            return View(tbEstado);
+            return View(tbCargo);
         }
 
-        // GET: Estado/Create
-        public async Task<IActionResult> Create(int? id)
+        // GET: Cargo/Create
+        public async Task<IActionResult> CreateAsync(int? id)
         {
-            var admin = await _estado.MontarAdmin((int)id);
+            var admin = await _cargo.MontarAdmin((int)id);
             ViewData["admin"] = admin;
             return View();
         }
 
-        // POST: Estado/Create
+        // POST: Cargo/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("Codigo,Estado,Sigla")] TbEstado tbEstado)
+        public async Task<IActionResult> Create(int? id,[Bind("Codigo,Cargo,NiveldeAcesso")] TbCargo tbCargo)
         {
-            var admin = await _estado.MontarAdmin((int)id);
+            var admin = await _cargo.MontarAdmin((int)id);
             ViewData["admin"] = admin;
 
             if (ModelState.IsValid)
             {
-                await _estado.Inserir(tbEstado);
+                await _cargo.Inserir(tbCargo);
 
                 return RedirectToAction("Index", new { id = id });
             }
-            return View(tbEstado);
+            return View(tbCargo);
         }
 
-        // GET: Estado/Edit/5
-        public async Task<IActionResult> Edit(int? id, int? estado)
+        // GET: Cargo/Edit/5
+        public async Task<IActionResult> Edit(int? id, int? cdcargo)
         {
-            var admin = await _estado.MontarAdmin((int)id);
+            var admin = await _cargo.MontarAdmin((int)id);
             ViewData["admin"] = admin;
 
             if (id == null)
             {
                 return NotFound();
             }
+            var tbCargo = new TbCargo();
+            tbCargo = await _cargo.Detalhes((int)cdcargo);
 
-            var tbEstado = await _estado.Detalhes((int)estado);
-
-            if (tbEstado == null)
+            if (tbCargo == null)
             {
                 return NotFound();
             }
-            return View(tbEstado);
+            return View(tbCargo);
         }
 
-        // POST: Estado/Edit/5
+        // POST: Cargo/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("Codigo,Estado,Sigla")] TbEstado tbEstado)
+        public async Task<IActionResult> Edit(int? id, [Bind("Codigo,Cargo,NiveldeAcesso")] TbCargo tbCargo)
         {
-            var admin = await _estado.MontarAdmin((int)id);
+            var admin = await _cargo.MontarAdmin((int)id);
             ViewData["admin"] = admin;
 
             if (id == null)
@@ -113,12 +112,12 @@ namespace AcompanhamentoDocente.Controllers
             {
                 try
                 {
-                    await _estado.Atualizar(tbEstado);
-                    
+                    await _cargo.Atualizar(tbCargo);
+
                 }
                 catch (Exception)
                 {
-                    if (!_estado.TbEstadoExists(tbEstado.Codigo))
+                    if (!_cargo.TbCargoExists(tbCargo.Codigo))
                     {
                         return NotFound();
                     }
@@ -129,13 +128,13 @@ namespace AcompanhamentoDocente.Controllers
                 }
                 return RedirectToAction("Index", new { id = id });
             }
-            return View(tbEstado);
+            return View(tbCargo);
         }
 
-        // GET: Estado/Delete/5
-        public async Task<IActionResult> Delete(int? id, int estado)
+        // GET: Cargo/Delete/5
+        public async Task<IActionResult> Delete(int? id, int? Cargo)
         {
-            var admin = await _estado.MontarAdmin((int)id);
+            var admin = await _cargo.MontarAdmin((int)id);
             ViewData["admin"] = admin;
 
             if (id == null)
@@ -143,25 +142,24 @@ namespace AcompanhamentoDocente.Controllers
                 return NotFound();
             }
 
-            var tbEstado = await _estado.Detalhes((int) estado);
-            if (tbEstado == null)
+            var tbCargo = await _cargo.Detalhes((int)Cargo);
+            if (tbCargo == null)
             {
                 return NotFound();
             }
 
-            return View(tbEstado);
+            return View(tbCargo);
         }
 
-        // POST: Estado/Delete/5
+        // POST: Cargo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id, int? codigo)
         {
-            var tbEstado = await _estado.Detalhes((int)codigo);
-            await _estado.Deletar(tbEstado);
+            var tbEstado = await _cargo.Detalhes((int)codigo);
+            await _cargo.Deletar(tbEstado);
 
             return RedirectToAction("Index", new { id = id });
         }
-
-      }
+    }
 }

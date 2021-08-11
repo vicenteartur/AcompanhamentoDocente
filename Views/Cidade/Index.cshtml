@@ -8,7 +8,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @Html.ActionLink("Create", "Create", new { id = ViewBag.Admin.Codigo }) 
 </p>
 <table class="table">
     <thead>
@@ -32,9 +32,9 @@
                 @Html.DisplayFor(modelItem => item.CodigoEstadoNavigation.Estado)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Codigo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Codigo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Codigo">Delete</a>
+                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, cidade = item.Codigo }) |
+                @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, cidade = item.Codigo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, cidade = item.Codigo })
             </td>
         </tr>
 }
