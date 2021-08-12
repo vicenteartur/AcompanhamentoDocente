@@ -28,15 +28,16 @@
                 <input asp-for="Ativa" class="form-control" />
                 <span asp-validation-for="Ativa" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <<div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Componentes Curriculares</a>
 </div>
 
 @section Scripts {

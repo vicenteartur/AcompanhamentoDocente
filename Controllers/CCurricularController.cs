@@ -67,29 +67,36 @@ namespace AcompanhamentoDocente.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int? id, [Bind("Codigo,ComponenteCurricular,SubArea,Ativa")] TbComponenteCurricular tbComponenteCurricular)
         {
+            var admin = await _componente.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (ModelState.IsValid)
             {
-                _context.Add(tbComponenteCurricular);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await _componente.Inserir(tbComponenteCurricular);
+
+                return RedirectToAction("Index", new { id = id });
             }
             return View(tbComponenteCurricular);
         }
 
         // GET: CCurricular/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int comp)
         {
+            var admin = await _componente.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbComponenteCurricular = await _context.TbComponenteCurriculars.FindAsync(id);
-            if (tbComponenteCurricular == null)
+            var componente = await _componente.Detalhes((int)comp);
+
+            if (componente == null)
             {
                 return NotFound();
             }
-            return View(tbComponenteCurricular);
+            return View(componente);
         }
 
         // POST: CCurricular/Edit/5
@@ -97,9 +104,12 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Codigo,ComponenteCurricular,SubArea,Ativa")] TbComponenteCurricular tbComponenteCurricular)
+        public async Task<IActionResult> Edit(int? id, [Bind("Codigo,ComponenteCurricular,SubArea,Ativa")] TbComponenteCurricular tbComponenteCurricular)
         {
-            if (id != tbComponenteCurricular.Codigo)
+            var admin = await _componente.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
+            if (id == null)
             {
                 return NotFound();
             }
@@ -108,12 +118,12 @@ namespace AcompanhamentoDocente.Controllers
             {
                 try
                 {
-                    _context.Update(tbComponenteCurricular);
-                    await _context.SaveChangesAsync();
+                    await _componente.Atualizar(tbComponenteCurricular);
+
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!TbComponenteCurricularExists(tbComponenteCurricular.Codigo))
+                    if (!_componente.TbComponenteExists(tbComponenteCurricular.Codigo))
                     {
                         return NotFound();
                     }
@@ -122,21 +132,23 @@ namespace AcompanhamentoDocente.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = id });
             }
             return View(tbComponenteCurricular);
         }
 
         // GET: CCurricular/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int comp)
         {
+            var admin = await _componente.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbComponenteCurricular = await _context.TbComponenteCurriculars
-                .FirstOrDefaultAsync(m => m.Codigo == id);
+            var tbComponenteCurricular = await _componente.Detalhes((int)comp);
             if (tbComponenteCurricular == null)
             {
                 return NotFound();
@@ -148,17 +160,12 @@ namespace AcompanhamentoDocente.Controllers
         // POST: CCurricular/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id, int codigo)
         {
-            var tbComponenteCurricular = await _context.TbComponenteCurriculars.FindAsync(id);
-            _context.TbComponenteCurriculars.Remove(tbComponenteCurricular);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            var tbComponenteCurricular = await _componente.Detalhes((int)codigo);
+            await _componente.Deletar(tbComponenteCurricular);
 
-        private bool TbComponenteCurricularExists(int id)
-        {
-            return _context.TbComponenteCurriculars.Any(e => e.Codigo == id);
+            return RedirectToAction("Index", new { id = id });
         }
     }
 }

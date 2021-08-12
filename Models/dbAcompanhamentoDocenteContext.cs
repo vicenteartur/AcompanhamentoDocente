@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AcompanhamentoDocente.Models
 {
-    public partial class dbContext : DbContext
+    public partial class dbAcompanhamentoDocenteContext : DbContext
     {
-        public dbContext()
+        public dbAcompanhamentoDocenteContext()
         {
         }
 
-        public dbContext(DbContextOptions<dbContext> options)
+        public dbAcompanhamentoDocenteContext(DbContextOptions<dbAcompanhamentoDocenteContext> options)
             : base(options)
         {
         }
