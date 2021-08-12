@@ -27,8 +27,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Modalidade" class="control-label"></label>
-                <input asp-for="Modalidade" class="form-control" />
-                <span asp-validation-for="Modalidade" class="text-danger"></span>
+                <select name="Modalidade" class="form-control">
+                    <option value="@Model.Modalidade">@Model.Modalidade</option>
+                    <option value="Fundamental - AI">Fundamental - AI</option>
+                    <option value="Fundamental - AF">Fundamental - AF</option>
+                    <option value="Médio">Médio</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Periodo" class="control-label"></label>
