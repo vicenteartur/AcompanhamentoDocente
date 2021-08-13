@@ -1,21 +1,25 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.ViewModel
 {
-    public class AtribuicaoViewModel
+    public class AtribCCColEscViewModel
     {
+        public int Codigo { get; set; }
+        public string Nome { get; set; }
+        public string Email { get; set; }
+        public int CodigoCargo { get; set; }
+        public string Cargo { get; set; }
+        public int NiveldeAcesso { get; set; }
+        public byte Ativo { get; set; }
+
         public int CodigoAno { get; set; }
-        public string Ano { get; set; }
-        public string Turma { get; set; }
-        public string Modalidade { get; set; }
-        public string Periodo { get; set; }
+        public List<SelectListItem> ano { get; set; }
         public int CodigoCC { get; set; }
-        public string ComponenteCurricular { get; set; }
-        public string SubArea { get; set; }
-        public byte Ativa { get; set; }
+        public List<SelectListItem> CCurricular { get; set; }
         public int CodigoEscola { get; set; }
         public string NomeEscola { get; set; }
         public int CodigoAdministrador { get; set; }
