@@ -1,0 +1,74 @@
+﻿@model AcompanhamentoDocente.ViewModel.AtribCCColEscViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Atribuiçao de Disciplina por Professor</h4>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Codigo" />
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cargo" class="control-label"></label>
+                <input asp-for="Cargo" class="form-control" />
+                <span asp-validation-for="Cargo" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(model => model.ano, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.CodigoAno, Model.ano, "--Selecione", new { @id = "CodigoAno", @name = "CodigoAno", @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CCurricular, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.CodigoCC, Model.CCurricular, "--Selecione", new { @id = "CodigoCC", @class = "form-control" })
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CodigoEscola" class="control-label"></label>
+                    <input name="esc" class="form-control" value="@ViewBag.escol.Codigo" />
+                    <span asp-validation-for="CodigoEscola" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CodigoAdministrador" class="control-label"></label>
+                    <input name="id" class="form-control" value="@ViewBag.admin.Codigo" />
+                    <span asp-validation-for="CodigoAdministrador" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CodigoAtribuicaoColaboradorEscola" class="control-label"></label>
+                    <input asp-for="CodigoAtribuicaoColaboradorEscola" class="form-control"  />
+                    <span asp-validation-for="CodigoAdministrador" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+</form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/SelecionaComponente.js"></script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.AtribCCColEscViewModel>
+
+
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<p>
+    @Html.ActionLink("Lista Professores", "ListaProfessor", new { id = ViewBag.admin.Codigo, esc = ViewBag.escol.Codigo })
+</p>
+
+
+<p><input disabled="" value="@ViewBag.admin.Codigo" /></p>
+<p><input disabled="" value="@ViewBag.admin.Nome" /></p>
+<p><input disabled="" value="@ViewBag.admin.Email" /></p>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Cargo)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.CompCurr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ano)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Cargo)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CompCurr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ano)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo }) |
+                @Html.ActionLink("Details", "Details", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo })
+            </td>
+        </tr>
+    }
+
+</table>

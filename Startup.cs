@@ -34,6 +34,9 @@ namespace AcompanhamentoDocente
             services.AddScoped<IEstado, EstadoService>();
             services.AddScoped<ICidade, CidadeService>();
             services.AddScoped<ICargo, CargoService>();
+            services.AddScoped<ICCurricular, CCurricularService>();
+            services.AddScoped<IAtribCCColEscViewModel, AtribcCColEscViewModelService>();
+            services.AddScoped<ICriterioAvaliacao, CriterioAvaliacaoService>();
             services.AddControllers();
             services.AddControllersWithViews();
             services.AddRazorPages();

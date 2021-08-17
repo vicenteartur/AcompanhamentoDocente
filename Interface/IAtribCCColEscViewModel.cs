@@ -13,14 +13,15 @@ namespace AcompanhamentoDocente.Interface
 
         Task<TbColaborador> MontarAdmin(int id);
         Task<TbEscola> MontarEsc(int id);
-        SelectList ListaAno();
-        SelectList ListaCCurricular();
+        Task<List<SelectListItem>> ListaAno(int codano);
+        Task<List<SelectListItem>> ListaCCurricular(int codcc);
         Task<List<ColaboradorViewModel>> ListaProfessores(int escola);
-        Task<List<AtribCCColEscViewModel>> ListaAtribuicao();
+        Task<List<AtribCCColEscViewModel>> ListaAtribuicao(int id, int esc);
         Task<AtribCCColEscViewModel> Detalhes(int id);
         Task Inserir(AtribCCColEscViewModel atribuicao);
         Task Atualizar(AtribCCColEscViewModel atribuicao);
         Task Deletar(AtribCCColEscViewModel atribuicao);
-
+        bool TbAtribExists(int codat);
+        Task<TbAtribuicaoColaboradorEscola> BuscaAtrib(int id, int esc);
     }
 }

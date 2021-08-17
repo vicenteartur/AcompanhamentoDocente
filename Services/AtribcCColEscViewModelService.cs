@@ -6,11 +6,12 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
+
 using IdentityModel.Client;
 using Microsoft.Data.SqlClient;
 using EFCore.BulkExtensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace AcompanhamentoDocente.Services
 {
@@ -21,7 +22,7 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<TbColaborador> MontarAdmin(int id)
         {
-            var tbcolaborador = await db.TbColaboradors
+            var tbcolaborador = await db.TbColaboradors.Include(c => c.CodigoCargoNavigation)
                 .FirstOrDefaultAsync(m => m.Codigo == id);
 
             return tbcolaborador;
@@ -33,6 +34,13 @@ namespace AcompanhamentoDocente.Services
                 .FirstOrDefaultAsync(m => m.Codigo == id);
 
             return tbescola;
+        }
+        public async Task<TbAtribuicaoColaboradorEscola> BuscaAtrib(int id, int esc)
+        {
+            var atribuicao = await db.TbAtribuicaoColaboradorEscolas
+                .FirstAsync(m => m.CodigoColaborador == id && m.CodigoEscola == esc);
+
+            return atribuicao;
         }
 
         public async Task<List<ColaboradorViewModel>> ListaProfessores(int escola)
@@ -55,39 +63,252 @@ namespace AcompanhamentoDocente.Services
             return colaborador;
         }
 
-        public SelectList ListaAno()
+        public async Task<List<SelectListItem>> ListaAno(int codano)
         {
-            throw new NotImplementedException();
+            var ano = await db.TbAnos.OrderBy(a=>a.Codigo).ToListAsync();
+
+            if (codano != 0)
+            {
+                var lista = new List<SelectListItem>();
+                
+                try
+                {
+                    foreach (var item in ano)
+                    {
+
+                        string opcao = $"{item.Ano+item.Turma+" - "+item.Modalidade+" - "+item.Periodo}";
+                        var option = new SelectListItem()
+                        {
+                            Text = opcao,
+                            Value = item.Codigo.ToString(),
+                            Selected = (item.Codigo == codano)
+                        };
+
+                        lista.Add(option);
+
+                    }
+                }
+                catch
+                {
+
+                    throw;
+                }
+
+                return lista;
+
+            }
+
+            else
+            {
+                var lano = await db.TbAnos.OrderBy(a => a.Codigo).ToListAsync();
+                var lista = new List<SelectListItem>();
+                
+
+                try
+                {
+                    
+                    foreach (var item in lano)
+                    {
+                        string opcao = $"{item.Ano + item.Turma + " - " + item.Modalidade + " - " + item.Periodo}"; 
+                        var option = new SelectListItem()
+                        {
+                            Text = opcao,
+                            Value = item.Codigo.ToString(),
+
+                        };
+
+                        lista.Add(option);
+
+                    }
+                }
+                catch
+                {
+
+                    throw;
+                }
+
+                return lista;
+            }
         }
 
-        public SelectList ListaCCurricular()
+        public async Task<List<SelectListItem>> ListaCCurricular(int codcc)
         {
-            throw new NotImplementedException();
+            var ano = await db.TbComponenteCurriculars.OrderBy(a => a.Codigo).ToListAsync();
+
+            if (codcc!= 0)
+            {
+                var lista = new List<SelectListItem>();
+
+                try
+                {
+                    foreach (var item in ano)
+                    {
+
+                        
+                        var option = new SelectListItem()
+                        {
+                            Text = item.ComponenteCurricular,
+                            Value = item.Codigo.ToString(),
+                            Selected = (item.Codigo == codcc)
+                        };
+
+                        lista.Add(option);
+
+                    }
+                }
+                catch
+                {
+
+                    throw;
+                }
+
+                return lista;
+
+            }
+
+            else
+            {
+                var lcodcc = await db.TbComponenteCurriculars.OrderBy(a => a.Codigo).ToListAsync();
+                var lista = new List<SelectListItem>();
+
+
+                try
+                {
+
+                    foreach (var item in lcodcc)
+                    {
+                        
+                        var option = new SelectListItem()
+                        {
+                            Text = item.ComponenteCurricular,
+                            Value = item.Codigo.ToString(),
+
+                        };
+
+                        lista.Add(option);
+
+                    }
+                }
+                catch
+                {
+
+                    throw;
+                }
+
+                return lista;
+            }
         }
 
-        public Task Atualizar(AtribCCColEscViewModel atribuicao)
+        public async Task Atualizar(AtribCCColEscViewModel atribuicao)
         {
-            throw new NotImplementedException();
+            var atrib = new TbAtribuicaoComponenteCurricularAnoColaboradorEscola()
+            {
+                Codigo = atribuicao.Codigo,
+                CodigoAtribuicaoColaboradorEscola = atribuicao.CodigoAtribuicaoColaboradorEscola,
+                CodigoComponenteCurricular = atribuicao.CodigoCC,
+                CodigoAno = atribuicao.CodigoAno
+            };
+
+            db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas.Update(atrib);
+            await db.SaveChangesAsync();
         }
 
-        public Task Deletar(AtribCCColEscViewModel atribuicao)
+        public async Task Deletar(AtribCCColEscViewModel atribuicao)
         {
-            throw new NotImplementedException();
+            var atrib = new TbAtribuicaoComponenteCurricularAnoColaboradorEscola()
+            {
+                Codigo = atribuicao.Codigo,
+                CodigoAtribuicaoColaboradorEscola = atribuicao.CodigoAtribuicaoColaboradorEscola,
+                CodigoComponenteCurricular = atribuicao.CodigoCC,
+                CodigoAno = atribuicao.CodigoAno
+            };
+
+            db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas.Remove(atrib);
+            await db.SaveChangesAsync();
         }
 
-        public Task<AtribCCColEscViewModel> Detalhes(int id)
+        public async Task<AtribCCColEscViewModel> Detalhes(int id)
         {
-            throw new NotImplementedException();
+            var atribfinal = await (from atc in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
+                              join at in db.TbAtribuicaoColaboradorEscolas on atc.CodigoAtribuicaoColaboradorEscola equals at.Codigo
+                              join c in db.TbColaboradors.Include(cg => cg.CodigoCargoNavigation) on at.CodigoColaborador equals c.Codigo
+                              join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
+                              join cc in db.TbComponenteCurriculars on atc.CodigoComponenteCurricular equals cc.Codigo
+                              join ano in db.TbAnos on atc.CodigoAno equals ano.Codigo
+
+                              where atc.Codigo == id
+
+                              select new AtribCCColEscViewModel
+                              {
+                                  Codigo = atc.Codigo,
+                                  CodigoAtribuicaoColaboradorEscola = at.Codigo,
+                                  CodigoAno = ano.Codigo,
+                                  CodigoCC = cc.Codigo,
+                                  CodigoColaborador = c.Codigo,
+                                  Nome = c.Nome,
+                                  CodigoCargo = c.CodigoCargoNavigation.Codigo,
+                                  Email = c.Email,
+                                  Cargo = c.CodigoCargoNavigation.Cargo,
+                                  NiveldeAcesso = c.CodigoCargoNavigation.NiveldeAcesso,
+                                  CodigoEscola = e.Codigo,
+                                  NomeEscola = e.Escola,
+                                  CompCurr = cc.ComponenteCurricular,
+                                  Ano = $"{ano.Ano + ano.Turma + " - " + ano.Modalidade + " - " + ano.Periodo}"
+
+        }).FirstAsync();
+
+            return atribfinal;
         }
 
-        public Task Inserir(AtribCCColEscViewModel atribuicao)
+        public async Task Inserir(AtribCCColEscViewModel atribuicao)
         {
-            throw new NotImplementedException();
+            var atrib = new TbAtribuicaoComponenteCurricularAnoColaboradorEscola()
+            {
+                Codigo = atribuicao.Codigo,
+                CodigoAtribuicaoColaboradorEscola = atribuicao.CodigoAtribuicaoColaboradorEscola,
+                CodigoComponenteCurricular = atribuicao.CodigoCC,
+                CodigoAno = atribuicao.CodigoAno,
+                Ativa =1
+            };
+
+            await db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas.AddAsync(atrib);
+            await db.SaveChangesAsync();
         }
 
-        public Task<List<AtribCCColEscViewModel>> ListaAtribuicao()
+        public async Task<List<AtribCCColEscViewModel>> ListaAtribuicao(int id, int esc)
         {
-            throw new NotImplementedException();
+            var atribfinal = await(from atc in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
+                                   join at in db.TbAtribuicaoColaboradorEscolas on atc.CodigoAtribuicaoColaboradorEscola equals at.Codigo
+                                   join c in db.TbColaboradors.Include(cg => cg.CodigoCargoNavigation) on at.CodigoColaborador equals c.Codigo
+                                   join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
+                                   join cc in db.TbComponenteCurriculars on atc.CodigoComponenteCurricular equals cc.Codigo
+                                   join ano in db.TbAnos on atc.CodigoAno equals ano.Codigo
+
+                                   where at.CodigoEscola==esc && c.CodigoCargoNavigation.NiveldeAcesso < 1
+
+                                   select new AtribCCColEscViewModel
+                                   {
+                                       Codigo = atc.Codigo,
+                                       CodigoAtribuicaoColaboradorEscola = at.Codigo,
+                                       CodigoAno = ano.Codigo,
+                                       CodigoCC = cc.Codigo,
+                                       CodigoColaborador = c.Codigo,
+                                       Nome = c.Nome,
+                                       CodigoCargo = c.CodigoCargoNavigation.Codigo,
+                                       Cargo = c.CodigoCargoNavigation.Cargo,
+                                       NiveldeAcesso = c.CodigoCargoNavigation.NiveldeAcesso,
+                                       Ano = $"{ano.Ano+ano.Turma+" - "+ano.Modalidade+" - "+ano.Periodo}",
+                                       CompCurr = cc.ComponenteCurricular,
+                                       CodigoEscola = e.Codigo,
+                                       NomeEscola = e.Escola
+                                   }).ToListAsync();
+
+            return atribfinal;
+        }
+
+        public bool TbAtribExists(int codat)
+        {
+            return db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas.Any(e => e.Codigo == codat);
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿@model AcompanhamentoDocente.ViewModel.ColaboradorViewModel
+﻿@model AcompanhamentoDocente.ViewModel.AtribCCColEscViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Atribuição de Componente para o Professor";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,7 +12,7 @@
 <p>@Html.DisplayNameFor(model => model.CargoAdministrador) | @Html.DisplayFor(model => model.CargoAdministrador)</p>
 
 <div>
-    <h4>TbColaborador</h4>
+    <h4>Atribuição de Disciplinan e Turma para Professor</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -34,10 +34,16 @@
             @Html.DisplayFor(model => model.Cargo)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Ativo)
+            @Html.DisplayNameFor(model => model.CompCurr)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Ativo)
+            @Html.DisplayFor(model => model.CompCurr)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ano)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ano)
         </dd>
     </dl>
 </div>
