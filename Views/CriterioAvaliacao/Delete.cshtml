@@ -25,16 +25,17 @@
             @Html.DisplayFor(model => model.Ativa)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CodigoClassificacaoCriterioNavigation)
+            @Html.DisplayNameFor(model => model.CodigoClassificacaoCriterioNavigation.Classificacao)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CodigoClassificacaoCriterioNavigation.Codigo)
+            @Html.DisplayFor(model => model.CodigoClassificacaoCriterioNavigation.Classificacao)
         </dd class>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Codigo" />
+        <input type="hidden" name="id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Critérios</a>
     </form>
 </div>

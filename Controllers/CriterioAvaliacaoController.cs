@@ -161,9 +161,9 @@ namespace AcompanhamentoDocente.Controllers
         // POST: CriterioAvaliacao/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id, int? criterio)
+        public async Task<IActionResult> DeleteConfirmed(int? id, int? Codigo)
         {
-            var tbCriterioAvaliacao = await _criterio.Detalhes((int)criterio);
+            var tbCriterioAvaliacao = await _criterio.Detalhes((int)Codigo);
             await _criterio.Deletar(tbCriterioAvaliacao);
 
             return RedirectToAction("Index", new { id = id });

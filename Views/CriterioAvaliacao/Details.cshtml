@@ -24,14 +24,14 @@
             @Html.DisplayFor(model => model.Ativa)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CodigoClassificacaoCriterioNavigation)
+            @Html.DisplayNameFor(model => model.CodigoClassificacaoCriterioNavigation.Classificacao)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CodigoClassificacaoCriterioNavigation.Codigo)
+            @Html.DisplayFor(model => model.CodigoClassificacaoCriterioNavigation.Classificacao)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Codigo">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, criterio = Model.Codigo }) |
+    @Html.ActionLink("Index", "Index", new { id = ViewBag.Admin.Codigo })
 </div>
