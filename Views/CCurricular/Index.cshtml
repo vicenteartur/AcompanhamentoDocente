@@ -17,6 +17,9 @@
                 @Html.DisplayNameFor(model => model.ComponenteCurricular)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.CodigoModalidadeNavigation.Modalidade)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.SubArea)
             </th>
             <th>
@@ -30,6 +33,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ComponenteCurricular)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoModalidadeNavigation.Modalidade)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SubArea)

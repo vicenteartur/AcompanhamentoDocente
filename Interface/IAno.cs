@@ -1,5 +1,6 @@
 ﻿using AcompanhamentoDocente.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace AcompanhamentoDocente.Interface
         void Delete(TbAno ano);
         bool TbAnoExists(int id);
         Task<TbColaborador> MontarAdmin(int id);
+        SelectList ListaModalidade();
+        SelectList ListaModalidadeUp(TbAno ano);
 
     }
 }

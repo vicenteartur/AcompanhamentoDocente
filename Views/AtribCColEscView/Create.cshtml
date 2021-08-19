@@ -27,8 +27,13 @@
                 <span asp-validation-for="Cargo" class="text-danger"></span>
             </div>
             
-            <div class="form-group">
-                @Html.LabelFor(model => model.ano, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="form-group">
+                    <label asp-for="CodigoModalidade" class="control-label"></label>
+                     @Html.DropDownListFor(model => model.CodigoModalidade, (IEnumerable<SelectListItem>)ViewBag.CodigoModalidade, "--Selecione", new { @id = "CodigoModalidade", @class = "form-control" })
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ano, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.CodigoAno, Model.ano, "--Selecione", new { @id = "CodigoAno", @name = "CodigoAno", @class = "form-control" })
                 </div>
@@ -59,7 +64,8 @@
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
-</form>
+            </div>
+        </form>
     </div>
 </div>
 

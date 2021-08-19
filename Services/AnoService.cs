@@ -34,7 +34,7 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<TbAno> Details(int? id)
         {
-            var tbAno = await db.TbAnos
+            var tbAno = await db.TbAnos.Include(a=>a.CodigoModalidadeNavigation)
                 .FirstOrDefaultAsync(m => m.Codigo == id);
 
 
@@ -49,7 +49,7 @@ namespace AcompanhamentoDocente.Services
         
         public async Task<List<TbAno>> Index()
         {
-            return await db.TbAnos.OrderBy(c=>c.Ano).ToListAsync();
+            return await db.TbAnos.Include(a=> a.CodigoModalidadeNavigation).OrderBy(c=>c.Ano).ToListAsync();
         }
 
         public bool TbAnoExists(int id)
@@ -63,6 +63,19 @@ namespace AcompanhamentoDocente.Services
                 .FirstOrDefaultAsync(m => m.Codigo == id);
 
             return tbcolaborador;
+        }
+
+        public SelectList ListaModalidade()
+        {
+            var lista = new SelectList(db.TbModalidades, "Codigo", "Modalidade");
+
+            return lista;
+        }
+
+        public SelectList ListaModalidadeUp(TbAno ano)
+        {
+            var lista = new SelectList(db.TbModalidades, "Codigo", "Modalidade", ano.CodigoModalidade);
+            return lista;
         }
 
     }

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<AcompanhamentoDocente.Models.TbModalidade>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    @Html.ActionLink("Create", "Create", new { id = ViewBag.Admin.Codigo })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Modalidade)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modalidade)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, mod = item.Codigo }) |
+                @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, mod = item.Codigo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, mod = item.Codigo })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

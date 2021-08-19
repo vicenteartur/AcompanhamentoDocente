@@ -30,6 +30,7 @@ namespace AcompanhamentoDocente.Models
         public virtual DbSet<TbCriterioAvaliado> TbCriterioAvaliados { get; set; }
         public virtual DbSet<TbEscola> TbEscolas { get; set; }
         public virtual DbSet<TbEstado> TbEstados { get; set; }
+        public virtual DbSet<TbModalidade> TbModalidades { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -57,10 +58,6 @@ namespace AcompanhamentoDocente.Models
                     .IsUnicode(false)
                     .IsFixedLength(true);
 
-                entity.Property(e => e.Modalidade)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
                 entity.Property(e => e.Periodo)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -70,6 +67,12 @@ namespace AcompanhamentoDocente.Models
                     .HasMaxLength(1)
                     .IsUnicode(false)
                     .IsFixedLength(true);
+
+                entity.HasOne(d => d.CodigoModalidadeNavigation)
+                    .WithMany(p => p.TbAnos)
+                    .HasForeignKey(d => d.CodigoModalidade)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tbAno_tbModalidade");
             });
 
             modelBuilder.Entity<TbAtribuicaoColaboradorEscola>(entity =>
@@ -111,7 +114,7 @@ namespace AcompanhamentoDocente.Models
                     .WithMany(p => p.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas)
                     .HasForeignKey(d => d.CodigoAno)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_dbo.tbAtribuicaoComponenteCurricularAnoColaboradorEscola_dbo.tbAno_CodigoAno");
+                    .HasConstraintName("fkCodigoAno");
 
                 entity.HasOne(d => d.CodigoAtribuicaoColaboradorEscolaNavigation)
                     .WithMany(p => p.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas)
@@ -123,7 +126,7 @@ namespace AcompanhamentoDocente.Models
                     .WithMany(p => p.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas)
                     .HasForeignKey(d => d.CodigoComponenteCurricular)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_dbo.tbAtribuicaoComponenteCurricularAnoColaboradorEscola_dbo.tbComponenteCurricular_CodigoComponenteCurricular");
+                    .HasConstraintName("fkCodigoComponenteCurricular");
             });
 
             modelBuilder.Entity<TbAvaliacao>(entity =>
@@ -236,6 +239,12 @@ namespace AcompanhamentoDocente.Models
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsFixedLength(true);
+
+                entity.HasOne(d => d.CodigoModalidadeNavigation)
+                    .WithMany(p => p.TbComponenteCurriculars)
+                    .HasForeignKey(d => d.CodigoModalidade)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fkCodigoModalidade");
             });
 
             modelBuilder.Entity<TbCriterioAvaliacao>(entity =>
@@ -329,6 +338,18 @@ namespace AcompanhamentoDocente.Models
                     .IsRequired()
                     .HasMaxLength(2)
                     .IsUnicode(false)
+                    .IsFixedLength(true);
+            });
+
+            modelBuilder.Entity<TbModalidade>(entity =>
+            {
+                entity.HasKey(e => e.Codigo);
+
+                entity.ToTable("tbModalidade");
+
+                entity.Property(e => e.Modalidade)
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .IsFixedLength(true);
             });
 

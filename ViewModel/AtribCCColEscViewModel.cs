@@ -14,6 +14,8 @@ namespace AcompanhamentoDocente.ViewModel
         public int CodigoAno { get; set; }
         public int CodigoCC { get; set; }
         public int CodigoColaborador { get; set; }
+        public int CodigoModalidade { get; set; }
+        public string Modalidade { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
         public int CodigoCargo { get; set; }

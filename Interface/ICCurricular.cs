@@ -1,4 +1,5 @@
 ﻿using AcompanhamentoDocente.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace AcompanhamentoDocente.Interface
 
         Task<TbColaborador> MontarAdmin(int id);
         bool TbComponenteExists(int id);
+        SelectList ListaModalidade();
+        SelectList ListaModalidadeUp(TbComponenteCurricular ccurricular);
 
     }
 }

@@ -25,10 +25,10 @@
             @Html.DisplayFor(model => model.Turma)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Modalidade)
+            @Html.DisplayNameFor(model => model.CodigoModalidade)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Modalidade)
+            @Html.DisplayFor(model => model.CodigoModalidade)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Periodo)
@@ -41,6 +41,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="Codigo" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Estados</a>
+        <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Turmas</a>
     </form>
 </div>

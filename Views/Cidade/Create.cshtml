@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CodigoEstado" class="control-label"></label>
-                <select asp-for="CodigoEstado" class="form-control" asp-items="ViewBag.CodigoEstado"></select>
+                @Html.DropDownListFor(model => model.CodigoEstado, (IEnumerable<SelectListItem>)ViewBag.CodigoEstado, "--Selecione", new { @id = "CodigoEstado", @class = "form-control" })
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

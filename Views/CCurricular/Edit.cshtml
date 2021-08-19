@@ -21,6 +21,10 @@
                 <span asp-validation-for="ComponenteCurricular" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="CodigoModalidade" class="control-label"></label>
+                @Html.DropDownListFor(model => model.CodigoModalidade, (IEnumerable<SelectListItem>)ViewBag.CodigoModalidade, new { @id = "CodigoModalidade", @class = "form-control" })
+            </div>
+            <div class="form-group">
                 <label asp-for="SubArea" class="control-label"></label>
                 <input asp-for="SubArea" class="form-control" />
                 <span asp-validation-for="SubArea" class="text-danger"></span>

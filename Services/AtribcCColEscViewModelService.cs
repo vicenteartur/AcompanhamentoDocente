@@ -63,9 +63,9 @@ namespace AcompanhamentoDocente.Services
             return colaborador;
         }
 
-        public async Task<List<SelectListItem>> ListaAno(int codano)
+        public async Task<List<SelectListItem>> ListaAno(int codano, int mod)
         {
-            var ano = await db.TbAnos.OrderBy(a=>a.Codigo).ToListAsync();
+            var ano = await db.TbAnos.Include(a => a.CodigoModalidadeNavigation).Where(a => a.CodigoModalidade == mod).OrderBy(a=>a.Codigo).ToListAsync();
 
             if (codano != 0)
             {
@@ -76,7 +76,7 @@ namespace AcompanhamentoDocente.Services
                     foreach (var item in ano)
                     {
 
-                        string opcao = $"{item.Ano+item.Turma+" - "+item.Modalidade+" - "+item.Periodo}";
+                        string opcao = $"{item.Ano+item.Turma+" - "+item.CodigoModalidadeNavigation.Modalidade+" - "+item.Periodo}";
                         var option = new SelectListItem()
                         {
                             Text = opcao,
@@ -100,7 +100,7 @@ namespace AcompanhamentoDocente.Services
 
             else
             {
-                var lano = await db.TbAnos.OrderBy(a => a.Codigo).ToListAsync();
+                var lano = await db.TbAnos.Include(a => a.CodigoModalidadeNavigation).Where(a => a.CodigoModalidade == mod).OrderBy(a => a.Codigo).ToListAsync();
                 var lista = new List<SelectListItem>();
                 
 
@@ -109,7 +109,7 @@ namespace AcompanhamentoDocente.Services
                     
                     foreach (var item in lano)
                     {
-                        string opcao = $"{item.Ano + item.Turma + " - " + item.Modalidade + " - " + item.Periodo}"; 
+                        string opcao = $"{item.Ano + item.Turma + " - " + item.CodigoModalidadeNavigation.Modalidade + " - " + item.Periodo}";
                         var option = new SelectListItem()
                         {
                             Text = opcao,
@@ -131,9 +131,9 @@ namespace AcompanhamentoDocente.Services
             }
         }
 
-        public async Task<List<SelectListItem>> ListaCCurricular(int codcc)
+        public async Task<List<SelectListItem>> ListaCCurricular(int codcc,int mod)
         {
-            var ano = await db.TbComponenteCurriculars.OrderBy(a => a.Codigo).ToListAsync();
+            var ano = await db.TbComponenteCurriculars.Include(m =>m.CodigoModalidadeNavigation).Where(m =>m.CodigoModalidade == mod).OrderBy(a => a.Codigo).ToListAsync();
 
             if (codcc!= 0)
             {
@@ -168,7 +168,7 @@ namespace AcompanhamentoDocente.Services
 
             else
             {
-                var lcodcc = await db.TbComponenteCurriculars.OrderBy(a => a.Codigo).ToListAsync();
+                var lcodcc = await db.TbComponenteCurriculars.Include(m => m.CodigoModalidadeNavigation).Where(m => m.CodigoModalidade == mod).OrderBy(a => a.Codigo).ToListAsync();
                 var lista = new List<SelectListItem>();
 
 
@@ -235,6 +235,8 @@ namespace AcompanhamentoDocente.Services
                               join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
                               join cc in db.TbComponenteCurriculars on atc.CodigoComponenteCurricular equals cc.Codigo
                               join ano in db.TbAnos on atc.CodigoAno equals ano.Codigo
+                              join m in db.TbModalidades on ano.CodigoModalidade equals m.Codigo
+
 
                               where atc.Codigo == id
 
@@ -253,7 +255,9 @@ namespace AcompanhamentoDocente.Services
                                   CodigoEscola = e.Codigo,
                                   NomeEscola = e.Escola,
                                   CompCurr = cc.ComponenteCurricular,
-                                  Ano = $"{ano.Ano + ano.Turma + " - " + ano.Modalidade + " - " + ano.Periodo}"
+                                  CodigoModalidade = m.Codigo,
+                                  Modalidade = m.Modalidade,
+                                  Ano = $"{ano.Ano + ano.Turma + " - " + m.Modalidade + " - " + ano.Periodo}"
 
         }).FirstAsync();
 
@@ -283,6 +287,7 @@ namespace AcompanhamentoDocente.Services
                                    join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
                                    join cc in db.TbComponenteCurriculars on atc.CodigoComponenteCurricular equals cc.Codigo
                                    join ano in db.TbAnos on atc.CodigoAno equals ano.Codigo
+                                   join m in db.TbModalidades on ano.CodigoModalidade equals m.Codigo
 
                                    where at.CodigoEscola==esc && c.CodigoCargoNavigation.NiveldeAcesso < 1
 
@@ -297,7 +302,7 @@ namespace AcompanhamentoDocente.Services
                                        CodigoCargo = c.CodigoCargoNavigation.Codigo,
                                        Cargo = c.CodigoCargoNavigation.Cargo,
                                        NiveldeAcesso = c.CodigoCargoNavigation.NiveldeAcesso,
-                                       Ano = $"{ano.Ano+ano.Turma+" - "+ano.Modalidade+" - "+ano.Periodo}",
+                                       Ano = $"{ano.Ano+ano.Turma+" - "+m.Modalidade+" - "+ano.Periodo}",
                                        CompCurr = cc.ComponenteCurricular,
                                        CodigoEscola = e.Codigo,
                                        NomeEscola = e.Escola
@@ -309,6 +314,19 @@ namespace AcompanhamentoDocente.Services
         public bool TbAtribExists(int codat)
         {
             return db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas.Any(e => e.Codigo == codat);
+        }
+
+        public SelectList ListaModalidade()
+        {
+            var lista = new SelectList(db.TbModalidades, "Codigo", "Modalidade");
+
+            return lista;
+        }
+
+        public SelectList ListaModalidadeUp(AtribCCColEscViewModel atribuicao)
+        {
+            var lista = new SelectList(db.TbModalidades, "Codigo", "Modalidade", atribuicao.CodigoModalidade);
+            return lista;
         }
     }
 }

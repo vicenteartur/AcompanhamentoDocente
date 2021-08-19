@@ -68,7 +68,6 @@ namespace AcompanhamentoDocente.Controllers
             var escola = await _atribuicao.MontarEsc((int)esc);
             var admin = await _atribuicao.MontarAdmin((int)id);
             var colab = await _atribuicao.MontarAdmin((int)col);
-            var ano = await _atribuicao.ListaAno(0);
             var atribuicao = await _atribuicao.BuscaAtrib((int)col,(int)esc);
             var atrib = new AtribCCColEscViewModel()
             {
@@ -76,13 +75,13 @@ namespace AcompanhamentoDocente.Controllers
                 Nome = colab.Nome,
                 Cargo = colab.CodigoCargoNavigation.Cargo,
                 CodigoAtribuicaoColaboradorEscola = atribuicao.Codigo,
-                ano = ano,
+                ano = new List<SelectListItem>(),
                 CCurricular = new List<SelectListItem>()
                 
             };
-            
 
-            
+
+            ViewData["CodigoModalidade"] = _atribuicao.ListaModalidade();
             ViewData["escol"] = escola;
             ViewData["admin"] = admin;
 
@@ -92,7 +91,7 @@ namespace AcompanhamentoDocente.Controllers
         // POST: AtribCColEscViewModelController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(int? id, int? esc,[Bind("Codigo,CodigoAtribuicaoColaboradorEscola,CodigoCC,CodigoAno")] AtribCCColEscViewModel atribu)
+        public async Task<ActionResult> Create(int? id, int? esc,[Bind("Codigo,CodigoAtribuicaoColaboradorEscola,CodigoModalidade,CodigoCC,CodigoAno")] AtribCCColEscViewModel atribu)
         {
             if (ModelState.IsValid)
             {
@@ -104,11 +103,10 @@ namespace AcompanhamentoDocente.Controllers
             {
                 var escola = await _atribuicao.MontarEsc((int)esc);
                 var admin = await _atribuicao.MontarAdmin((int)id);
-                var ano = await _atribuicao.ListaAno(0);
                 var atrib = new AtribCCColEscViewModel();
-                atrib.ano = ano;
 
 
+                ViewData["CodigoModalidade"] = _atribuicao.ListaModalidade();
                 ViewData["escol"] = escola;
                 ViewData["admin"] = admin;
                 return View(atrib);
@@ -122,9 +120,9 @@ namespace AcompanhamentoDocente.Controllers
             var escola = await _atribuicao.MontarEsc((int)esc);
             var admin = await _atribuicao.MontarAdmin((int)id);
             var atrib = await _atribuicao.Detalhes((int)atribu);
-            var ano = await _atribuicao.ListaAno(atrib.CodigoAno);
+            var ano = await _atribuicao.ListaAno(atrib.CodigoAno, atrib.CodigoModalidade);
             atrib.ano = ano;
-            var cc = await _atribuicao.ListaCCurricular(atrib.CodigoCC);
+            var cc = await _atribuicao.ListaCCurricular(atrib.CodigoCC, atrib.CodigoModalidade);
             atrib.CCurricular = cc;
             ViewData["escol"] = escola;
             ViewData["admin"] = admin;
@@ -135,7 +133,7 @@ namespace AcompanhamentoDocente.Controllers
         // POST: AtribCColEscViewModelController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int? id, int? esc, [Bind("Codigo,CodigoAtribuicaoColaboradorEscola,CodigoCC,CodigoAno")] AtribCCColEscViewModel atribu)
+        public async Task<ActionResult> Edit(int? id, int? esc, [Bind("Codigo,CodigoAtribuicaoColaboradorEscola,CodigoModalidade,CodigoCC,CodigoAno")] AtribCCColEscViewModel atribu)
         {
             
 
@@ -168,9 +166,9 @@ namespace AcompanhamentoDocente.Controllers
             var escola = await _atribuicao.MontarEsc((int)esc);
             var admin = await _atribuicao.MontarAdmin((int)id);
             var atrib = await _atribuicao.Detalhes((int)atribu.Codigo);
-            var ano = await _atribuicao.ListaAno(atrib.CodigoAno);
+            var ano = await _atribuicao.ListaAno(atrib.CodigoAno,atrib.CodigoModalidade);
             atrib.ano = ano;
-            var cc = await _atribuicao.ListaAno(atrib.CodigoCC);
+            var cc = await _atribuicao.ListaCCurricular(atrib.CodigoCC,atrib.CodigoModalidade);
             atrib.CCurricular = cc;
             ViewData["escol"] = escola;
             ViewData["admin"] = admin;
@@ -212,10 +210,18 @@ namespace AcompanhamentoDocente.Controllers
             }
         }
 
-        public async Task<JsonResult> ListaCC()
+        public async Task<JsonResult> ListaCC(int id)
         {
             var lista = new List<SelectListItem>();
-            lista = await _atribuicao.ListaCCurricular(0);
+            lista = await _atribuicao.ListaCCurricular(0,id);
+
+            return new JsonResult(new { Resultado = lista });
+        }
+
+        public async Task<JsonResult> ListaAno(int id)
+        {
+            var lista = new List<SelectListItem>();
+            lista = await _atribuicao.ListaAno(0,id);
 
             return new JsonResult(new { Resultado = lista });
         }

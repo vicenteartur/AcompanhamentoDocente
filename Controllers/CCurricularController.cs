@@ -57,6 +57,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var admin = await _componente.MontarAdmin((int)id);
             ViewData["admin"] = admin;
+            ViewData["CodigoModalidade"] = _componente.ListaModalidade();
             return View();
         }
 
@@ -65,7 +66,7 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("Codigo,ComponenteCurricular,SubArea,Ativa")] TbComponenteCurricular tbComponenteCurricular)
+        public async Task<IActionResult> Create(int? id, [Bind("Codigo,ComponenteCurricular,CodigoModalidade,SubArea,Ativa")] TbComponenteCurricular tbComponenteCurricular)
         {
             var admin = await _componente.MontarAdmin((int)id);
             ViewData["admin"] = admin;
@@ -96,6 +97,7 @@ namespace AcompanhamentoDocente.Controllers
             {
                 return NotFound();
             }
+            ViewData["CodigoModalidade"] = _componente.ListaModalidadeUp(componente);
             return View(componente);
         }
 
@@ -104,7 +106,7 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("Codigo,ComponenteCurricular,SubArea,Ativa")] TbComponenteCurricular tbComponenteCurricular)
+        public async Task<IActionResult> Edit(int? id, [Bind("Codigo,ComponenteCurricular,CodigoModalidade,SubArea,Ativa")] TbComponenteCurricular tbComponenteCurricular)
         {
             var admin = await _componente.MontarAdmin((int)id);
             ViewData["admin"] = admin;

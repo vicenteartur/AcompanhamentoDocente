@@ -33,7 +33,7 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<TbComponenteCurricular> Detalhes(int id)
         {
-            var tbccurr = await db.TbComponenteCurriculars.Where(e => e.Codigo == id).FirstAsync();
+            var tbccurr = await db.TbComponenteCurriculars.Include(c=>c.CodigoModalidadeNavigation).Where(e => e.Codigo == id).FirstAsync();
             return tbccurr;
         }
 
@@ -45,7 +45,7 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<List<TbComponenteCurricular>> ListaComponente()
         {
-            return await db.TbComponenteCurriculars.OrderBy(c => c.ComponenteCurricular).ToListAsync();
+            return await db.TbComponenteCurriculars.Include(c=> c.CodigoModalidadeNavigation).OrderBy(c => c.ComponenteCurricular).ToListAsync();
         }
 
         public async Task<TbColaborador> MontarAdmin(int id)
@@ -59,6 +59,18 @@ namespace AcompanhamentoDocente.Services
         public bool TbComponenteExists(int id)
         {
             return db.TbComponenteCurriculars.Any(e => e.Codigo == id);
+        }
+        public SelectList ListaModalidade()
+        {
+            var lista = new SelectList(db.TbModalidades, "Codigo", "Modalidade");
+
+            return lista;
+        }
+
+        public SelectList ListaModalidadeUp(TbComponenteCurricular ccurricular)
+        {
+            var lista = new SelectList(db.TbModalidades, "Codigo", "Modalidade", ccurricular.CodigoModalidade);
+            return lista;
         }
     }
 }
