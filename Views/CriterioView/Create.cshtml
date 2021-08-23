@@ -1,4 +1,4 @@
-﻿@model AcompanhamentoDocente.Models.TbCriterioAvaliacao
+﻿@model AcompanhamentoDocente.ViewModel.CriterioViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -7,7 +7,7 @@
 
 <h1>Create</h1>
 
-<h4>TbCriterioAvaliacao</h4>
+<h4>CriterioViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,6 +21,11 @@
             <div class="form-group">
                 <label asp-for="CodigoClassificacaoCriterio" class="control-label"></label>
                 @Html.DropDownListFor(model => model.CodigoClassificacaoCriterio, (IEnumerable<SelectListItem>)ViewBag.CodigoClassificacaoCriterio, "--Selecione", new { @id = "CodigoClassificacaoCriterio", @class = "form-control" })
+                <span asp-validation-for="CodigoClassificacaoCriterio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoClassificacaoCriterio" class="control-label"></label>
+                @Html.DropDownListFor(model => model.CCurricular, (IEnumerable<SelectListItem>)ViewBag.CodigoCCurricular, "--Selecione Componentes ", new { @id = "CodigoClassificacaoCriterio", @class = "select", @multiple = "true", @style = "width:350px" } )
                 <span asp-validation-for="CodigoClassificacaoCriterio" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -38,7 +43,7 @@
 </div>
 
 <div>
-    <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Critérios</a>
+    <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Componentes</a>
 </div>
 
 @section Scripts {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AcompanhamentoDocente.Models.TbCriterioAvaliacao>
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.CriterioViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,12 +16,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Criterio)
             </th>
+
             <th>
-                @Html.DisplayNameFor(model => model.Ativa)
+                @Html.DisplayNameFor(model => model.clcriterio)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CodigoClassificacaoCriterioNavigation.Classificacao)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -31,12 +30,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Criterio)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.Ativa)
+                @Html.DisplayFor(modelItem => item.clcriterio)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CodigoClassificacaoCriterioNavigation.Classificacao)
-            </td>
+            
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo }) |
                 @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo }) |

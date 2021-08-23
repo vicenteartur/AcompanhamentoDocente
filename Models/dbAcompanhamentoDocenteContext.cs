@@ -28,6 +28,7 @@ namespace AcompanhamentoDocente.Models
         public virtual DbSet<TbComponenteCurricular> TbComponenteCurriculars { get; set; }
         public virtual DbSet<TbCriterioAvaliacao> TbCriterioAvaliacaos { get; set; }
         public virtual DbSet<TbCriterioAvaliado> TbCriterioAvaliados { get; set; }
+        public virtual DbSet<TbCriterioComponenteCurricular> TbCriterioComponenteCurriculars { get; set; }
         public virtual DbSet<TbEscola> TbEscolas { get; set; }
         public virtual DbSet<TbEstado> TbEstados { get; set; }
         public virtual DbSet<TbModalidade> TbModalidades { get; set; }
@@ -258,7 +259,7 @@ namespace AcompanhamentoDocente.Models
 
                 entity.Property(e => e.Criterio)
                     .IsRequired()
-                    .HasMaxLength(150);
+                    .HasMaxLength(500);
 
                 entity.HasOne(d => d.CodigoClassificacaoCriterioNavigation)
                     .WithMany(p => p.TbCriterioAvaliacaos)
@@ -291,6 +292,25 @@ namespace AcompanhamentoDocente.Models
                     .HasForeignKey(d => d.CodigoCriterioAvaliacao)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fkCodigoCriterioAvaliacao");
+            });
+
+            modelBuilder.Entity<TbCriterioComponenteCurricular>(entity =>
+            {
+                entity.HasKey(e => e.Codigo);
+
+                entity.ToTable("tbCriterioComponenteCurricular");
+
+                entity.HasOne(d => d.CodigoComponenteCurricularNavigation)
+                    .WithMany(p => p.TbCriterioComponenteCurriculars)
+                    .HasForeignKey(d => d.CodigoComponenteCurricular)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fkCodigoCCurricular");
+
+                entity.HasOne(d => d.CodigoCriterioAvaliacaoNavigation)
+                    .WithMany(p => p.TbCriterioComponenteCurriculars)
+                    .HasForeignKey(d => d.CodigoCriterioAvaliacao)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fkCodigoCAvaliacao");
             });
 
             modelBuilder.Entity<TbEscola>(entity =>

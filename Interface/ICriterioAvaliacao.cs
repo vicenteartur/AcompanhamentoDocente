@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Interface
 {
-    interface ICriterioAvaliacao
-    {
-        
+    
+
+        interface ICriterioAvaliacao
+        {
+
             Task<List<TbCriterioAvaliacao>> ListaCriterios();
             Task<TbCriterioAvaliacao> Detalhes(int id);
             Task Inserir(TbCriterioAvaliacao criterio);
@@ -20,5 +22,7 @@ namespace AcompanhamentoDocente.Interface
             Task<TbColaborador> MontarAdmin(int id);
             bool TbCriterioExists(int id);
 
-    }
+        }
+
+   
 }

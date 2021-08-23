@@ -10,6 +10,7 @@ namespace AcompanhamentoDocente.Models
         public TbCriterioAvaliacao()
         {
             TbCriterioAvaliados = new HashSet<TbCriterioAvaliado>();
+            TbCriterioComponenteCurriculars = new HashSet<TbCriterioComponenteCurricular>();
         }
 
         public int Codigo { get; set; }
@@ -19,5 +20,6 @@ namespace AcompanhamentoDocente.Models
 
         public virtual TbClassificacaoCriterio CodigoClassificacaoCriterioNavigation { get; set; }
         public virtual ICollection<TbCriterioAvaliado> TbCriterioAvaliados { get; set; }
+        public virtual ICollection<TbCriterioComponenteCurricular> TbCriterioComponenteCurriculars { get; set; }
     }
 }

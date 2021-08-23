@@ -10,6 +10,7 @@ namespace AcompanhamentoDocente.Models
         public TbComponenteCurricular()
         {
             TbAtribuicaoComponenteCurricularAnoColaboradorEscolas = new HashSet<TbAtribuicaoComponenteCurricularAnoColaboradorEscola>();
+            TbCriterioComponenteCurriculars = new HashSet<TbCriterioComponenteCurricular>();
         }
 
         public int Codigo { get; set; }
@@ -20,5 +21,6 @@ namespace AcompanhamentoDocente.Models
 
         public virtual TbModalidade CodigoModalidadeNavigation { get; set; }
         public virtual ICollection<TbAtribuicaoComponenteCurricularAnoColaboradorEscola> TbAtribuicaoComponenteCurricularAnoColaboradorEscolas { get; set; }
+        public virtual ICollection<TbCriterioComponenteCurricular> TbCriterioComponenteCurriculars { get; set; }
     }
 }

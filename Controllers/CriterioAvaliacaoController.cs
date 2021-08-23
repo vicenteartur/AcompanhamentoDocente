@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AcompanhamentoDocente.Interface;
+using AcompanhamentoDocente.Models;
+using AcompanhamentoDocente.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AcompanhamentoDocente.Models;
-using AcompanhamentoDocente.Interface;
-using AcompanhamentoDocente.Services;
 
 namespace AcompanhamentoDocente.Controllers
 {
@@ -15,7 +15,7 @@ namespace AcompanhamentoDocente.Controllers
     {
         private readonly ICriterioAvaliacao _criterio;
 
-        public CriterioAvaliacaoController(dbContext context)
+        public CriterioAvaliacaoController()
         {
             _criterio = new CriterioAvaliacaoService();
         }

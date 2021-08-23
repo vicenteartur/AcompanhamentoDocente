@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Services
 {
-    public class CriterioAvaliacaoService:ICriterioAvaliacao
+    public class CriterioAvaliacaoService :ICriterioAvaliacao
     {
         private dbContext db = new dbContext();
 
@@ -53,7 +53,7 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<List<TbCriterioAvaliacao>> ListaCriterios()
         {
-            return await db.TbCriterioAvaliacaos.OrderBy(c => c.Criterio).ToListAsync();
+            return await db.TbCriterioAvaliacaos.Include(c => c.CodigoClassificacaoCriterioNavigation).OrderBy(c => c.Criterio).ToListAsync();
         }
 
         public async Task<TbColaborador> MontarAdmin(int id)

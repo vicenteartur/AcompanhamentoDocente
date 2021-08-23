@@ -1,0 +1,51 @@
+﻿@model IEnumerable<AcompanhamentoDocente.Models.TbComponenteCurricular>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ComponenteCurricular)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoModalidadeNavigation.Modalidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubArea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ativa)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComponenteCurricular)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoModalidadeNavigation.Modalidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubArea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ativa)
+            </td>
+            <td>
+                @Html.ActionLink("ListaCriterio", "ListaCriterio", new { id = ViewBag.Admin.Codigo, ccur = item.Codigo })
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
