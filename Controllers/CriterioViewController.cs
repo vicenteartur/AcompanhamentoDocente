@@ -112,20 +112,22 @@ namespace AcompanhamentoDocente.Controllers
                 return NotFound();
             }
 
-            var tbCriterioAvaliacao = await _criterio.Detalhes((int)criterio);
+            
+                var rcriterio = await _criterio.Detalhes((int)criterio);
 
-            if (tbCriterioAvaliacao == null)
+            if (rcriterio == null)
             {
                 return NotFound();
             }
 
             var admin = await _criterio.MontarAdmin((int)id);
-            var comp = _criterio.UpCompCurri(tbCriterioAvaliacao.Codigo);
+            var comp = _criterio.UpCompCurri(rcriterio.Codigo);
             ViewData["admin"] = admin;
-            ViewData["CodigoClassificacaoCriterio"] = _criterio.ClassificacaoUp(tbCriterioAvaliacao.Codigo);
+            ViewData["CodigoClassificacaoCriterio"] = _criterio.ClassificacaoUp(rcriterio.Codigo);
             ViewData["CodigoCCurricular"] = comp;
+            ViewData["texto"] = rcriterio.Criterio;
 
-            return View(tbCriterioAvaliacao);
+            return View(rcriterio);
         }
 
         // POST: CriterioView/Edit/5
@@ -150,20 +152,21 @@ namespace AcompanhamentoDocente.Controllers
                     {
                         var litem = new CriterioViewModel()
                         {
+                            Codigo = criteriov.Codigo,
                             Criterio = criteriov.Criterio,
                             CodigoCCUrricular = item,
                             CodigoClassificacaoCriterio = criteriov.CodigoClassificacaoCriterio,
-                            Ativa = 1
+                            Ativa = criteriov.Ativa
                         };
                         lista.Add(litem);
                     }
-                    await _criterio.Inserir(lista);
+                    await _criterio.Atualizar(lista);
                     return RedirectToAction("Index", new { id = id });
 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_criterio.TbCriterioExists(tbCriterioAvaliacao.Codigo))
+                    if (!_criterio.TbCriterioExists(criteriov.Codigo))
                     {
                         return NotFound();
                     }
@@ -172,31 +175,48 @@ namespace AcompanhamentoDocente.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", new { id = id });
             }
-            ViewData["CodigoClassificacaoCriterio"] = _criterio.ClassificacaoUp(tbCriterioAvaliacao.CodigoClassificacaoCriterio);
-            return View(tbCriterioAvaliacao);
+            ViewData["CodigoClassificacaoCriterio"] = _criterio.ClassificacaoUp(criteriov.CodigoClassificacaoCriterio);
+            return View(criteriov);
         }
 
         // GET: CriterioView/Delete/5
-        public ActionResult Delete(int id)
+        public async Task <ActionResult> Delete(int? id, int? criterio)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            var rcriterio = await _criterio.Detalhes((int)criterio);
+
+            if (rcriterio == null)
+            {
+                return NotFound();
+            }
+
+            var admin = await _criterio.MontarAdmin((int)id);
+            var comp = _criterio.UpCompCurri(rcriterio.Codigo);
+            ViewData["admin"] = admin;
+            ViewData["CodigoClassificacaoCriterio"] = _criterio.ClassificacaoUp(rcriterio.Codigo);
+            ViewData["CodigoCCurricular"] = comp;
+            ViewData["texto"] = rcriterio.Criterio;
+
+            return View(rcriterio);
         }
 
         // POST: CriterioView/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int? id, int Codigo)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var admin = await _criterio.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+            var rcriterio = await _criterio.Detalhes((int)Codigo);
+            await _criterio.Deletar(rcriterio);
+
+            return RedirectToAction("Index", new { id = id });
         }
     }
 }

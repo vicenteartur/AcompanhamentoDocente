@@ -14,7 +14,7 @@ namespace AcompanhamentoDocente.Interface
             Task<List<CriterioViewModel>> ListaCriterios(int ccur);
             Task<CriterioViewModel> Detalhes(int id);
             Task Inserir(List<CriterioViewModel> criterio);
-            Task Atualizar(CriterioViewModel criterio);
+            Task Atualizar(List<CriterioViewModel> criterio);
             Task Deletar(CriterioViewModel criterio);
             SelectList Classificacao();
             SelectList ClassificacaoUp(int classificacao);

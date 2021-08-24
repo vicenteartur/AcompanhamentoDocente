@@ -85,26 +85,68 @@ namespace AcompanhamentoDocente.Services
             return m;
         }
 
-        public async Task Atualizar(CriterioViewModel criterio)
+        public async Task Atualizar(List<CriterioViewModel> criterio)
         {
-            var crit = new TbCriterioAvaliacao()
+            var criterioparcial = criterio.First();
+            var criterioaux = new TbCriterioAvaliacao()
             {
-                Codigo = criterio.Codigo,
-                Criterio = criterio.Criterio,
-                CodigoClassificacaoCriterio = criterio.CodigoClassificacaoCriterio,
-                Ativa = criterio.Ativa
+                Codigo = criterioparcial.Codigo,
+                Criterio = criterioparcial.Criterio,
+                CodigoClassificacaoCriterio = criterioparcial.CodigoClassificacaoCriterio,
+                Ativa = criterioparcial.Ativa
             };
-
-            db.TbCriterioAvaliacaos.Update(crit);
+            db.TbCriterioAvaliacaos.Update(criterioaux);
             await db.SaveChangesAsync();
 
-            //concluir atualizaçao da atribuicao de componente curricular
+            var codcriterio = criterioparcial.Codigo;
+            var listcriteriocc = await db.TbCriterioComponenteCurriculars.OrderBy(c => c.CodigoComponenteCurricular).Where(c => c.CodigoCriterioAvaliacao ==codcriterio).ToListAsync();
+            var lista = new List<TbCriterioComponenteCurricular>();
+            var criteriocc = new TbCriterioComponenteCurricular();
 
+
+            foreach (var item in criterio)
+            {
+
+                bool aux = listcriteriocc.Any(l => l.CodigoComponenteCurricular == item.CodigoCCUrricular && l.CodigoCriterioAvaliacao == item.Codigo);
+                if (aux == false)
+                {
+                    criteriocc = new TbCriterioComponenteCurricular()
+                    {
+                        CodigoCriterioAvaliacao = codcriterio,
+                        CodigoComponenteCurricular = item.CodigoCCUrricular,
+                        Ativa = 1
+                    };
+                    lista.Add(criteriocc);
+                }
+                
+            }
+            await db.BulkInsertAsync(lista);
+
+            var listaaux = new List<TbCriterioComponenteCurricular>();
+            var lcriteriocc = new TbCriterioComponenteCurricular();
+
+            foreach (var item in listcriteriocc)
+            {
+
+                var aux = criterio.Any(l => l.CodigoCCUrricular== item.CodigoComponenteCurricular && l.Codigo == item.CodigoCriterioAvaliacao);
+                if (aux == false)
+                {
+                    lcriteriocc = new TbCriterioComponenteCurricular()
+                    {
+                        Codigo = item.Codigo,
+                        CodigoCriterioAvaliacao = codcriterio,
+                        CodigoComponenteCurricular = item.CodigoComponenteCurricular,
+                        Ativa = 1
+                    };
+                    listaaux.Add(lcriteriocc); 
+                }
+            }
+            await db.BulkDeleteAsync(listaaux);
         }
 
         public async Task Deletar(CriterioViewModel criterio)
         {
-            var criteriodeletar = await db.TbCriterioComponenteCurriculars.Where(c => c.CodigoCriterioAvaliacao == criterio.Codigo).ToListAsync();
+            var criteriodeletar = await db.TbCriterioComponenteCurriculars.Where(c => c.CodigoCriterioAvaliacao == criterio.Codigo).AsNoTracking().ToListAsync();
             await db.BulkDeleteAsync(criteriodeletar);
 
             var crit = new TbCriterioAvaliacao()

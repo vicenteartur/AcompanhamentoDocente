@@ -1,7 +1,7 @@
 ﻿@model AcompanhamentoDocente.ViewModel.CriterioViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,11 +12,10 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Edit">
             <div class="form-group">
                 <label asp-for="Criterio" class="control-label"></label>
-                <textarea rows="10" cols="40" maxlength="500" asp-for="Criterio" class="form-control"></textarea>
+                <textarea name="Criterio" value="@ViewBag.texto" class="form-control" rows="10" cols="40" maxlength="500">@ViewBag.texto</textarea>
                 <span asp-validation-for="Criterio" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,6 +38,8 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
             <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
+            <input type="" asp-for="Codigo" />
+
         </form>
     </div>
 </div>
