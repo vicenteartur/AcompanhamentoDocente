@@ -13,6 +13,7 @@ namespace AcompanhamentoDocente.Models
         }
 
         public int Codigo { get; set; }
+        public DateTime Datarealizacao { get; set; }
         public int CodigoColaboradorAvaliador { get; set; }
         public int CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola { get; set; }
         public byte Finalizada { get; set; }

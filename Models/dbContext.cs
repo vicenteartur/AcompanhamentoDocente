@@ -139,6 +139,10 @@ namespace AcompanhamentoDocente.Models
 
                 entity.HasIndex(e => e.CodigoColaboradorAvaliador, "IX_CodigoColaboradorAvaliador");
 
+                entity.Property(e => e.Datarealizacao)
+                    .HasColumnType("date")
+                    .HasColumnName("datarealizacao");
+
                 entity.HasOne(d => d.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscolaNavigation)
                     .WithMany(p => p.TbAvaliacaos)
                     .HasForeignKey(d => d.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola)
