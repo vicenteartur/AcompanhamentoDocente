@@ -57,7 +57,8 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo }) |
                 @Html.ActionLink("Details", "Details", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo })
+                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo }) |
+                @Html.ActionLink("Avaliar", "Avaliar", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo })
             </td>
         </tr>
     }

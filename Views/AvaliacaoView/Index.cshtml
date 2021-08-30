@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.AvaliacaoViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    @Html.ActionLink("Nova", "Avaliar", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.NomeColaborador)
+            </th>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.ccurric)
+            </th>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.ano)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeColaborador)
+            </td>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ccurric)
+            </td>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ano)
+            </td>
+            <td></td>
+            <td>
+                @Html.ActionLink("Continuar Avaliando", "Edit", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo }) |
+                @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+

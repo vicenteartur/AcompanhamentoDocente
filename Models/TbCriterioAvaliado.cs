@@ -10,7 +10,7 @@ namespace AcompanhamentoDocente.Models
         public int Codigo { get; set; }
         public int CodigoCriterioAvaliacao { get; set; }
         public byte Conceito { get; set; }
-        public string Comentário { get; set; }
+        public string Comentario { get; set; }
         public int CodigoAvaliacao { get; set; }
 
         public virtual TbAvaliacao CodigoAvaliacaoNavigation { get; set; }

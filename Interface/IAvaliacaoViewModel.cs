@@ -9,14 +9,17 @@ namespace AcompanhamentoDocente.Interface
 {
     interface IAvaliacaoViewModel
     {
-        Task<List<AvaliacaoViewModel>> ListaAvaliacoes(int esc);
+        Task<List<AvaliacaoViewModel>> ListaAvaliacoes(int id, int esc);
         Task<AvaliacaoViewModel> Detalhes(int adm, int atrib, int aval);
-        Task Inserir(AvaliacaoViewModel avaliacao);
-        Task Atualizar(TbCriterioAvaliado avaliacao);
+        Task<AvaliacaoViewModel> Inserir(AvaliacaoViewModel avaliacao);
+        Task AtualizaCritAv(TbCriterioAvaliado avaliacao);
+        Task Atualizar(TbAvaliacao avaliacao);
+        Task<TbCriterioAvaliado> MontarCritAv(int avaliacao);
         Task Deletar(AvaliacaoViewModel avaliacao);
         Task<TbColaborador> MontarAdmin(int id);
         Task<TbEscola> MontarEscola(int id);
         bool AvaliacaoExists(int id);
+        Task<List<AvaliacaoViewModel>> ListaAvaliacoesFinalizadas(int esc);
 
     }
 }

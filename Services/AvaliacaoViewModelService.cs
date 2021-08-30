@@ -15,9 +15,22 @@ namespace AcompanhamentoDocente.Services
 
         private dbContext db = new dbContext();
 
-        public async Task Atualizar(TbCriterioAvaliado avaliacao)
+        public async Task<TbCriterioAvaliado> MontarCritAv(int avaliacao)
+        {
+            var critav = await db.TbCriterioAvaliados.Where(c=>c.Codigo == avaliacao).FirstAsync();
+            await db.SaveChangesAsync();
+            return critav;
+        }
+
+        public async Task AtualizaCritAv(TbCriterioAvaliado avaliacao)
         {
             db.TbCriterioAvaliados.Update(avaliacao);
+            await db.SaveChangesAsync();
+        }
+
+        public async Task Atualizar(TbAvaliacao avaliacao)
+        {
+            db.TbAvaliacaos.Update(avaliacao);
             await db.SaveChangesAsync();
         }
 
@@ -42,8 +55,9 @@ namespace AcompanhamentoDocente.Services
                              join cg in db.TbCargos on cl.CodigoCargo equals cg.Codigo
                              join ae in db.TbAtribuicaoColaboradorEscolas on cl.Codigo equals ae.CodigoColaborador
                              join es in db.TbEscolas on ae.CodigoEscola equals es.Codigo
-                             where es.Codigo == esc && cg.NiveldeAcesso > 0
-                             select cl).ToListAsync();
+                             join ca in db.TbAvaliacaos on cl.Codigo equals ca.CodigoColaboradorAvaliador
+                             where es.Codigo == esc && cg.NiveldeAcesso > 0 && ca.Codigo == aval
+                             select cl).AsNoTracking().FirstAsync();
 
             var avaliacao =  await (from c in db.TbColaboradors
                              join at in db.TbAtribuicaoColaboradorEscolas on c.Codigo equals at.CodigoColaborador
@@ -60,8 +74,8 @@ namespace AcompanhamentoDocente.Services
                              {
                                  Codigo = av.Codigo,
                                  dataavaliacao = av.Datarealizacao,
-                                 CodigoColaboradorAvaliador = av.CodigoColaboradorAvaliador,
-                                 NomeAvaliador = (from cadm in adm where cadm.Codigo == av.CodigoColaboradorAvaliador select cadm.Nome).First(),
+                                 CodigoColaboradorAvaliador = adm.Codigo,
+                                 NomeAvaliador = adm.Nome,
                                  CodigoACECCA = atribcc.Codigo,
                                  NomeColaborador = c.Nome,
                                  escola = e.Escola,
@@ -78,7 +92,7 @@ namespace AcompanhamentoDocente.Services
             return avaliacao;
         }
 
-        public async Task Inserir(AvaliacaoViewModel avaliacao)
+        public async Task<AvaliacaoViewModel> Inserir(AvaliacaoViewModel avaliacao)
         {
             var av = new TbAvaliacao
             {
@@ -104,20 +118,24 @@ namespace AcompanhamentoDocente.Services
                                  CodigoAvaliacao = aval.Codigo,
                                  CodigoCriterioAvaliacao = ca.Codigo,
                                  Conceito = 0,
-                                 Comentário="-"
+                                 Comentario="-"
                              }).ToListAsync();
 
             await db.BulkInsertAsync(criterios);
 
+            var avalvm = new AvaliacaoViewModel
+            {
+                Codigo = aval.Codigo,
+                CodigoColaboradorAvaliador = aval.CodigoColaboradorAvaliador,
+                CodigoACECCA = aval.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola
+            };
+
+            return avalvm;
         }
 
-        public async Task<List<AvaliacaoViewModel>> ListaAvaliacoes(int esc)
+        public async Task<List<AvaliacaoViewModel>> ListaAvaliacoes(int id, int esc)
         {
-            var adm = await (from cl in db.TbColaboradors
-                             join cg in db.TbCargos on cl.CodigoCargo equals cg.Codigo
-                             join ae in db.TbAtribuicaoColaboradorEscolas on cl.Codigo equals ae.CodigoColaborador
-                             join es in db.TbEscolas on ae.CodigoEscola equals es.Codigo
-                             where es.Codigo == esc && cg.NiveldeAcesso > 0 select cl).ToListAsync();
+            
             
             var avaliacao = await(from c in db.TbColaboradors
                                   join at in db.TbAtribuicaoColaboradorEscolas on c.Codigo equals at.CodigoColaborador
@@ -129,13 +147,12 @@ namespace AcompanhamentoDocente.Services
                                   join an in db.TbAnos on atribcc.CodigoAno equals an.Codigo
                                   join m in db.TbModalidades on an.CodigoModalidade equals m.Codigo
                                   where c.Ativo == 1 && at.Ativa == 1 && atribcc.Ativa == 1 && e.Ativa == 1 && cc.Ativa == 1 && acc.Ativa == 1 &&
-                                  e.Codigo == esc 
+                                  e.Codigo == esc && av.Finalizada !=1 && av.CodigoColaboradorAvaliador == id
                                   select new AvaliacaoViewModel
                                   {
                                       Codigo = av.Codigo,
                                       dataavaliacao = av.Datarealizacao,
                                       CodigoColaboradorAvaliador = av.CodigoColaboradorAvaliador,
-                                      NomeAvaliador = (from cadm in adm where cadm.Codigo == av.CodigoColaboradorAvaliador select cadm.Nome ).First(),
                                       CodigoACECCA = atribcc.Codigo,
                                       NomeColaborador = c.Nome,
                                       escola = e.Escola,
@@ -145,7 +162,47 @@ namespace AcompanhamentoDocente.Services
                                   }
                              ).ToListAsync();
             
-            
+           
+
+            return avaliacao;
+        }
+
+        public async Task<List<AvaliacaoViewModel>> ListaAvaliacoesFinalizadas(int esc)
+        {
+            var adm = await (from cl in db.TbColaboradors
+                             join cg in db.TbCargos on cl.CodigoCargo equals cg.Codigo
+                             join ae in db.TbAtribuicaoColaboradorEscolas on cl.Codigo equals ae.CodigoColaborador
+                             join es in db.TbEscolas on ae.CodigoEscola equals es.Codigo
+                             where es.Codigo == esc && cg.NiveldeAcesso > 0
+                             select cl).ToListAsync();
+
+            var avaliacao = await (from c in db.TbColaboradors
+                                   join at in db.TbAtribuicaoColaboradorEscolas on c.Codigo equals at.CodigoColaborador
+                                   join atribcc in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas on at.Codigo equals atribcc.CodigoAtribuicaoColaboradorEscola
+                                   join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
+                                   join av in db.TbAvaliacaos on atribcc.Codigo equals av.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola
+                                   join cc in db.TbComponenteCurriculars on atribcc.CodigoComponenteCurricular equals cc.Codigo
+                                   join acc in db.TbCriterioComponenteCurriculars on cc.Codigo equals acc.CodigoComponenteCurricular
+                                   join an in db.TbAnos on atribcc.CodigoAno equals an.Codigo
+                                   join m in db.TbModalidades on an.CodigoModalidade equals m.Codigo
+                                   where c.Ativo == 1 && at.Ativa == 1 && atribcc.Ativa == 1 && e.Ativa == 1 && cc.Ativa == 1 && acc.Ativa == 1 &&
+                                   e.Codigo == esc && av.Finalizada == 1
+                                   select new AvaliacaoViewModel
+                                   {
+                                       Codigo = av.Codigo,
+                                       dataavaliacao = av.Datarealizacao,
+                                       CodigoColaboradorAvaliador = av.CodigoColaboradorAvaliador,
+                                       NomeAvaliador = (from cadm in adm where cadm.Codigo == av.CodigoColaboradorAvaliador select cadm.Nome).First(),
+                                       CodigoACECCA = atribcc.Codigo,
+                                       NomeColaborador = c.Nome,
+                                       escola = e.Escola,
+                                       ano = $"{an.Ano + an.Turma + " - " + m.Modalidade + " - " + an.Periodo}",
+                                       ccurric = cc.ComponenteCurricular,
+                                       Finalizada = av.Finalizada
+                                   }
+                             ).ToListAsync();
+
+
 
             return avaliacao;
         }
@@ -162,9 +219,12 @@ namespace AcompanhamentoDocente.Services
             return db.TbAvaliacaos.Any(e => e.Codigo == id);
         }
 
-        public Task<TbEscola> MontarEscola(int id)
+        public async Task<TbEscola> MontarEscola(int id)
         {
-            throw new NotImplementedException();
+            var tbescola = await db.TbEscolas
+                .FirstOrDefaultAsync(m => m.Codigo == id);
+
+            return tbescola;
         }
     }
 }

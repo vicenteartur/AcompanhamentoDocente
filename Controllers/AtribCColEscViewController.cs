@@ -225,5 +225,26 @@ namespace AcompanhamentoDocente.Controllers
 
             return new JsonResult(new { Resultado = lista });
         }
+
+        public async Task<ActionResult> Avaliar(int? id, int? esc, int? atribu)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (esc == null)
+            {
+                return NotFound();
+            }
+
+            if (atribu == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("Create","AvaliacaoView", new { id = id, esc = esc, atrib=atribu });
+            
+        }
     }
 }

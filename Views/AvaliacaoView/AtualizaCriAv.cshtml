@@ -1,0 +1,71 @@
+﻿@model AcompanhamentoDocente.Models.TbCriterioAvaliado
+
+@{
+    Layout = null;
+    ViewBag.Title = "AtualizaCriAv";
+}
+
+
+
+
+<h4>TbCriterioAvaliado</h4>
+<hr />
+<div id="aqui" class="row">
+    <div class="col-md-4">
+        <form asp-action="AtualizaCriAv" onsubmit="close" target="aqui" id="form_at" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Codigo" />
+            <div class="form-group">
+                <label asp-for="CodigoCriterioAvaliacao" class="control-label"></label>
+                <input asp-for="CodigoCriterioAvaliacao" class="form-control" />
+                <span asp-validation-for="CodigoCriterioAvaliacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Conceito" class="control-label"></label>
+                <input asp-for="Conceito" class="form-control" />
+                <span asp-validation-for="Conceito" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comentario" class="control-label"></label>
+                <textarea cols="11" rows="5" maxlength="500" asp-for="Comentario" class="form-control"></textarea>
+                <span asp-validation-for="Comentario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoAvaliacao" class="control-label"></label>
+                <input asp-for="CodigoAvaliacao" class="form-control" />
+                <span asp-validation-for="CodigoAvaliacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input id="salvar" type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('#form_at').submit(function () {
+            var dados = jQuery(this).serialize();
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/AvaliacaoView/AtualizaCriAv/",
+                data: dados,
+                success: function (data) {
+                    alert("Avaliação Atualizada");
+                    $('#myModal').modal('hide');
+                }
+            });
+
+            return false;
+        });
+    });
+</script>
+
+
+

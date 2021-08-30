@@ -283,7 +283,7 @@ namespace AcompanhamentoDocente.Models
 
                 entity.HasIndex(e => e.CodigoCriterioAvaliacao, "IX_CodigoCriterioAvaliacao");
 
-                entity.Property(e => e.Comentário).HasColumnType("text");
+                entity.Property(e => e.Comentario).HasColumnType("text");
 
                 entity.HasOne(d => d.CodigoAvaliacaoNavigation)
                     .WithMany(p => p.TbCriterioAvaliados)
