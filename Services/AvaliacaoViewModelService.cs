@@ -34,18 +34,13 @@ namespace AcompanhamentoDocente.Services
             await db.SaveChangesAsync();
         }
 
-        public async Task Deletar(AvaliacaoViewModel avaliacao)
+        public async Task Deletar(int avaliacao)
         {
-            var avaliado = await db.TbCriterioAvaliados.Where(ca => ca.CodigoAvaliacao == avaliacao.Codigo).ToListAsync();
+            var avaliado = await db.TbCriterioAvaliados.Where(ca => ca.CodigoAvaliacao == avaliacao).ToListAsync();
             await db.BulkDeleteAsync(avaliado);
-            var tbavl = new TbAvaliacao
-            {
-                Codigo = avaliacao.Codigo,
-                CodigoColaboradorAvaliador = avaliacao.CodigoColaboradorAvaliador,
-                CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola = avaliacao.CodigoACECCA,
-                Finalizada = avaliacao.Finalizada
-            };
-            db.TbAvaliacaos.Remove(tbavl);
+
+            var aval = await db.TbAvaliacaos.Where(av => av.Codigo == avaliacao).FirstAsync();
+            db.TbAvaliacaos.Remove(aval);
             await db.SaveChangesAsync();
         }
 
@@ -192,7 +187,7 @@ namespace AcompanhamentoDocente.Services
                                        Codigo = av.Codigo,
                                        dataavaliacao = av.Datarealizacao,
                                        CodigoColaboradorAvaliador = av.CodigoColaboradorAvaliador,
-                                       NomeAvaliador = (from cadm in adm where cadm.Codigo == av.CodigoColaboradorAvaliador select cadm.Nome).First(),
+                                       
                                        CodigoACECCA = atribcc.Codigo,
                                        NomeColaborador = c.Nome,
                                        escola = e.Escola,
@@ -202,7 +197,10 @@ namespace AcompanhamentoDocente.Services
                                    }
                              ).ToListAsync();
 
-
+            foreach (var item in avaliacao)
+            {
+                item.NomeAvaliador = (from cadm in adm where cadm.Codigo == item.CodigoColaboradorAvaliador select cadm.Nome).First();
+            }
 
             return avaliacao;
         }

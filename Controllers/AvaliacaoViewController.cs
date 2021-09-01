@@ -5,8 +5,6 @@ using AcompanhamentoDocente.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Controllers
@@ -26,35 +24,35 @@ namespace AcompanhamentoDocente.Controllers
         {
             ViewData["admin"] = await _avaliacao.MontarAdmin((int)id);
             ViewData["escola"] = await _avaliacao.MontarEscola((int)esc);
-            
-            return View(await _avaliacao.ListaAvaliacoes((int)id,(int)esc));
+
+            return View(await _avaliacao.ListaAvaliacoes((int)id, (int)esc));
         }
 
         public async Task<ActionResult> AvFinalizadas(int? id, int? esc)
         {
             ViewData["admin"] = await _avaliacao.MontarAdmin((int)id);
             ViewData["escola"] = await _avaliacao.MontarEscola((int)esc);
-
-            return View(_avaliacao.ListaAvaliacoesFinalizadas((int)esc));
+            var lista = await _avaliacao.ListaAvaliacoesFinalizadas((int)esc);
+            return View(lista);
         }
 
         // GET: AvaliacaoViewController/Details/5
-        public async Task<ActionResult> Details(int? id, int? esc, int? av, int? atrib)
+        public async Task<ActionResult> Details(int? id, int? esc, int? aval, int? atrib)
         {
             ViewData["admin"] = await _avaliacao.MontarAdmin((int)id);
             ViewData["escola"] = await _avaliacao.MontarEscola((int)esc);
 
-            return View(await _avaliacao.Detalhes((int)id, (int)atrib, (int)av));
+            return View(await _avaliacao.Detalhes((int)id, (int)atrib, (int)aval));
         }
 
         // GET: AvaliacaoViewController/Create
         public async Task<ActionResult> Create(int? id, int? esc, int? atrib)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            
+
             if (atrib == null)
             {
                 return NotFound();
@@ -66,14 +64,34 @@ namespace AcompanhamentoDocente.Controllers
                 CodigoACECCA = (int)atrib
             };
             var aval = await _avaliacao.Inserir(avaliacao);
-            
+
 
             return RedirectToAction("Edit", new { id = id, esc = esc, atrib = atrib, aval = aval.Codigo });
         }
 
-       // GET: AvaliacaoViewController/Edit/5
+        // GET: AvaliacaoViewController/Edit/5
         public async Task<ActionResult> Edit(int? id, int? esc, int? atrib, int? aval)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (esc == null)
+            {
+                return NotFound();
+            }
+
+            if (atrib == null)
+            {
+                return NotFound();
+            }
+
+            if (aval == null)
+            {
+                return NotFound();
+            }
+
             ViewData["admin"] = await _avaliacao.MontarAdmin((int)id);
             ViewData["escola"] = await _avaliacao.MontarEscola((int)esc);
             ViewData["atrib"] = aval;
@@ -84,10 +102,10 @@ namespace AcompanhamentoDocente.Controllers
         // POST: AvaliacaoViewController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int? id, int? esc, int? atrib, int? aval,[Bind("Codigo,CodigoColaboradorAvaliador,CodigoACECCA,dataavaliacao")] AvaliacaoViewModel avaliacao)
+        public async Task<ActionResult> Edit(int? id, int? esc, int? atrib, int? aval, [Bind("Codigo,CodigoColaboradorAvaliador,CodigoACECCA,dataavaliacao")] AvaliacaoViewModel avaliacao)
         {
             var admin = await _avaliacao.MontarAdmin(avaliacao.CodigoColaboradorAvaliador);
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -115,7 +133,7 @@ namespace AcompanhamentoDocente.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", new { id = id, esc =  esc });
+                return RedirectToAction("Index", new { id = id, esc = esc });
             }
             return View(await _avaliacao.Detalhes((int)id, (int)atrib, (int)aval));
         }
@@ -123,8 +141,29 @@ namespace AcompanhamentoDocente.Controllers
         // GET: AvaliacaoViewController/Delete/5
         public async Task<ActionResult> Delete(int? id, int? esc, int? atrib, int? aval)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (esc == null)
+            {
+                return NotFound();
+            }
+
+            if (atrib == null)
+            {
+                return NotFound();
+            }
+
+            if (aval == null)
+            {
+                return NotFound();
+            }
+
             ViewData["admin"] = await _avaliacao.MontarAdmin((int)id);
             ViewData["escola"] = await _avaliacao.MontarEscola((int)esc);
+            ViewData["atrib"] = aval;
 
             return View(await _avaliacao.Detalhes((int)id, (int)atrib, (int)aval));
         }
@@ -132,11 +171,28 @@ namespace AcompanhamentoDocente.Controllers
         // POST: AvaliacaoViewController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteConfirmed(int? id, int? esc,int? Codigo)
         {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (esc == null)
+            {
+                return NotFound();
+            }
+
+            if (Codigo == null)
+            {
+                return NotFound();
+            }
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _avaliacao.Deletar((int)Codigo);
+                return RedirectToAction("Index", new { id = id, esc = esc });
             }
             catch
             {
@@ -159,9 +215,9 @@ namespace AcompanhamentoDocente.Controllers
         [ValidateAntiForgeryToken]
         public void AtualizaCriAv([Bind("Codigo,CodigoAvaliacao,CodigoCriterioAvaliacao,Conceito,Comentario")] TbCriterioAvaliado critavaliado)
         {
-           
-                _avaliacao.AtualizaCritAv(critavaliado);
-            
+
+            _avaliacao.AtualizaCritAv(critavaliado);
+
         }
 
         public async Task<ActionResult> Avaliar(int? id, int? esc)
@@ -176,8 +232,8 @@ namespace AcompanhamentoDocente.Controllers
                 return NotFound();
             }
 
-            
-            return RedirectToAction("Index", "AtribCColEscView", new { id = id, esc = esc});
+
+            return RedirectToAction("Index", "AtribCColEscView", new { id = id, esc = esc });
 
         }
 

@@ -15,7 +15,7 @@ namespace AcompanhamentoDocente.Interface
         Task AtualizaCritAv(TbCriterioAvaliado avaliacao);
         Task Atualizar(TbAvaliacao avaliacao);
         Task<TbCriterioAvaliado> MontarCritAv(int avaliacao);
-        Task Deletar(AvaliacaoViewModel avaliacao);
+        Task Deletar(int avaliacao);
         Task<TbColaborador> MontarAdmin(int id);
         Task<TbEscola> MontarEscola(int id);
         bool AvaliacaoExists(int id);

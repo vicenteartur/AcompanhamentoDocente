@@ -39,6 +39,7 @@ namespace AcompanhamentoDocente
             services.AddScoped<ICriterioAvaliacao, CriterioAvaliacaoService>();
             services.AddScoped<IClassificacaoCriterio, ClassificacaoCriterioService>();
             services.AddScoped<ICriterioViewModel, CriterioViewService>();
+            services.AddScoped<IAvaliacaoViewModel, AvaliacaoViewModelService>();
             services.AddControllers();
             services.AddControllersWithViews();
             services.AddRazorPages();

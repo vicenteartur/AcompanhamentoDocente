@@ -1,7 +1,7 @@
 ﻿@model AcompanhamentoDocente.ViewModel.AvaliacaoViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="~/js/site.js"></script>
@@ -15,6 +15,10 @@
 <h4>AvaliacaoViewModel</h4>
 <div id="xamego" class="row">
     <div class="col-md-4">
+
+        @Html.ActionLink("Avaliações Abertas", "Index", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })|
+        @Html.ActionLink("Continuar Avaliando", "Edit", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = Model.CodigoACECCA, aval = Model.Codigo }) 
+
         <form asp-action="Edit">
 
             <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
@@ -67,6 +71,10 @@
                             @Html.DisplayNameFor(model => model.CriterioAvaliado)
                         </th>
                         <th></th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CriterioAvaliado)
+                        </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,53 +86,19 @@
                             </td>
                             <td></td>
                             <td>
-                                <a href="#" id="btnDetalhes" class="btn btn-default btnDetalhes" data-value="@item.Codigo">Avaliar</a> |
+                                @Html.DisplayFor(modelItem => item.Conceito)
                             </td>
+                            <td></td>
+
                         </tr>
                     }
                 </tbody>
             </table>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
             </div>
         </form>
     </div>
 </div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div id="teste"></div>
-                        </div>
-                        <div class="modal-footer">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        $.ajaxSetup({ cache: false });
-
-        $("#btnDetalhes").click(function () {
-
-            var id = $(this).data("value");
-
-            $("#teste").load("/AvaliacaoView/AtualizaCriAv/" + id, function () {
-                $('#myModal').modal("show");
-            });
-        });
-    });
-</script>
-
 
 
