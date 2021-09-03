@@ -1,18 +1,13 @@
-using AcompanhamentoDocente.Controllers;
 using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente
 {
@@ -45,6 +40,9 @@ namespace AcompanhamentoDocente
             services.AddRazorPages();
             services.AddDbContext<dbContext>(options =>
               options.UseSqlServer(Configuration.GetConnectionString("AcompanhamentoDocente")));
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                         .AddEntityFrameworkStores<dbContext>();
+
 
 
         }
@@ -63,9 +61,12 @@ namespace AcompanhamentoDocente
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -74,7 +75,7 @@ namespace AcompanhamentoDocente
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                
+
             });
         }
     }

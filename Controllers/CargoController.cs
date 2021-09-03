@@ -59,7 +59,7 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id,[Bind("Codigo,Cargo,NiveldeAcesso")] TbCargo tbCargo)
+        public async Task<IActionResult> Create(int? id, [Bind("Codigo,Cargo,NiveldeAcesso")] TbCargo tbCargo)
         {
             var admin = await _cargo.MontarAdmin((int)id);
             ViewData["admin"] = admin;

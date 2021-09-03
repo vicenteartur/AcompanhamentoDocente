@@ -7,6 +7,11 @@
       "type": "mssql.onprem",
       "connectionId": "ConnectionStrings:AcompanhamentoDocente",
       "secretStore": "LocalSecretsFile"
+    },
+    "mssql2": {
+      "type": "mssql.onprem",
+      "connectionId": "ConnectionStrings:ConnectionStrings:AcompanhamentoDocente",
+      "secretStore": "LocalSecretsFile"
     }
   }
 }

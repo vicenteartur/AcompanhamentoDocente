@@ -1,21 +1,15 @@
 ﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.ViewModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-using IdentityModel.Client;
-using Microsoft.Data.SqlClient;
-using EFCore.BulkExtensions;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace AcompanhamentoDocente.Services
 {
-    public class AtribcCColEscViewModelService:IAtribCCColEscViewModel
+    public class AtribcCColEscViewModelService : IAtribCCColEscViewModel
     {
 
         private dbContext db = new dbContext();
@@ -65,18 +59,18 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<List<SelectListItem>> ListaAno(int codano, int mod)
         {
-            var ano = await db.TbAnos.Include(a => a.CodigoModalidadeNavigation).Where(a => a.CodigoModalidade == mod).OrderBy(a=>a.Codigo).ToListAsync();
+            var ano = await db.TbAnos.Include(a => a.CodigoModalidadeNavigation).Where(a => a.CodigoModalidade == mod).OrderBy(a => a.Codigo).ToListAsync();
 
             if (codano != 0)
             {
                 var lista = new List<SelectListItem>();
-                
+
                 try
                 {
                     foreach (var item in ano)
                     {
 
-                        string opcao = $"{item.Ano+item.Turma+" - "+item.CodigoModalidadeNavigation.Modalidade+" - "+item.Periodo}";
+                        string opcao = $"{item.Ano + item.Turma + " - " + item.CodigoModalidadeNavigation.Modalidade + " - " + item.Periodo}";
                         var option = new SelectListItem()
                         {
                             Text = opcao,
@@ -102,11 +96,11 @@ namespace AcompanhamentoDocente.Services
             {
                 var lano = await db.TbAnos.Include(a => a.CodigoModalidadeNavigation).Where(a => a.CodigoModalidade == mod).OrderBy(a => a.Codigo).ToListAsync();
                 var lista = new List<SelectListItem>();
-                
+
 
                 try
                 {
-                    
+
                     foreach (var item in lano)
                     {
                         string opcao = $"{item.Ano + item.Turma + " - " + item.CodigoModalidadeNavigation.Modalidade + " - " + item.Periodo}";
@@ -131,11 +125,11 @@ namespace AcompanhamentoDocente.Services
             }
         }
 
-        public async Task<List<SelectListItem>> ListaCCurricular(int codcc,int mod)
+        public async Task<List<SelectListItem>> ListaCCurricular(int codcc, int mod)
         {
-            var ano = await db.TbComponenteCurriculars.Include(m =>m.CodigoModalidadeNavigation).Where(m =>m.CodigoModalidade == mod).OrderBy(a => a.Codigo).ToListAsync();
+            var ano = await db.TbComponenteCurriculars.Include(m => m.CodigoModalidadeNavigation).Where(m => m.CodigoModalidade == mod).OrderBy(a => a.Codigo).ToListAsync();
 
-            if (codcc!= 0)
+            if (codcc != 0)
             {
                 var lista = new List<SelectListItem>();
 
@@ -144,7 +138,7 @@ namespace AcompanhamentoDocente.Services
                     foreach (var item in ano)
                     {
 
-                        
+
                         var option = new SelectListItem()
                         {
                             Text = item.ComponenteCurricular,
@@ -177,7 +171,7 @@ namespace AcompanhamentoDocente.Services
 
                     foreach (var item in lcodcc)
                     {
-                        
+
                         var option = new SelectListItem()
                         {
                             Text = item.ComponenteCurricular,
@@ -230,36 +224,36 @@ namespace AcompanhamentoDocente.Services
         public async Task<AtribCCColEscViewModel> Detalhes(int id)
         {
             var atribfinal = await (from atc in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
-                              join at in db.TbAtribuicaoColaboradorEscolas on atc.CodigoAtribuicaoColaboradorEscola equals at.Codigo
-                              join c in db.TbColaboradors.Include(cg => cg.CodigoCargoNavigation) on at.CodigoColaborador equals c.Codigo
-                              join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
-                              join cc in db.TbComponenteCurriculars on atc.CodigoComponenteCurricular equals cc.Codigo
-                              join ano in db.TbAnos on atc.CodigoAno equals ano.Codigo
-                              join m in db.TbModalidades on ano.CodigoModalidade equals m.Codigo
+                                    join at in db.TbAtribuicaoColaboradorEscolas on atc.CodigoAtribuicaoColaboradorEscola equals at.Codigo
+                                    join c in db.TbColaboradors.Include(cg => cg.CodigoCargoNavigation) on at.CodigoColaborador equals c.Codigo
+                                    join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
+                                    join cc in db.TbComponenteCurriculars on atc.CodigoComponenteCurricular equals cc.Codigo
+                                    join ano in db.TbAnos on atc.CodigoAno equals ano.Codigo
+                                    join m in db.TbModalidades on ano.CodigoModalidade equals m.Codigo
 
 
-                              where atc.Codigo == id
+                                    where atc.Codigo == id
 
-                              select new AtribCCColEscViewModel
-                              {
-                                  Codigo = atc.Codigo,
-                                  CodigoAtribuicaoColaboradorEscola = at.Codigo,
-                                  CodigoAno = ano.Codigo,
-                                  CodigoCC = cc.Codigo,
-                                  CodigoColaborador = c.Codigo,
-                                  Nome = c.Nome,
-                                  CodigoCargo = c.CodigoCargoNavigation.Codigo,
-                                  Email = c.Email,
-                                  Cargo = c.CodigoCargoNavigation.Cargo,
-                                  NiveldeAcesso = c.CodigoCargoNavigation.NiveldeAcesso,
-                                  CodigoEscola = e.Codigo,
-                                  NomeEscola = e.Escola,
-                                  CompCurr = cc.ComponenteCurricular,
-                                  CodigoModalidade = m.Codigo,
-                                  Modalidade = m.Modalidade,
-                                  Ano = $"{ano.Ano + ano.Turma + " - " + m.Modalidade + " - " + ano.Periodo}"
+                                    select new AtribCCColEscViewModel
+                                    {
+                                        Codigo = atc.Codigo,
+                                        CodigoAtribuicaoColaboradorEscola = at.Codigo,
+                                        CodigoAno = ano.Codigo,
+                                        CodigoCC = cc.Codigo,
+                                        CodigoColaborador = c.Codigo,
+                                        Nome = c.Nome,
+                                        CodigoCargo = c.CodigoCargoNavigation.Codigo,
+                                        Email = c.Email,
+                                        Cargo = c.CodigoCargoNavigation.Cargo,
+                                        NiveldeAcesso = c.CodigoCargoNavigation.NiveldeAcesso,
+                                        CodigoEscola = e.Codigo,
+                                        NomeEscola = e.Escola,
+                                        CompCurr = cc.ComponenteCurricular,
+                                        CodigoModalidade = m.Codigo,
+                                        Modalidade = m.Modalidade,
+                                        Ano = $"{ano.Ano + ano.Turma + " - " + m.Modalidade + " - " + ano.Periodo}"
 
-        }).FirstAsync();
+                                    }).FirstAsync();
 
             return atribfinal;
         }
@@ -272,7 +266,7 @@ namespace AcompanhamentoDocente.Services
                 CodigoAtribuicaoColaboradorEscola = atribuicao.CodigoAtribuicaoColaboradorEscola,
                 CodigoComponenteCurricular = atribuicao.CodigoCC,
                 CodigoAno = atribuicao.CodigoAno,
-                Ativa =1
+                Ativa = 1
             };
 
             await db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas.AddAsync(atrib);
@@ -281,32 +275,32 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<List<AtribCCColEscViewModel>> ListaAtribuicao(int id, int esc)
         {
-            var atribfinal = await(from atc in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
-                                   join at in db.TbAtribuicaoColaboradorEscolas on atc.CodigoAtribuicaoColaboradorEscola equals at.Codigo
-                                   join c in db.TbColaboradors.Include(cg => cg.CodigoCargoNavigation) on at.CodigoColaborador equals c.Codigo
-                                   join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
-                                   join cc in db.TbComponenteCurriculars on atc.CodigoComponenteCurricular equals cc.Codigo
-                                   join ano in db.TbAnos on atc.CodigoAno equals ano.Codigo
-                                   join m in db.TbModalidades on ano.CodigoModalidade equals m.Codigo
+            var atribfinal = await (from atc in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
+                                    join at in db.TbAtribuicaoColaboradorEscolas on atc.CodigoAtribuicaoColaboradorEscola equals at.Codigo
+                                    join c in db.TbColaboradors.Include(cg => cg.CodigoCargoNavigation) on at.CodigoColaborador equals c.Codigo
+                                    join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
+                                    join cc in db.TbComponenteCurriculars on atc.CodigoComponenteCurricular equals cc.Codigo
+                                    join ano in db.TbAnos on atc.CodigoAno equals ano.Codigo
+                                    join m in db.TbModalidades on ano.CodigoModalidade equals m.Codigo
 
-                                   where at.CodigoEscola==esc && c.CodigoCargoNavigation.NiveldeAcesso < 1
+                                    where at.CodigoEscola == esc && c.CodigoCargoNavigation.NiveldeAcesso < 1
 
-                                   select new AtribCCColEscViewModel
-                                   {
-                                       Codigo = atc.Codigo,
-                                       CodigoAtribuicaoColaboradorEscola = at.Codigo,
-                                       CodigoAno = ano.Codigo,
-                                       CodigoCC = cc.Codigo,
-                                       CodigoColaborador = c.Codigo,
-                                       Nome = c.Nome,
-                                       CodigoCargo = c.CodigoCargoNavigation.Codigo,
-                                       Cargo = c.CodigoCargoNavigation.Cargo,
-                                       NiveldeAcesso = c.CodigoCargoNavigation.NiveldeAcesso,
-                                       Ano = $"{ano.Ano+ano.Turma+" - "+m.Modalidade+" - "+ano.Periodo}",
-                                       CompCurr = cc.ComponenteCurricular,
-                                       CodigoEscola = e.Codigo,
-                                       NomeEscola = e.Escola
-                                   }).ToListAsync();
+                                    select new AtribCCColEscViewModel
+                                    {
+                                        Codigo = atc.Codigo,
+                                        CodigoAtribuicaoColaboradorEscola = at.Codigo,
+                                        CodigoAno = ano.Codigo,
+                                        CodigoCC = cc.Codigo,
+                                        CodigoColaborador = c.Codigo,
+                                        Nome = c.Nome,
+                                        CodigoCargo = c.CodigoCargoNavigation.Codigo,
+                                        Cargo = c.CodigoCargoNavigation.Cargo,
+                                        NiveldeAcesso = c.CodigoCargoNavigation.NiveldeAcesso,
+                                        Ano = $"{ano.Ano + ano.Turma + " - " + m.Modalidade + " - " + ano.Periodo}",
+                                        CompCurr = cc.ComponenteCurricular,
+                                        CodigoEscola = e.Codigo,
+                                        NomeEscola = e.Escola
+                                    }).ToListAsync();
 
             return atribfinal;
         }

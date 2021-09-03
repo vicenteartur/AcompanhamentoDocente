@@ -2,12 +2,9 @@
 using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.Services;
 using AcompanhamentoDocente.ViewModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Controllers
@@ -75,9 +72,9 @@ namespace AcompanhamentoDocente.Controllers
         // POST: CriterioView/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id,int[] CCurricular, [Bind("Codigo,Criterio,CodigoClassificacaoCriterio,Ativa")] CriterioViewModel criteriov)
+        public async Task<IActionResult> Create(int? id, int[] CCurricular, [Bind("Codigo,Criterio,CodigoClassificacaoCriterio,Ativa")] CriterioViewModel criteriov)
         {
-            
+
             if (ModelState.IsValid)
             {
                 var lista = new List<CriterioViewModel>();
@@ -85,10 +82,10 @@ namespace AcompanhamentoDocente.Controllers
                 {
                     var litem = new CriterioViewModel()
                     {
-                       Criterio =  criteriov.Criterio,
-                       CodigoCCUrricular = item,
-                       CodigoClassificacaoCriterio = criteriov.CodigoClassificacaoCriterio,
-                       Ativa = 1
+                        Criterio = criteriov.Criterio,
+                        CodigoCCUrricular = item,
+                        CodigoClassificacaoCriterio = criteriov.CodigoClassificacaoCriterio,
+                        Ativa = 1
                     };
                     lista.Add(litem);
                 }
@@ -102,7 +99,7 @@ namespace AcompanhamentoDocente.Controllers
             ViewData["CodigoCCurricular"] = _criterio.CompCurri();
             return View(criteriov);
         }
-    
+
 
         // GET: CriterioView/Edit/5
         public async Task<ActionResult> Edit(int? id, int? criterio)
@@ -112,8 +109,8 @@ namespace AcompanhamentoDocente.Controllers
                 return NotFound();
             }
 
-            
-                var rcriterio = await _criterio.Detalhes((int)criterio);
+
+            var rcriterio = await _criterio.Detalhes((int)criterio);
 
             if (rcriterio == null)
             {
@@ -181,7 +178,7 @@ namespace AcompanhamentoDocente.Controllers
         }
 
         // GET: CriterioView/Delete/5
-        public async Task <ActionResult> Delete(int? id, int? criterio)
+        public async Task<ActionResult> Delete(int? id, int? criterio)
         {
             if (id == null)
             {

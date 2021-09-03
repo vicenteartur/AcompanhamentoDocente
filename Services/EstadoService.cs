@@ -1,16 +1,9 @@
 ﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
-using AcompanhamentoDocente.ViewModel;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using IdentityModel.Client;
-using Microsoft.Data.SqlClient;
-using EFCore.BulkExtensions;
-using Microsoft.AspNetCore.Mvc;
 
 namespace AcompanhamentoDocente.Services
 {

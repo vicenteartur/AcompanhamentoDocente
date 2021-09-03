@@ -2,12 +2,10 @@
 using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.Services;
 using AcompanhamentoDocente.ViewModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Controllers
@@ -30,16 +28,16 @@ namespace AcompanhamentoDocente.Controllers
             ViewData["admin"] = admin;
 
             return View(lista);
-            
+
         }
 
         // GET: AtribCColEscViewModelController
         public async Task<ActionResult> ListaProfessor(int? id, int? esc)
         {
-            var escola = new TbEscola(); 
-                escola = await _atribuicao.MontarEsc((int)esc);
+            var escola = new TbEscola();
+            escola = await _atribuicao.MontarEsc((int)esc);
             var admin = new TbColaborador();
-                admin = await _atribuicao.MontarAdmin((int)id);
+            admin = await _atribuicao.MontarAdmin((int)id);
             var lista = await _atribuicao.ListaProfessores((int)esc);
             ViewData["escol"] = escola;
             ViewData["admin"] = admin;
@@ -49,7 +47,7 @@ namespace AcompanhamentoDocente.Controllers
         }
 
         // GET: AtribCColEscViewModelController/Details/5
-        public async Task <ActionResult> Details(int? id, int? esc, int? atribu)
+        public async Task<ActionResult> Details(int? id, int? esc, int? atribu)
         {
             var escola = await _atribuicao.MontarEsc((int)esc);
             var admin = await _atribuicao.MontarAdmin((int)id);
@@ -68,16 +66,16 @@ namespace AcompanhamentoDocente.Controllers
             var escola = await _atribuicao.MontarEsc((int)esc);
             var admin = await _atribuicao.MontarAdmin((int)id);
             var colab = await _atribuicao.MontarAdmin((int)col);
-            var atribuicao = await _atribuicao.BuscaAtrib((int)col,(int)esc);
+            var atribuicao = await _atribuicao.BuscaAtrib((int)col, (int)esc);
             var atrib = new AtribCCColEscViewModel()
             {
-               CodigoColaborador = colab.Codigo,
+                CodigoColaborador = colab.Codigo,
                 Nome = colab.Nome,
                 Cargo = colab.CodigoCargoNavigation.Cargo,
                 CodigoAtribuicaoColaboradorEscola = atribuicao.Codigo,
                 ano = new List<SelectListItem>(),
                 CCurricular = new List<SelectListItem>()
-                
+
             };
 
 
@@ -91,7 +89,7 @@ namespace AcompanhamentoDocente.Controllers
         // POST: AtribCColEscViewModelController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(int? id, int? esc,[Bind("Codigo,CodigoAtribuicaoColaboradorEscola,CodigoModalidade,CodigoCC,CodigoAno")] AtribCCColEscViewModel atribu)
+        public async Task<ActionResult> Create(int? id, int? esc, [Bind("Codigo,CodigoAtribuicaoColaboradorEscola,CodigoModalidade,CodigoCC,CodigoAno")] AtribCCColEscViewModel atribu)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +110,7 @@ namespace AcompanhamentoDocente.Controllers
                 return View(atrib);
             }
         }
-        
+
 
         // GET: AtribCColEscViewModelController/Edit/5
         public async Task<ActionResult> Edit(int? id, int? esc, int? atribu)
@@ -135,7 +133,7 @@ namespace AcompanhamentoDocente.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int? id, int? esc, [Bind("Codigo,CodigoAtribuicaoColaboradorEscola,CodigoModalidade,CodigoCC,CodigoAno")] AtribCCColEscViewModel atribu)
         {
-            
+
 
             if (id == null)
             {
@@ -166,15 +164,15 @@ namespace AcompanhamentoDocente.Controllers
             var escola = await _atribuicao.MontarEsc((int)esc);
             var admin = await _atribuicao.MontarAdmin((int)id);
             var atrib = await _atribuicao.Detalhes((int)atribu.Codigo);
-            var ano = await _atribuicao.ListaAno(atrib.CodigoAno,atrib.CodigoModalidade);
+            var ano = await _atribuicao.ListaAno(atrib.CodigoAno, atrib.CodigoModalidade);
             atrib.ano = ano;
-            var cc = await _atribuicao.ListaCCurricular(atrib.CodigoCC,atrib.CodigoModalidade);
+            var cc = await _atribuicao.ListaCCurricular(atrib.CodigoCC, atrib.CodigoModalidade);
             atrib.CCurricular = cc;
             ViewData["escol"] = escola;
             ViewData["admin"] = admin;
             return View(atrib);
         }
-    
+
 
         // GET: AtribCColEscViewModelController/Delete/5
         public async Task<ActionResult> Delete(int? id, int? esc, int? atribu)
@@ -186,8 +184,8 @@ namespace AcompanhamentoDocente.Controllers
             detalhes.NomeAdministrador = admin.Nome;
             detalhes.CargoAdministrador = admin.CodigoCargoNavigation.Cargo;
             detalhes.CodigoAdministrador = admin.Codigo;
-            
-            
+
+
             return View(detalhes);
         }
 
@@ -213,7 +211,7 @@ namespace AcompanhamentoDocente.Controllers
         public async Task<JsonResult> ListaCC(int id)
         {
             var lista = new List<SelectListItem>();
-            lista = await _atribuicao.ListaCCurricular(0,id);
+            lista = await _atribuicao.ListaCCurricular(0, id);
 
             return new JsonResult(new { Resultado = lista });
         }
@@ -221,7 +219,7 @@ namespace AcompanhamentoDocente.Controllers
         public async Task<JsonResult> ListaAno(int id)
         {
             var lista = new List<SelectListItem>();
-            lista = await _atribuicao.ListaAno(0,id);
+            lista = await _atribuicao.ListaAno(0, id);
 
             return new JsonResult(new { Resultado = lista });
         }
@@ -243,8 +241,8 @@ namespace AcompanhamentoDocente.Controllers
                 return NotFound();
             }
 
-            return RedirectToAction("Create","AvaliacaoView", new { id = id, esc = esc, atrib=atribu });
-            
+            return RedirectToAction("Create", "AvaliacaoView", new { id = id, esc = esc, atrib = atribu });
+
         }
     }
 }

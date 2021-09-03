@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
-using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Controllers
 {
@@ -50,7 +46,7 @@ namespace AcompanhamentoDocente.Controllers
         }
 
         // GET: Modalidade/Create
-        public async Task <IActionResult> Create(int? id)
+        public async Task<IActionResult> Create(int? id)
         {
             var admin = await _modalidade.MontarAdmin((int)id);
             ViewData["admin"] = admin;

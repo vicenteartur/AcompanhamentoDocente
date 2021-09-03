@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace AcompanhamentoDocente.Controllers
 {
 
-    
+
     public class EscolaViewController : Controller
     {
         private readonly IEscolaViewModel _escolaview;
@@ -50,23 +50,23 @@ namespace AcompanhamentoDocente.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int? id, [Bind("Codigo,Escola,Rua,Bairro,CodigoCidade,Inep,Ativa")] TbEscola tbEscola)
         {
-            
+
 
             if (ModelState.IsValid)
             {
                 var inserir = new EscolaViewModel
                 {
-                    Codigo =        tbEscola.Codigo,
-                    Escola =        tbEscola.Escola,
-                    Rua =           tbEscola.Rua,
-                    Bairro =        tbEscola.Bairro,
-                    CodigoCidade =  tbEscola.CodigoCidade,
-                    INEP =          tbEscola.Inep,
-                    Ativa =         1,
+                    Codigo = tbEscola.Codigo,
+                    Escola = tbEscola.Escola,
+                    Rua = tbEscola.Rua,
+                    Bairro = tbEscola.Bairro,
+                    CodigoCidade = tbEscola.CodigoCidade,
+                    INEP = tbEscola.Inep,
+                    Ativa = 1,
                     CodigoColaborador = (int)id
                 };
                 await _escolaview.InserirEscola(inserir);
-                
+
                 return RedirectToAction("Index", new { id = id });
             }
             var escola = _escolaview.MontarEscola(0, (int)id);
@@ -74,7 +74,7 @@ namespace AcompanhamentoDocente.Controllers
             return View(escola);
         }
 
-        
+
         public async Task<IActionResult> Edit(int? id, int? col)
         {
             if (id != null && col != null)
@@ -87,7 +87,7 @@ namespace AcompanhamentoDocente.Controllers
             {
                 return NotFound();
             }
-            
+
         }
 
         // POST: Escola/Edit/5
@@ -124,13 +124,13 @@ namespace AcompanhamentoDocente.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    
+
                 }
                 return RedirectToAction("Index", new { id = tbEscola.CodigoColaborador });
             }
             var escola = await _escolaview.MontarEscola((int)id, tbEscola.CodigoColaborador);
             return View(escola);
-            
+
         }
 
         public async Task<IActionResult> Details(int? id, int? col)
@@ -179,7 +179,7 @@ namespace AcompanhamentoDocente.Controllers
         // POST: Escola/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id , int? CodigoColaborador)
+        public async Task<IActionResult> DeleteConfirmed(int? id, int? CodigoColaborador)
         {
             var apagarescola = await _escolaview.MontarEscola((int)id, (int)CodigoColaborador);
             await _escolaview.ApagarEscola(apagarescola);
@@ -189,8 +189,8 @@ namespace AcompanhamentoDocente.Controllers
 
         public async Task<JsonResult> ListaCidade(int id)
         {
-            var lista = new List<SelectListItem>();  
-            lista =  await _escolaview.ListaCidades(id,0);
+            var lista = new List<SelectListItem>();
+            lista = await _escolaview.ListaCidades(id, 0);
 
             return new JsonResult(new { Resultado = lista });
         }

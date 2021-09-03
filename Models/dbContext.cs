@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+
 
 #nullable disable
 
 namespace AcompanhamentoDocente.Models
 {
-    public partial class dbContext : DbContext
+    public partial class dbContext : IdentityDbContext
     {
         public dbContext()
         {
@@ -44,7 +44,16 @@ namespace AcompanhamentoDocente.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
+
+            //modelBuilder.Ignore<IdentityUserLogin<string>>();
+            //modelBuilder.Ignore<IdentityUserRole<string>>();
+            //modelBuilder.Ignore<IdentityUserClaim<string>>();
+            //modelBuilder.Ignore<IdentityUserToken<string>>();
+            //modelBuilder.Ignore<IdentityUser<string>>();
+            //modelBuilder.Ignore<ApplicationUser>();
 
             modelBuilder.Entity<TbAno>(entity =>
             {

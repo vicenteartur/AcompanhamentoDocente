@@ -2,7 +2,6 @@
 using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.Services;
 using AcompanhamentoDocente.ViewModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -171,7 +170,7 @@ namespace AcompanhamentoDocente.Controllers
         // POST: AvaliacaoViewController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int? id, int? esc,int? Codigo)
+        public async Task<ActionResult> DeleteConfirmed(int? id, int? esc, int? Codigo)
         {
 
             if (id == null)

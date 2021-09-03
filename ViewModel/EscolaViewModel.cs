@@ -1,13 +1,13 @@
 ﻿using AcompanhamentoDocente.Models;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AcompanhamentoDocente.ViewModel
 {
     public class EscolaViewModel
     {
-        
+
         [Key]
         public int Codigo { get; set; }
 
@@ -35,11 +35,11 @@ namespace AcompanhamentoDocente.ViewModel
         public string nomeCidade { get; set; }
         public string sigla { get; set; }
         public TbColaborador colaborador { get; set; }
-        
-        public List<SelectListItem> cidade  { get; set; }
+
+        public List<SelectListItem> cidade { get; set; }
         public List<SelectListItem> estado { get; set; }
 
-        
+
 
 
     }

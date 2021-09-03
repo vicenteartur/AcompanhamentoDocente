@@ -1,15 +1,14 @@
 ﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.ViewModel;
+using EFCore.BulkExtensions;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using IdentityModel.Client;
-using Microsoft.Data.SqlClient;
-using EFCore.BulkExtensions;
 
 namespace AcompanhamentoDocente.Services
 {
@@ -105,73 +104,73 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<List<SelectListItem>> ListaEscolas(int CodigoAdministrador, int CodigoEscola)
         {
-                
-            var escola = await(from e in db.TbEscolas
-                               join at in db.TbAtribuicaoColaboradorEscolas on e.Codigo equals at.CodigoEscola
-                               where at.CodigoColaborador == CodigoAdministrador
-                               select  e).ToListAsync<TbEscola>();
 
-                if (CodigoEscola != 0)
+            var escola = await (from e in db.TbEscolas
+                                join at in db.TbAtribuicaoColaboradorEscolas on e.Codigo equals at.CodigoEscola
+                                where at.CodigoColaborador == CodigoAdministrador
+                                select e).ToListAsync<TbEscola>();
+
+            if (CodigoEscola != 0)
+            {
+                var lista = new List<SelectListItem>();
+
+
+                try
                 {
-                    var lista = new List<SelectListItem>();
-                    
-
-                    try
+                    foreach (var item in escola)
                     {
-                        foreach (var item in escola)
+                        var option = new SelectListItem()
                         {
-                            var option = new SelectListItem()
-                            {
-                                Text = item.Escola,
-                                Value = item.Codigo.ToString(),
-                                Selected = (item.Codigo == CodigoEscola)
-                            };
+                            Text = item.Escola,
+                            Value = item.Codigo.ToString(),
+                            Selected = (item.Codigo == CodigoEscola)
+                        };
 
-                            lista.Add(option);
+                        lista.Add(option);
 
-                        }
                     }
-                    catch
-                    {
+                }
+                catch
+                {
 
-                        throw;
-                    }
-
-                    return lista;
-
+                    throw;
                 }
 
-                else
+                return lista;
+
+            }
+
+            else
+            {
+                var lista = new List<SelectListItem>();
+
+                try
                 {
-                    var lista = new List<SelectListItem>();
-                    
-                    try
+                    foreach (var item in escola)
                     {
-                        foreach (var item in escola)
+                        var option = new SelectListItem()
                         {
-                            var option = new SelectListItem()
-                            {
-                                Text = item.Escola,
-                                Value = item.Codigo.ToString(),
+                            Text = item.Escola,
+                            Value = item.Codigo.ToString(),
 
-                            };
+                        };
 
-                            lista.Add(option);
+                        lista.Add(option);
 
-                        }
                     }
-                    catch
-                    {
-
-                        throw;
-                    }
-
-                    return lista;
                 }
+                catch
+                {
+
+                    throw;
+                }
+
+                return lista;
+            }
 
         }
 
-        public async Task<ColaboradorViewModel> MontarColaborador(int CodigoAdministrador, int CodigoEscola, TbColaborador colaborador )
+        public async Task<ColaboradorViewModel> MontarColaborador(int CodigoAdministrador, int CodigoEscola, TbColaborador colaborador)
         {
             if (colaborador == null)
             {
@@ -199,12 +198,12 @@ namespace AcompanhamentoDocente.Services
                                     escola = escola
                                 }).FirstAsync();
 
-                
+
                 return await consulta;
             }
             else
             {
-                
+
                 var cargo = await ListaCargos(CodigoAdministrador, (int)colaborador.CodigoCargo);
                 var esc = await localizaescola(CodigoEscola);
                 var escola = await ListaEscolas(CodigoAdministrador, CodigoEscola);
@@ -242,9 +241,9 @@ namespace AcompanhamentoDocente.Services
             }
         }
 
-        public async Task<List<ColaboradorViewModel>> ColaboradorAtivo(int CodigoAdministrador, int CodigoEscola )
+        public async Task<List<ColaboradorViewModel>> ColaboradorAtivo(int CodigoAdministrador, int CodigoEscola)
         {
-            
+
             var admin = await (from ad in db.TbColaboradors
                                join cgad in db.TbCargos
                                on ad.CodigoCargo equals cgad.Codigo
@@ -253,36 +252,36 @@ namespace AcompanhamentoDocente.Services
 
 
             var consulta = await (from e in db.TbEscolas
-                           join at in db.TbAtribuicaoColaboradorEscolas
-                           on e.Codigo equals at.CodigoEscola
-                           join c in db.TbColaboradors
-                           on at.CodigoColaborador equals c.Codigo
-                           join cg in db.TbCargos
-                           on c.CodigoCargo equals cg.Codigo
-                           where c.Ativo != 0 && at.CodigoEscola == CodigoEscola && cg.NiveldeAcesso <= admin
-                           select new ColaboradorViewModel { Codigo = c.Codigo, Nome = c.Nome, Email = c.Email, Cargo = cg.Cargo, Ativo = c.Ativo, CodigoAdministrador = CodigoAdministrador, CodigoEscola = CodigoEscola } ).ToListAsync();
+                                  join at in db.TbAtribuicaoColaboradorEscolas
+                                  on e.Codigo equals at.CodigoEscola
+                                  join c in db.TbColaboradors
+                                  on at.CodigoColaborador equals c.Codigo
+                                  join cg in db.TbCargos
+                                  on c.CodigoCargo equals cg.Codigo
+                                  where c.Ativo != 0 && at.CodigoEscola == CodigoEscola && cg.NiveldeAcesso <= admin
+                                  select new ColaboradorViewModel { Codigo = c.Codigo, Nome = c.Nome, Email = c.Email, Cargo = cg.Cargo, Ativo = c.Ativo, CodigoAdministrador = CodigoAdministrador, CodigoEscola = CodigoEscola }).ToListAsync();
 
             return consulta;
         }
 
         public async Task<List<TbColaborador>> ColaboradorInativo(int CodigoAdministrador, int CodigoEscola)
         {
-            var admin = await(from ad in db.TbColaboradors
-                              join cgad in db.TbCargos
-                              on ad.CodigoCargo equals cgad.Codigo
-                              where ad.Codigo == CodigoAdministrador
-                              select cgad.NiveldeAcesso).FirstAsync();
+            var admin = await (from ad in db.TbColaboradors
+                               join cgad in db.TbCargos
+                               on ad.CodigoCargo equals cgad.Codigo
+                               where ad.Codigo == CodigoAdministrador
+                               select cgad.NiveldeAcesso).FirstAsync();
 
 
-            var consulta = await(from e in db.TbEscolas
-                                 join at in db.TbAtribuicaoColaboradorEscolas
-                                 on e.Codigo equals at.CodigoEscola
-                                 join c in db.TbColaboradors
-                                 on at.CodigoColaborador equals c.Codigo
-                                 join cg in db.TbCargos
-                                 on c.CodigoCargo equals cg.Codigo
-                                 where c.Ativo != 1 && at.CodigoEscola == CodigoEscola && cg.NiveldeAcesso <= admin
-                                 select c).ToListAsync<TbColaborador>();
+            var consulta = await (from e in db.TbEscolas
+                                  join at in db.TbAtribuicaoColaboradorEscolas
+                                  on e.Codigo equals at.CodigoEscola
+                                  join c in db.TbColaboradors
+                                  on at.CodigoColaborador equals c.Codigo
+                                  join cg in db.TbCargos
+                                  on c.CodigoCargo equals cg.Codigo
+                                  where c.Ativo != 1 && at.CodigoEscola == CodigoEscola && cg.NiveldeAcesso <= admin
+                                  select c).ToListAsync<TbColaborador>();
 
             return consulta;
         }
@@ -290,7 +289,7 @@ namespace AcompanhamentoDocente.Services
         public async Task<List<ColaboradorViewModel>> EstenderJornada(int CodigoAdministrador, int CodigoEscola, string email)
         {
 
-            string pemail = new ( "%" + email + "%" );
+            string pemail = new("%" + email + "%");
 
             var admin = await (from ad in db.TbColaboradors
                                join cgad in db.TbCargos
@@ -365,9 +364,9 @@ namespace AcompanhamentoDocente.Services
 
             else
             {
-                
+
             }
-        }          
+        }
 
         public async Task AtualizarColaborador(ColaboradorViewModel colaborador)
         {
@@ -385,12 +384,12 @@ namespace AcompanhamentoDocente.Services
             db.TbColaboradors.Update(col);
             await db.SaveChangesAsync();
         }
-        
+
         public async Task RemoverColaborador(ColaboradorViewModel colaborador)
         {
 
             var codigo = new SqlParameter("@CodigoColaborador", colaborador.Codigo);
-            
+
 
             db.Database.ExecuteSqlRaw("exec spApagaAtribuicaoColaboradorEscola @CodigoColaborador", codigo);
 
@@ -401,8 +400,8 @@ namespace AcompanhamentoDocente.Services
             //                           where at.CodigoColaborador == colaborador.Codigo
             //                           select at).AsNoTracking().ToListAsync();
 
-            
-                
+
+
 
 
             //    foreach (var item in removeratibuicao)
@@ -438,7 +437,7 @@ namespace AcompanhamentoDocente.Services
             //}
 
         }
-        
+
         public async Task AtivarColaborador(ColaboradorViewModel colaborador)
         {
             var col = new TbColaborador()
@@ -453,24 +452,24 @@ namespace AcompanhamentoDocente.Services
             db.TbColaboradors.Update(col);
             await db.SaveChangesAsync();
         }
-        
+
         public async Task AtribuirColaboradorEstendido(int Colaborador, int Escola)
         {
 
-            
+
             var atribuicao = new TbAtribuicaoColaboradorEscola()
-               {
-                   CodigoColaborador = Colaborador,
-                   CodigoEscola = Escola,
-                   Ativa = 1
-               };
+            {
+                CodigoColaborador = Colaborador,
+                CodigoEscola = Escola,
+                Ativa = 1
+            };
 
 
             await db.TbAtribuicaoColaboradorEscolas.AddAsync(atribuicao);
             await db.SaveChangesAsync();
 
         }
-        
+
         public async Task InativarColaborador(ColaboradorViewModel colaborador)
         {
             var col = new TbColaborador()

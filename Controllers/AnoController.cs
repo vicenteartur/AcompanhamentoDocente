@@ -30,7 +30,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var admin = await _ano.MontarAdmin((int)id);
             ViewData["admin"] = admin;
-            
+
             var tbAno = await _ano.Details(Codigo);
             if (tbAno == null)
             {
@@ -54,15 +54,15 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id,[Bind("Codigo,Ano,Turma,CodigoModalidade,Periodo")] TbAno tbAno)
+        public async Task<IActionResult> Create(int id, [Bind("Codigo,Ano,Turma,CodigoModalidade,Periodo")] TbAno tbAno)
         {
             var admin = await _ano.MontarAdmin((int)id);
             ViewData["admin"] = admin;
             if (ModelState.IsValid)
             {
                 _ano.Create(tbAno);
-                
-                return RedirectToAction("Index", new { id = id});
+
+                return RedirectToAction("Index", new { id = id });
             }
             return View(tbAno);
         }
@@ -93,14 +93,14 @@ namespace AcompanhamentoDocente.Controllers
             var admin = await _ano.MontarAdmin((int)id);
             ViewData["admin"] = admin;
 
-            
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     _ano.Edit(id, tbAno);
-                    
+
                 }
                 catch (Exception)
                 {
@@ -123,7 +123,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var admin = await _ano.MontarAdmin((int)id);
             ViewData["admin"] = admin;
-            
+
             var tbAno = await _ano.Details(Codigo);
             if (tbAno == null)
             {
@@ -143,6 +143,6 @@ namespace AcompanhamentoDocente.Controllers
             return RedirectToAction("Index", new { id = id });
         }
 
-        
+
     }
 }

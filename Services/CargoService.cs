@@ -1,14 +1,13 @@
 ﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Services
 {
-    public class CargoService:ICargo
+    public class CargoService : ICargo
     {
         private dbContext db = new dbContext();
 

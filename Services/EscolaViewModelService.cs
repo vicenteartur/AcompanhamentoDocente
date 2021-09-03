@@ -1,13 +1,13 @@
 ﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.ViewModel;
+using EFCore.BulkExtensions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using EFCore.BulkExtensions;
 
 namespace AcompanhamentoDocente.Services
 {
@@ -46,8 +46,8 @@ namespace AcompanhamentoDocente.Services
 
                 return lista;
 
-            } 
-            
+            }
+
             else
             {
                 var lista = new List<SelectListItem>();
@@ -71,17 +71,17 @@ namespace AcompanhamentoDocente.Services
                 catch
                 {
 
-                   throw;
+                    throw;
                 }
 
                 return lista;
             }
-            
+
         }
 
         public async Task<List<SelectListItem>> ListaCidades(int CodigoEstado, int CodigoCidade)
         {
-            if (CodigoEstado!= 0)
+            if (CodigoEstado != 0)
             {
                 var lista = new List<SelectListItem>();
                 var cidades = await (from c in db.TbCidades where c.CodigoEstado == CodigoEstado select c).ToListAsync<TbCidade>();
@@ -101,7 +101,7 @@ namespace AcompanhamentoDocente.Services
 
                     }
                 }
-                catch 
+                catch
                 {
 
                     throw;
@@ -115,46 +115,57 @@ namespace AcompanhamentoDocente.Services
                 return lista;
             }
         }
-        
+
         public async Task<EscolaViewModel> MontarEscola(int CodigoEscola, int CodigoColaborador)
         {
             if (CodigoEscola != 0)
             {
                 var consulta = await (from e in db.TbEscolas
-                                join c in db.TbCidades
-                                on e.CodigoCidade equals c.Codigo
-                                join st in db.TbEstados
-                                on c.CodigoEstado equals st.Codigo
-                                where e.Codigo == CodigoEscola
-                                select new { Codigo = e.Codigo, Escola = e.Escola, Rua = e.Rua, Bairro = e.Bairro, INEP = e.Inep, 
-                                Ativa = e.Ativa, CodigoCidade = e.CodigoCidade, CodigoEstado = c.CodigoEstado, nomeCidade = c.Cidade, sigla = st.Sigla }).FirstAsync();
+                                      join c in db.TbCidades
+                                      on e.CodigoCidade equals c.Codigo
+                                      join st in db.TbEstados
+                                      on c.CodigoEstado equals st.Codigo
+                                      where e.Codigo == CodigoEscola
+                                      select new
+                                      {
+                                          Codigo = e.Codigo,
+                                          Escola = e.Escola,
+                                          Rua = e.Rua,
+                                          Bairro = e.Bairro,
+                                          INEP = e.Inep,
+                                          Ativa = e.Ativa,
+                                          CodigoCidade = e.CodigoCidade,
+                                          CodigoEstado = c.CodigoEstado,
+                                          nomeCidade = c.Cidade,
+                                          sigla = st.Sigla
+                                      }).FirstAsync();
                 var colaborador = await db.TbColaboradors.Where(t => t.Codigo == CodigoColaborador).FirstAsync();
                 var escola = new EscolaViewModel();
 
-                escola.Codigo =             consulta.Codigo;
-                escola.Escola =             consulta.Escola;
-                escola.Rua =                consulta.Rua;
-                escola.Bairro =             consulta.Bairro;
-                escola.INEP =               consulta.INEP;
-                escola.CodigoCidade =       consulta.CodigoCidade;
-                escola.cidade =             await ListaCidades(consulta.CodigoEstado, consulta.CodigoCidade);
-                escola.estado =             await ListaEstados (consulta.CodigoEstado);
-                escola.Ativa =              consulta.Ativa;
-                escola.CodigoColaborador =  CodigoColaborador;
-                escola.colaborador       =  colaborador;
-                escola.nomeCidade =         consulta.nomeCidade;
-                escola.sigla =              consulta.sigla;
-                
-                                
+                escola.Codigo = consulta.Codigo;
+                escola.Escola = consulta.Escola;
+                escola.Rua = consulta.Rua;
+                escola.Bairro = consulta.Bairro;
+                escola.INEP = consulta.INEP;
+                escola.CodigoCidade = consulta.CodigoCidade;
+                escola.cidade = await ListaCidades(consulta.CodigoEstado, consulta.CodigoCidade);
+                escola.estado = await ListaEstados(consulta.CodigoEstado);
+                escola.Ativa = consulta.Ativa;
+                escola.CodigoColaborador = CodigoColaborador;
+                escola.colaborador = colaborador;
+                escola.nomeCidade = consulta.nomeCidade;
+                escola.sigla = consulta.sigla;
+
+
                 return escola;
             }
             else
             {
                 var colaborador = await db.TbColaboradors.Where(t => t.Codigo == CodigoColaborador).FirstAsync();
-                
+
                 var escola = new EscolaViewModel();
                 escola.estado = await ListaEstados(0);
-                escola.cidade = await ListaCidades(0,0);
+                escola.cidade = await ListaCidades(0, 0);
                 escola.CodigoColaborador = CodigoColaborador;
                 escola.colaborador = colaborador;
                 return escola;
@@ -182,17 +193,17 @@ namespace AcompanhamentoDocente.Services
                                      where cg.NiveldeAcesso >= 4
                                      select c).ToListAsync();
 
-                foreach (var item in codigoadmin)
+            foreach (var item in codigoadmin)
+            {
+                var atnovoadmin = new TbAtribuicaoColaboradorEscola();
                 {
-                    var atnovoadmin = new TbAtribuicaoColaboradorEscola();
-                    {
-                        atnovoadmin.CodigoColaborador = item.Codigo;
-                        atnovoadmin.CodigoEscola = inserir.Codigo;
-                        atnovoadmin.Ativa = 1;
-                    }
+                    atnovoadmin.CodigoColaborador = item.Codigo;
+                    atnovoadmin.CodigoEscola = inserir.Codigo;
+                    atnovoadmin.Ativa = 1;
+                }
 
                 await db.TbAtribuicaoColaboradorEscolas.AddAsync(atnovoadmin);
-                }
+            }
 
             await db.SaveChangesAsync();
 
@@ -215,21 +226,34 @@ namespace AcompanhamentoDocente.Services
         public async Task<List<EscolaViewModel>> ListaEscolasAtivas(int CodigoColaborador)
         {
             var consulta = await (from e in db.TbEscolas
-                            join c in db.TbCidades on e.CodigoCidade equals c.Codigo
-                            join st in db.TbEstados on c.CodigoEstado equals st.Codigo
-                            join atcoles in db.TbAtribuicaoColaboradorEscolas on e.Codigo equals atcoles.CodigoEscola
-                            join col in db.TbColaboradors on atcoles.CodigoColaborador equals col.Codigo
-                            orderby e.Escola
-                            where atcoles.Ativa != 0 && col.Ativo != 0 && col.Codigo == CodigoColaborador
-                            select new { Codigo = e.Codigo, Escola = e.Escola, INEP = e.Inep, nomeCidade = c.Cidade, 
-                                        sigla = st.Sigla, CodigoColaborador = col.Codigo }).ToListAsync();
-            
+                                  join c in db.TbCidades on e.CodigoCidade equals c.Codigo
+                                  join st in db.TbEstados on c.CodigoEstado equals st.Codigo
+                                  join atcoles in db.TbAtribuicaoColaboradorEscolas on e.Codigo equals atcoles.CodigoEscola
+                                  join col in db.TbColaboradors on atcoles.CodigoColaborador equals col.Codigo
+                                  orderby e.Escola
+                                  where atcoles.Ativa != 0 && col.Ativo != 0 && col.Codigo == CodigoColaborador
+                                  select new
+                                  {
+                                      Codigo = e.Codigo,
+                                      Escola = e.Escola,
+                                      INEP = e.Inep,
+                                      nomeCidade = c.Cidade,
+                                      sigla = st.Sigla,
+                                      CodigoColaborador = col.Codigo
+                                  }).ToListAsync();
+
             var listescolas = new List<EscolaViewModel>();
 
             foreach (var item in consulta)
             {
-                listescolas.Add(new EscolaViewModel { Codigo = item.Codigo, Escola = item.Escola, 
-                    nomeCidade = item.nomeCidade, sigla = item.sigla, INEP = item.INEP });
+                listescolas.Add(new EscolaViewModel
+                {
+                    Codigo = item.Codigo,
+                    Escola = item.Escola,
+                    nomeCidade = item.nomeCidade,
+                    sigla = item.sigla,
+                    INEP = item.INEP
+                });
             }
 
             return listescolas;
@@ -285,49 +309,50 @@ namespace AcompanhamentoDocente.Services
             db.TbEscolas.Update(atualizar);
             await db.SaveChangesAsync();
         }
-    
+
 
         public async Task ApagarEscola(EscolaViewModel Escola)
         {
-            
-            
+
+
 
             var removerartibuicao = new List<TbAtribuicaoColaboradorEscola>();
-            removerartibuicao = await (from at in db.TbAtribuicaoColaboradorEscolas where at.CodigoEscola == Escola.Codigo 
-                                     select at ).AsNoTracking().ToListAsync();
+            removerartibuicao = await (from at in db.TbAtribuicaoColaboradorEscolas
+                                       where at.CodigoEscola == Escola.Codigo
+                                       select at).AsNoTracking().ToListAsync();
 
             var bulkremocao = new List<TbAtribuicaoColaboradorEscola>();
 
             foreach (var item in removerartibuicao)
+            {
+                var apagaratribuicao = new TbAtribuicaoColaboradorEscola();
                 {
-                    var apagaratribuicao = new TbAtribuicaoColaboradorEscola();
-                    {
                     dbContext db = new dbContext();
-                        apagaratribuicao.Codigo =               item.Codigo;
-                        apagaratribuicao.CodigoColaborador =    item.CodigoColaborador;
-                        apagaratribuicao.CodigoEscola =         item.CodigoEscola;
-                        apagaratribuicao.Ativa =                item.Ativa;
-                    }
+                    apagaratribuicao.Codigo = item.Codigo;
+                    apagaratribuicao.CodigoColaborador = item.CodigoColaborador;
+                    apagaratribuicao.CodigoEscola = item.CodigoEscola;
+                    apagaratribuicao.Ativa = item.Ativa;
+                }
 
                 bulkremocao.Add(apagaratribuicao);
-                    //db.TbAtribuicaoColaboradorEscolas.Remove(apagaratribuicao);
-                    //await db.SaveChangesAsync();
+                //db.TbAtribuicaoColaboradorEscolas.Remove(apagaratribuicao);
+                //await db.SaveChangesAsync();
             }
 
             await db.BulkDeleteAsync<TbAtribuicaoColaboradorEscola>(bulkremocao);
 
-                var remover = new TbEscola();
-                remover.Codigo = Escola.Codigo;
-                remover.Escola = Escola.Escola;
-                remover.Rua = Escola.Rua;
-                remover.Bairro = Escola.Bairro;
-                remover.CodigoCidade = Escola.CodigoCidade;
-                remover.Inep = Escola.INEP;
-                remover.Ativa = 0;
+            var remover = new TbEscola();
+            remover.Codigo = Escola.Codigo;
+            remover.Escola = Escola.Escola;
+            remover.Rua = Escola.Rua;
+            remover.Bairro = Escola.Bairro;
+            remover.CodigoCidade = Escola.CodigoCidade;
+            remover.Inep = Escola.INEP;
+            remover.Ativa = 0;
 
-                db.TbEscolas.Remove(remover);
+            db.TbEscolas.Remove(remover);
 
-                await db.SaveChangesAsync();
+            await db.SaveChangesAsync();
 
 
         }

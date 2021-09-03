@@ -1,16 +1,10 @@
 ﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
-using AcompanhamentoDocente.ViewModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using IdentityModel.Client;
-using Microsoft.Data.SqlClient;
-using EFCore.BulkExtensions;
-using Microsoft.AspNetCore.Mvc;
 
 namespace AcompanhamentoDocente.Services
 {
@@ -33,7 +27,7 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<TbComponenteCurricular> Detalhes(int id)
         {
-            var tbccurr = await db.TbComponenteCurriculars.Include(c=>c.CodigoModalidadeNavigation).Where(e => e.Codigo == id).FirstAsync();
+            var tbccurr = await db.TbComponenteCurriculars.Include(c => c.CodigoModalidadeNavigation).Where(e => e.Codigo == id).FirstAsync();
             return tbccurr;
         }
 
@@ -45,7 +39,7 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<List<TbComponenteCurricular>> ListaComponente()
         {
-            return await db.TbComponenteCurriculars.Include(c=> c.CodigoModalidadeNavigation).OrderBy(c => c.ComponenteCurricular).ToListAsync();
+            return await db.TbComponenteCurriculars.Include(c => c.CodigoModalidadeNavigation).OrderBy(c => c.ComponenteCurricular).ToListAsync();
         }
 
         public async Task<TbColaborador> MontarAdmin(int id)

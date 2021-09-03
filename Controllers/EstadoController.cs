@@ -16,14 +16,14 @@ namespace AcompanhamentoDocente.Controllers
             _estado = new EstadoService();
         }
 
-        
+
         // GET: Estado
         public async Task<IActionResult> Index(int? id)
         {
             var admin = await _estado.MontarAdmin((int)id);
-            
+
             ViewData["admin"] = admin;
-            
+
             return View(await _estado.ListaEstado());
         }
 
@@ -114,7 +114,7 @@ namespace AcompanhamentoDocente.Controllers
                 try
                 {
                     await _estado.Atualizar(tbEstado);
-                    
+
                 }
                 catch (Exception)
                 {
@@ -143,7 +143,7 @@ namespace AcompanhamentoDocente.Controllers
                 return NotFound();
             }
 
-            var tbEstado = await _estado.Detalhes((int) estado);
+            var tbEstado = await _estado.Detalhes((int)estado);
             if (tbEstado == null)
             {
                 return NotFound();
@@ -163,5 +163,5 @@ namespace AcompanhamentoDocente.Controllers
             return RedirectToAction("Index", new { id = id });
         }
 
-      }
+    }
 }

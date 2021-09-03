@@ -2,14 +2,13 @@
 using AcompanhamentoDocente.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Services
 {
-    public class CriterioAvaliacaoService :ICriterioAvaliacao
+    public class CriterioAvaliacaoService : ICriterioAvaliacao
     {
         private dbContext db = new dbContext();
 
@@ -28,7 +27,7 @@ namespace AcompanhamentoDocente.Services
 
         public SelectList ClassificacaoUp(int classificacao)
         {
-            var lista = new SelectList(db.TbClassificacaoCriterios, "Codigo", "Classificacao",classificacao);
+            var lista = new SelectList(db.TbClassificacaoCriterios, "Codigo", "Classificacao", classificacao);
 
             return lista;
         }

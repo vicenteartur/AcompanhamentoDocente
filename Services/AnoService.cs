@@ -1,16 +1,10 @@
 ﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
-using AcompanhamentoDocente.ViewModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using IdentityModel.Client;
-using Microsoft.Data.SqlClient;
-using EFCore.BulkExtensions;
-using Microsoft.AspNetCore.Mvc;
 
 namespace AcompanhamentoDocente.Services
 {
@@ -29,12 +23,12 @@ namespace AcompanhamentoDocente.Services
         public async void Delete(TbAno ano)
         {
             db.TbAnos.Remove(ano);
-           await db.SaveChangesAsync();
+            await db.SaveChangesAsync();
         }
 
         public async Task<TbAno> Details(int? id)
         {
-            var tbAno = await db.TbAnos.Include(a=>a.CodigoModalidadeNavigation)
+            var tbAno = await db.TbAnos.Include(a => a.CodigoModalidadeNavigation)
                 .FirstOrDefaultAsync(m => m.Codigo == id);
 
 
@@ -46,10 +40,10 @@ namespace AcompanhamentoDocente.Services
             db.TbAnos.Update(tbAno);
             await db.SaveChangesAsync();
         }
-        
+
         public async Task<List<TbAno>> Index()
         {
-            return await db.TbAnos.Include(a=> a.CodigoModalidadeNavigation).OrderBy(c=>c.Ano).ToListAsync();
+            return await db.TbAnos.Include(a => a.CodigoModalidadeNavigation).OrderBy(c => c.Ano).ToListAsync();
         }
 
         public bool TbAnoExists(int id)

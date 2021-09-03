@@ -1,7 +1,5 @@
 ﻿using AcompanhamentoDocente.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Interface
@@ -16,6 +14,6 @@ namespace AcompanhamentoDocente.Interface
 
         Task<TbColaborador> MontarAdmin(int id);
         bool TbEstadoExists(int id);
-        
+
     }
 }

@@ -12,6 +12,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
+//sidenav build
+document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('.sidenav');
+    var options = {};
+    var instances = M.Sidenav.init(elems, options);
+});
+
+
 // faz o build do Modal
 
     var elem = document.querySelector('.modal');
@@ -19,6 +27,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var instance = new M.Modal(elem, options);
 
 
+    
+
+/*
 //inicia a paginal parcial inserir estado dentro de uma modal
     $(document).ready(function () {
 
@@ -33,5 +44,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 //atualiza select cidade em funcao do estado
-
+*/
 

@@ -1,20 +1,16 @@
 ﻿using AcompanhamentoDocente.Interface;
-using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.Services;
 using AcompanhamentoDocente.ViewModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Controllers
 {
     public class ColaboradorViewController : Controller
 
-        {
+    {
 
         private readonly IColaboradorViewModel _colabview;
 
@@ -38,9 +34,9 @@ namespace AcompanhamentoDocente.Controllers
         public async Task<ActionResult> Details(int id, int esc, int col)
         {
             var colaborador = await _colabview.localizaColaborador(col);
-            
 
-            return View( await _colabview.MontarColaborador(id,esc,colaborador));
+
+            return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
 
         // GET: ColaboradorViewController/Create
@@ -71,7 +67,7 @@ namespace AcompanhamentoDocente.Controllers
                 }
                 return RedirectToAction("Index", new { id = id, esc });
             }
-            
+
             var colab = await _colabview.MontarColaborador((int)id, esc, null);
             return View(colaborador);
         }
@@ -98,12 +94,12 @@ namespace AcompanhamentoDocente.Controllers
 
             if (ModelState.IsValid)
             {
-                
+
                 try
                 {
                     await _colabview.AtualizarColaborador(colaborador);
                     return RedirectToAction("Index", new { id = id, esc });
-                    
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -148,29 +144,29 @@ namespace AcompanhamentoDocente.Controllers
         public async Task<IActionResult> ListaColab(int id, int esc, string email)
         {
             var model = new List<ColaboradorViewModel>();
-            
+
             if (email != null)
-            
+
             {
-                
+
                 model = await _colabview.EstenderJornada(id, esc, email);
             }
-            
+
             ViewData["id"] = id;
             ViewData["esc"] = esc;
             return View(model);
         }
 
-        public async Task<IActionResult> EstendeAtribuicao(int id, int esc,int col)
+        public async Task<IActionResult> EstendeAtribuicao(int id, int esc, int col)
         {
-            
 
-            
+
+
             await _colabview.AtribuirColaboradorEstendido(col, esc);
 
 
 
-            return RedirectToAction("Index", new { id = id, esc = esc});
+            return RedirectToAction("Index", new { id = id, esc = esc });
         }
     }
 }

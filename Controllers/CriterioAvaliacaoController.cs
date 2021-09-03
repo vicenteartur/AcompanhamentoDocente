@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AcompanhamentoDocente.Interface;
+﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Controllers
 {
@@ -31,7 +27,7 @@ namespace AcompanhamentoDocente.Controllers
         }
 
         // GET: CriterioAvaliacao/Details/5
-        public async Task<IActionResult> Details(int? id, int?criterio)
+        public async Task<IActionResult> Details(int? id, int? criterio)
         {
             var admin = await _criterio.MontarAdmin((int)id);
             ViewData["admin"] = admin;
@@ -64,7 +60,7 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id,[Bind("Codigo,Criterio,CodigoClassificacaoCriterio,Ativa")] TbCriterioAvaliacao tbCriterioAvaliacao)
+        public async Task<IActionResult> Create(int? id, [Bind("Codigo,Criterio,CodigoClassificacaoCriterio,Ativa")] TbCriterioAvaliacao tbCriterioAvaliacao)
         {
             var admin = await _criterio.MontarAdmin((int)id);
             ViewData["admin"] = admin;
@@ -97,7 +93,7 @@ namespace AcompanhamentoDocente.Controllers
             var admin = await _criterio.MontarAdmin((int)id);
             ViewData["admin"] = admin;
             ViewData["CodigoClassificacaoCriterio"] = _criterio.ClassificacaoUp(tbCriterioAvaliacao.CodigoClassificacaoCriterio);
-            
+
             return View(tbCriterioAvaliacao);
         }
 
@@ -121,7 +117,7 @@ namespace AcompanhamentoDocente.Controllers
                 try
                 {
                     await _criterio.Atualizar(tbCriterioAvaliacao);
-                    
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
