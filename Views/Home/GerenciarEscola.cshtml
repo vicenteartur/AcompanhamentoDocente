@@ -1,0 +1,8 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<p><a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.colaborador.Codigo, esc = ViewBag.escola.Codigo })' class="btn btn-primary">Administrar Colaborador</a></p>
+<p><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.colaborador.Codigo, esc = ViewBag.escola.Codigo })' class="btn btn-primary">Administrar Atribuições</a></p>

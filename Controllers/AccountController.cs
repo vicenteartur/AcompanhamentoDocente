@@ -1,6 +1,9 @@
-﻿using AcompanhamentoDocente.ViewModel;
+﻿using AcompanhamentoDocente.Models;
+using AcompanhamentoDocente.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +15,21 @@ namespace AcompanhamentoDocente.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        private readonly dbContext db = new dbContext();
+
         public AccountController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -49,6 +56,44 @@ namespace AcompanhamentoDocente.Controllers
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
+            }
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("index", "home");
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await signInManager.PasswordSignInAsync(
+                    model.Email, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    var colaborador = await (from c in db.TbColaboradors
+                                                     join cg in db.TbCargos on c.CodigoCargo equals cg.Codigo 
+                                                     where c.Email == model.Email && c.Ativo == 1
+                                                     select new {c.Codigo}).FirstAsync();
+    
+                    return RedirectToAction("DashBoard", "Home",new { id = colaborador.Codigo });
+                   
+                }
+                ModelState.AddModelError(string.Empty, "Login Inválido");
             }
             return View(model);
         }

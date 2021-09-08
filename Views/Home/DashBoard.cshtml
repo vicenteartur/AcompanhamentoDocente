@@ -1,0 +1,68 @@
+﻿@model  IEnumerable<AcompanhamentoDocente.ViewModel.EscolaViewModel>
+
+    @{
+    }
+
+
+
+    @if (ViewBag.colaborador.CodigoCargoNavigation.NiveldeAcesso >= 4)
+
+    {
+        
+        <p><a href='@Url.Action("Index", "Estado", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Estados</a></p>
+        <p><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Cidades</a></p>
+        <p><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Escolas</a></p>
+        <p><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Cargos</a></p>
+        <p><a href='@Url.Action("Index", "Modalidades", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Modalidades</a></p>
+        <p><a href='@Url.Action("Index", "Ano", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Anos</a></p>
+        <p><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Componente Curricular</a></p>
+        
+    }
+
+    @if (ViewBag.colaborador.CodigoCargoNavigation.NiveldeAcesso > 0)
+
+    {
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Escola)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.INEP)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.nomeCidade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sigla)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Escola)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.INEP)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.nomeCidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sigla)
+            </td>
+            <td>
+                <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.colaborador.Codigo, esc = item.Codigo })' class="btn btn-primary">Acessar</a>
+            </td>
+        </tr>
+    }
+
+</table>
+    }

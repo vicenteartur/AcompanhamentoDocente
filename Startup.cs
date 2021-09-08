@@ -1,9 +1,11 @@
 using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +37,19 @@ namespace AcompanhamentoDocente
             services.AddScoped<IClassificacaoCriterio, ClassificacaoCriterioService>();
             services.AddScoped<ICriterioViewModel, CriterioViewService>();
             services.AddScoped<IAvaliacaoViewModel, AvaliacaoViewModelService>();
-            services.AddControllers();
+            services.AddControllers(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                       .RequireAuthenticatedUser()
+                       .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 1;
+                options.Password.RequireNonAlphanumeric = true;
+            });
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddDbContext<dbContext>(options =>

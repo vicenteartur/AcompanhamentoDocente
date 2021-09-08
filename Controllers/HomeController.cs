@@ -1,23 +1,50 @@
 ﻿using AcompanhamentoDocente.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using AcompanhamentoDocente.Interface;
+using AcompanhamentoDocente.Services;
 
 namespace AcompanhamentoDocente.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        
+        private readonly IHome _acesso;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
+            
+            _acesso = new HomeService();
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
+
+        public async Task<IActionResult> DashBoard(int id)
+        {
+            var col = await _acesso.MontarAdmin(id);
+            ViewData["colaborador"] = col;
+            var lista = await _acesso.ListaEscolasAtivas(id);
+            return View(lista);
+        }
+
+        public async Task<IActionResult> GerenciarEscola(int id)
+        {
+            var col = await _acesso.MontarAdmin(id);
+            ViewData["colaborador"] = col;
+            var esc = await _acesso.MontarAdmin(id);
+            ViewData["escola"] = esc;
+            return View();
+        }
+
 
         public IActionResult Privacy()
         {
@@ -29,5 +56,11 @@ namespace AcompanhamentoDocente.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //public IActionResult Colaborador (int? id)
+        //{
+        //    return RedirectToAction("Index", "Colaborador", new { id = id }); ;
+        //}
+
     }
 }
