@@ -65,7 +65,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.CodigoEstado, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.CodigoEstado, Model.estado, "--Selecione" , new { @id = "CodigoEstado", @class = "form-control" })
+            @Html.DropDownListFor(model => model.CodigoEstado, Model.estado, "--Selecione" , new { @id = "CodigoEstado", @class = "browser-default" })
 
         </div>
     </div>
@@ -73,7 +73,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.CodigoCidade, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.CodigoCidade, Model.cidade, "--Selecione", new { @id = "CodigoCidade", @class = "form-control" })
+            @Html.DropDownListFor(model => model.CodigoCidade, Model.cidade, "--Selecione", new { @id = "CodigoCidade", @class = "browser-default" })
 
         </div>
     </div>
@@ -94,5 +94,4 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 <script type="text/javascript" src="~/Scripts/SelecionaCidade.js"></script>

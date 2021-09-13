@@ -7,7 +7,7 @@
 <script src="~/js/site.js"></script>
 <script src="~/lib/Jquery3/jquery-3.4.1.js"></script>
 <script src="~/lib/Jquery3/jquery-3.4.1.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
 
 
 <h1>Edit</h1>
@@ -120,7 +120,7 @@
             var id = $(this).data("value");
 
             $("#teste").load("/AvaliacaoView/AtualizaCriAv/" + id, function () {
-                $('#myModal').modal("show");
+                $('#myModal').modal().modal('open');
             });
         });
     });

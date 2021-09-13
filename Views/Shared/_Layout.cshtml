@@ -6,58 +6,86 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - bootstrap</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>Acompanhamento Docente</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="~/lib/materialize/css/materialize.css" media="screen,projection" />
+    
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">bootstrap</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#!" class="">Acompanhamento Docente</a>
+                
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    @*Se o usuário esta logado exibir o link de logout*@
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+
+                        
+                        <li>
+                            <form method="post" asp-controller="account" asp-action="logout">
+                                <button type="submit" style="width:auto"
+                                        class="waves-effect waves-light btn">
+                                    Logout @User.Identity.Name
+                                </button>
+                            </form>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="account" asp-action="register">
+                                Registrar
+                            </a>
                         </li>
-                    </ul>
-                    <ul class="navbar-nav ml-auto">
-                        @*Se o usuário esta logado exibir o link de logout*@
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item">
-                                <form method="post" asp-controller="account" asp-action="logout">
-                                    <button type="submit" style="width:auto"
-                                            class="nav-link btn btn-link py-0">
-                                        Logout @User.Identity.Name
-                                    </button>
-                                </form>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="account" asp-action="register">
-                                    Registrar
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="account" asp-action="login">
-                                    Login
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
+                        <li>
+                            <a asp-controller="account" asp-action="login">
+                                Login
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         </nav>
+
+        <ul class="sidenav" id="mobile-demo">
+            @*Se o usuário esta logado exibir o link de logout*@
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <li>
+                    <form method="post" asp-controller="account" asp-action="logout">
+                        <button type="submit" style="width:auto"
+                                class="waves-effect waves-light btn">
+                            Logout @User.Identity.Name
+                        </button>
+                    </form>
+                </li>
+               
+                
+               
+            }
+            else
+            {
+                <li>
+                    <a asp-controller="account" asp-action="register">
+                        Registrar
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="account" asp-action="login">
+                        Login
+                    </a>
+                </li>
+            }
+        </ul>
+        
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -71,12 +99,23 @@
         </div>
     </footer>
 
-    <script src="~/lib/Jquery3/jquery-3.4.1.js"></script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="~/lib/materialize/js/materialize.js"></script>
+    
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+        });
+
+
+
+    </script>
+
+
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

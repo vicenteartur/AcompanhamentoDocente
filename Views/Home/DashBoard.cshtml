@@ -1,68 +1,68 @@
-﻿@model  IEnumerable<AcompanhamentoDocente.ViewModel.EscolaViewModel>
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.EscolaViewModel>
 
-    @{
-    }
+@{
+}
 
 
 
-    @if (ViewBag.colaborador.CodigoCargoNavigation.NiveldeAcesso >= 4)
+@if (ViewBag.colaborador.CodigoCargoNavigation.NiveldeAcesso >= 4)
 
-    {
-        
-        <p><a href='@Url.Action("Index", "Estado", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Estados</a></p>
-        <p><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Cidades</a></p>
-        <p><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Escolas</a></p>
-        <p><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Cargos</a></p>
-        <p><a href='@Url.Action("Index", "Modalidades", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Modalidades</a></p>
-        <p><a href='@Url.Action("Index", "Ano", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Administrar Anos</a></p>
-        <p><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.colaborador.Codigo })' class="btn btn-primary">Componente Curricular</a></p>
-        
-    }
+{
 
-    @if (ViewBag.colaborador.CodigoCargoNavigation.NiveldeAcesso > 0)
+    <li><a href='@Url.Action("Index", "Estado", new { id = ViewBag.colaborador.Codigo })' class="waves-effect waves-light btn">Estados</a></li>
+    <li><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.colaborador.Codigo })' class="waves-effect waves-light btn">Cidades</a></li>
+    <li><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.colaborador.Codigo })' class="waves-effect waves-light btn">Escolas</a></li>
+    <li><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.colaborador })' class="waves-effect waves-light btn">Cargos</a></li>
+    <li><a href='@Url.Action("Index", "Modalidades", new { id = ViewBag.colaborador.Codigo })' class="waves-effect waves-light btn">Modalidades</a></li>
+    <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.colaborador.Codigo })' class="waves-effect waves-light btn">Anos</a></li>
+    <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.colaborador.Codigo })' class="waves-effect waves-light btn">Componente Curricular</a></li>
 
-    {
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Escola)
-        </th>
+}
 
-        <th>
-            @Html.DisplayNameFor(model => model.INEP)
-        </th>
+@if (ViewBag.colaborador.CodigoCargoNavigation.NiveldeAcesso > 0)
 
-        <th>
-            @Html.DisplayNameFor(model => model.nomeCidade)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.sigla)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+{
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Escola)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Escola)
+            </th>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.INEP)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.INEP)
+            </th>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.nomeCidade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.sigla)
-            </td>
-            <td>
-                <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.colaborador.Codigo, esc = item.Codigo })' class="btn btn-primary">Acessar</a>
-            </td>
+            <th>
+                Cidade
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
-    }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Escola)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.INEP)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.nomeCidade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.sigla)
+                </td>
+                <td>
+                    <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.colaborador.Codigo, esc = item.Codigo })' class="waves-effect waves-light btn">Acessar</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+}

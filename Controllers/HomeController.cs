@@ -14,6 +14,7 @@ namespace AcompanhamentoDocente.Controllers
     public class HomeController : Controller
     {
         
+        
         private readonly IHome _acesso;
 
         public HomeController()
@@ -36,12 +37,12 @@ namespace AcompanhamentoDocente.Controllers
             return View(lista);
         }
 
-        public async Task<IActionResult> GerenciarEscola(int id)
+        public async Task<IActionResult> GerenciarEscola(int id, int esc)
         {
             var col = await _acesso.MontarAdmin(id);
             ViewData["colaborador"] = col;
-            var esc = await _acesso.MontarAdmin(id);
-            ViewData["escola"] = esc;
+            var escola = await _acesso.MontarEscola(esc, id);
+            ViewData["escola"] = escola;
             return View();
         }
 

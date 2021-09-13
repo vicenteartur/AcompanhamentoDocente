@@ -15,8 +15,15 @@
 
                 $.each(result.resultado, function (i, item) {
                     $list.append('<option value="' + item.value + '"> ' + item.text + ' </option>');
-                    
+                    console.log(item);
                 });
+                // Destroi o select
+                $('select').material_select('destroy');
+
+                // Insere as opções via Ajax
+
+                // Inicializa o select com a nova propriedade
+                $('select').material_select();
                 console.log(result);
             },
             error: function () {
