@@ -29,19 +29,19 @@
             
                 <div class="form-group">
                     <label asp-for="CodigoModalidade" class="control-label"></label>
-                     @Html.DropDownListFor(model => model.CodigoModalidade, (IEnumerable<SelectListItem>)ViewBag.CodigoModalidade, "--Selecione", new { @id = "CodigoModalidade", @class = "form-control" })
+                     @Html.DropDownListFor(model => model.CodigoModalidade, (IEnumerable<SelectListItem>)ViewBag.CodigoModalidade, "--Selecione", new { @id = "CodigoModalidade", @class = "browser-default" })
                 </div>
                 
                 <div class="form-group">
                     @Html.LabelFor(model => model.ano, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.CodigoAno, Model.ano, "--Selecione", new { @id = "CodigoAno", @name = "CodigoAno", @class = "form-control" })
+                    @Html.DropDownListFor(model => model.CodigoAno, Model.ano, "--Selecione", new { @id = "CodigoAno", @name = "CodigoAno", @class = "browser-default" })
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.CCurricular, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.CodigoCC, Model.CCurricular, "--Selecione", new { @id = "CodigoCC", @class = "form-control" })
+                        @Html.DropDownListFor(model => model.CodigoCC, Model.CCurricular, "--Selecione", new { @id = "CodigoCC", @class = "browser-default" })
 
                     </div>
                 </div>

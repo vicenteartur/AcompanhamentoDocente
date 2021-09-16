@@ -25,7 +25,8 @@ namespace AcompanhamentoDocente.Controllers
         {
             var model = new List<ColaboradorViewModel>();
             model = await _colabview.ColaboradorAtivo(id, esc);
-            ViewData["id"] = id;
+            var col = await _colabview.MontarAdmin(id);
+            ViewData["admin"] = col;
             ViewData["esc"] = esc;
             return View(model);
         }
@@ -34,7 +35,7 @@ namespace AcompanhamentoDocente.Controllers
         public async Task<ActionResult> Details(int id, int esc, int col)
         {
             var colaborador = await _colabview.localizaColaborador(col);
-
+            ViewData["admin"] = await _colabview.MontarAdmin(id);
 
             return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
@@ -42,6 +43,7 @@ namespace AcompanhamentoDocente.Controllers
         // GET: ColaboradorViewController/Create
         public async Task<ActionResult> Create(int id, int esc)
         {
+            ViewData["admin"] = await _colabview.MontarAdmin(id);
             return View(await _colabview.MontarColaborador(id, esc, null));
         }
 
@@ -65,6 +67,7 @@ namespace AcompanhamentoDocente.Controllers
                 {
 
                 }
+                ViewData["admin"] = await _colabview.MontarAdmin((int)id);
                 return RedirectToAction("Index", new { id = id, esc });
             }
 
@@ -76,6 +79,7 @@ namespace AcompanhamentoDocente.Controllers
         public async Task<ActionResult> Edit(int id, int esc, int col)
         {
             var colaborador = await _colabview.localizaColaborador(col);
+            ViewData["admin"] = await _colabview.MontarAdmin(id);
             return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
 
@@ -97,6 +101,7 @@ namespace AcompanhamentoDocente.Controllers
 
                 try
                 {
+                    ViewData["admin"] = await _colabview.MontarAdmin((int)id);
                     await _colabview.AtualizarColaborador(colaborador);
                     return RedirectToAction("Index", new { id = id, esc });
 
@@ -109,6 +114,7 @@ namespace AcompanhamentoDocente.Controllers
             }
             var col = await _colabview.localizaColaborador(colaborador.Codigo);
             var colab = await _colabview.MontarColaborador((int)id, esc, col);
+            ViewData["admin"] = await _colabview.MontarAdmin((int)id);
             return View(colaborador);
 
         }
@@ -117,6 +123,7 @@ namespace AcompanhamentoDocente.Controllers
         public async Task<IActionResult> Delete(int id, int esc, int col)
         {
             var colaborador = await _colabview.localizaColaborador(col);
+            ViewData["admin"] = await _colabview.MontarAdmin(id);
             return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
 
@@ -137,6 +144,7 @@ namespace AcompanhamentoDocente.Controllers
             }
             catch
             {
+                ViewData["admin"] = await _colabview.MontarAdmin(colaborador.CodigoAdministrador);
                 return View(colaborador);
             }
         }
@@ -152,7 +160,7 @@ namespace AcompanhamentoDocente.Controllers
                 model = await _colabview.EstenderJornada(id, esc, email);
             }
 
-            ViewData["id"] = id;
+            ViewData["admin"] = await _colabview.MontarAdmin(id);
             ViewData["esc"] = esc;
             return View(model);
         }

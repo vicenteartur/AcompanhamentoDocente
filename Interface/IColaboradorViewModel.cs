@@ -8,6 +8,7 @@ namespace AcompanhamentoDocente.Interface
 {
     interface IColaboradorViewModel
     {
+        Task<TbColaborador> MontarAdmin(int id);
         Task<List<SelectListItem>> ListaEscolas(int CodigoAdministrador, int CodigoEscola);
         Task<List<SelectListItem>> ListaCargos(int CodigoAdministrador, int CodigoCargo);
         Task<TbColaborador> localizaColaborador(int codigo);

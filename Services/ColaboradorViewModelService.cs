@@ -17,6 +17,13 @@ namespace AcompanhamentoDocente.Services
 
         private dbContext db = new dbContext();
 
+        public async Task<TbColaborador> MontarAdmin(int id)
+        {
+            var tbcolaborador = await db.TbColaboradors.Include(c => c.CodigoCargoNavigation)
+                .FirstOrDefaultAsync(m => m.Codigo == id);
+
+            return tbcolaborador;
+        }
         private bool TbColaboradorExists(string email)
         {
             return db.TbColaboradors.Any(e => e.Email == email);

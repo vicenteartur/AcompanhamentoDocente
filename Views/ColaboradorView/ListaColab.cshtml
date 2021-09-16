@@ -5,15 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Procure um Professor já cadastrado e estenda a jornada para sua escola</h1>
 
 <p>
     <form method="post" action="ListaColab">
-        <input name="id" value="@ViewBag.id" />
-        <input name="esc" value="@ViewBag.esc" />
-        <input name="email" />
+        <input type ="hidden" name="id" value="@ViewBag.admin.Codigo" />
+        <input type ="hidden" name="esc" value="@ViewBag.esc" />
+        <input name="email" placeholder="Digite aqui o E-mail do Colaborador"/>
         <div class="form-group">
-            <input type="submit" value="Procurar" class="btn btn-primary" />
+            <div class="center"><input type="submit" value="Procurar" class="btn btn-primary" /></div>
         </div>
     </form>
 
@@ -21,42 +21,25 @@
 </p>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cargo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ativo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
+<table class="highlight">
+    
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
+                    <p><label class="negrito">Nome: </label> @Html.DisplayFor(modelItem => item.Nome)</p>
+                    <p><label class="negrito">E-mail: </label>@Html.DisplayFor(modelItem => item.Email)</p>
+                    <p><label class="negrito">Cargo: </label> @Html.DisplayFor(modelItem => item.Cargo)</p>
+
                 </td>
+                
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cargo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ativo)
-                </td>
-                <td>
-                    @Html.ActionLink("EstendeAtribuicao", "EstendeAtribuicao", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })
+                    <a href='@Url.Action("EstendeAtribuicao", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn">
+                        <span class="material-icons">
+                            add
+                        </span>
+                    </a>
                 </td>
             </tr>
         }

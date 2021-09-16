@@ -26,13 +26,14 @@ namespace AcompanhamentoDocente.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
+            
             return View();
         }
 
         public async Task<IActionResult> DashBoard(int id)
         {
             var col = await _acesso.MontarAdmin(id);
-            ViewData["colaborador"] = col;
+            ViewData["admin"] = col;
             var lista = await _acesso.ListaEscolasAtivas(id);
             return View(lista);
         }
@@ -40,7 +41,7 @@ namespace AcompanhamentoDocente.Controllers
         public async Task<IActionResult> GerenciarEscola(int id, int esc)
         {
             var col = await _acesso.MontarAdmin(id);
-            ViewData["colaborador"] = col;
+            ViewData["admin"] = col;
             var escola = await _acesso.MontarEscola(esc, id);
             ViewData["escola"] = escola;
             return View();

@@ -1,13 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Acompanhamento Docente</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/lib/material-design-icons-iconfont/dist/material-design-icons.css" rel="stylesheet" />
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="~/lib/materialize/css/materialize.css" media="screen,projection" />
     
@@ -28,15 +29,51 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
 
-                        
+
+                        if (ViewBag.admin != null)
+                        {
+                            <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Administrar</a>
+                            <ul id='dropdown1' class='dropdown-content'>
+                                <li><a href='@Url.Action("Index", "Estado", new { id = ViewBag.admin.Codigo })' class="waves-effect">Estados</a></li>
+                                <li><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.admin.Codigo })' class="waves-effect">Cidades</a></li>
+                                <li><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.admin.Codigo })' class="waves-effect">Escolas</a></li>
+                                <li><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.admin.Codigo })' class="waves-effect">Cargos</a></li>
+                                <li><a href='@Url.Action("Index", "Modalidades", new { id = ViewBag.admin.Codigo })' class="waves-effect">Modalidades</a></li>
+                                <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' class="waves-effect">Anos</a></li>
+                                <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' class="waves-effect">Componente Curricular</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <li>
+                                <form method="post" asp-controller="account" asp-action="montar">
+                                    <input type="hidden" name="Email" value="@User.Identity.Name" />
+                                    <input type="hidden" name="Password" value="-" />
+                                    <input type="hidden" name="RememberMe" value="false" />
+                                    <button type="submit" style="width:auto"
+                                            class="waves-effect waves-light btn">
+                                        <span class="material-icons">
+                                            login
+                                        </span>
+                                        DashBoard
+                                    </button>
+                                </form>
+                            </li>
+                        }
                         <li>
+
                             <form method="post" asp-controller="account" asp-action="logout">
                                 <button type="submit" style="width:auto"
                                         class="waves-effect waves-light btn">
-                                    Logout @User.Identity.Name
+                                    <span class="material-icons">logout</span>
+                                    @User.Identity.Name
                                 </button>
                             </form>
                         </li>
+
+
+
+
                     }
                     else
                     {
@@ -67,17 +104,50 @@
                         </button>
                     </form>
                 </li>
-               
-                
-               
+                if (User.IsInRole("Admin"))
+                {
+                    if (ViewBag.admin != null)
+                    {
+                        <a class='dropdown-trigger btn' href='#' data-target='dropdown2'>Administrar</a>
+                        <ul id='dropdown2' class='dropdown-content'>
+                            <li><a href='@Url.Action("Index", "Estado", new { id = ViewBag.admin.Codigo })' class="waves-effect">Estados</a></li>
+                            <li><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.admin.Codigo })' class="waves-effect">Cidades</a></li>
+                            <li><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.admin.Codigo })' class="waves-effect">Escolas</a></li>
+                            <li><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.admin.Codigo })' class="waves-effect">Cargos</a></li>
+                            <li><a href='@Url.Action("Index", "Modalidades", new { id = ViewBag.admin.Codigo })' class="waves-effect">Modalidades</a></li>
+                            <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' class="waves-effect">Anos</a></li>
+                            <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' class="waves-effect">Componente Curricular</a></li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <li>
+                            <form method="post" asp-controller="account" asp-action="montar">
+                                <input type="hidden" name="Email" value="@User.Identity.Name" />
+                                <input type="hidden" name="Password" value="-" />
+                                <input type="hidden" name="RememberMe" value="false" />
+                                <button type="submit" style="width:auto"
+                                        class="waves-effect waves-light btn">
+                                    <span class="material-icons">
+                                        login
+                                    </span>
+                                    DashBoard
+                                </button>
+                            </form>
+                        </li>
+                    }
+
+                }
+
             }
+
             else
             {
+
                 <li>
-                    <a asp-controller="account" asp-action="register">
-                        Registrar
-                    </a>
+                    <a asp-controller="account" asp-action="register">Registrar</a>
                 </li>
+
                 <li>
                     <a asp-controller="account" asp-action="login">
                         Login
@@ -85,9 +155,11 @@
                 </li>
             }
         </ul>
-        
-    </header>
+
+
+</header>
     <div class="container">
+        <div class="center"><img class="responsive-img" src="~/img/logo.png"></div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -95,19 +167,25 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - bootstrap - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - SESI-SP - Divisão de Educação
         </div>
     </footer>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="~/lib/materialize/js/materialize.js"></script>
     
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/materialize/js/materialize.js"></script>
+    <script type="text/javascript" src="~/lib/materialize/js/materialize.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="false"></script>
 
-    <script>
+    <script type="text/javascript">
 
         $(document).ready(function () {
             $('.sidenav').sidenav();
+
+            $('.dropdown-trigger').dropdown();
+            $('.fixed-action-btn').floatingActionButton({
+                toolbarEnabled: true
+            });
         });
 
 

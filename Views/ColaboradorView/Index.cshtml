@@ -5,57 +5,88 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    @Html.ActionLink("Create", "Create", new { id = ViewBag.id, esc = ViewBag.esc })|
-    @Html.ActionLink("ListaColab", "ListaColab", new { id = ViewBag.id, esc = ViewBag.esc, email = "null" })
-</p>
+<div class="center"><h1>Lista de Professores da Unidade</h1></div>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cargo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ativo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cargo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ativo)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })
-                </td>
-            </tr>
-        }
+<p></p>
 
-        
+    <div class="fixed-action-btn">
+        <a href='@Url.Action("Create", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc })' id="adcionar" class ="btn-floating btn-large waves-effect waves-light">
+            <i class="large material-icons">
+                add
+            </i>
+        </a>
+    </div>
 
-    </tbody>
-</table>
+      
+    <p>
+        <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc})' class="waves-effect waves-light btn">
+            <i class="material-icons">
+                arrow_back
+            </i>
+            Voltar
+        </a>
+    </p>
+    <p> 
+        <a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc, email = "null" })' class="waves-effect waves-light btn">
+            <i class="material-icons">
+                view_list
+            </i>
+            Estender Jornada
+        </a>
+    </p>
+    <p>
+        <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc })' class="waves-effect waves-light btn">
+            <span class="material-icons">
+                supervised_user_circle
+            </span>
+            Atribuições
+        </a>
+    </p>
+
+   <table class="highlight">
+        <thead>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        <p><label class="negrito">Nome: </label> @Html.DisplayFor(modelItem => item.Nome)</p>
+                        <p><label class="negrito">E-mail: </label>@Html.DisplayFor(modelItem => item.Email)</p>
+                        <p><label class="negrito">Cargo: </label> @Html.DisplayFor(modelItem => item.Cargo)</p>
+                    </td>
+                    <td>
+                        <p>
+                            <a href='@Url.Action("Edit", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn">
+                                <span class="material-icons">
+                                    mode_edit
+                                </span>
+                            </a>
+                        </p>
+                        <p>
+                            <a href='@Url.Action("Details", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn">
+                                <span class="material-icons">
+                                    info
+                                </span>
+                            </a>
+                        </p>
+                        <p>
+                            <a href='@Url.Action("Delete", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn">
+                                <span class="material-icons">
+                                    person_remove
+                                </span>
+                            </a>
+                        </p>
+
+                    </td>
+                </tr>
+
+            }
+
+
+
+        </tbody>
+    </table>
