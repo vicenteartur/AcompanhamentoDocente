@@ -18,8 +18,10 @@ a {
     color: #0366d6;
    }
 
-.btn-primary, btn-floating {
+.btn-primary, .btn-floating, .waves-effect, .linha_tabela {
     color: #fff;
+    text-emphasis-color: white;
+    text-decoration-color: white;
     background-color: var(--primary);
     border-color: var(--primary);
 }
@@ -100,5 +102,19 @@ body {
 h1 {
     font-size: x-large;
     color: var(--primary);
+}
+.range-field {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    max-width:50px;
+    padding: 0;
+}
+.linha_tabela {
+    color: black;
+    text-emphasis-color: white;
+    text-decoration-color: white;
+    background-color: white;
+    border-color: var(--primary);
 }
 

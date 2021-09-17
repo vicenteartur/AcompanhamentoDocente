@@ -5,31 +5,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>TbColaborador</h4>
+<div class="center"><h1>Editar Informações Colaborador</h1></div>
 
 
-<hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Codigo" />
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+                <input type="hidden" asp-for="Codigo" class="browser-default" />
+            </div>
             <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
+                <label asp-for="Nome" class="control-label">Nome do Colaborador</label>
                 <input asp-for="Nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label asp-for="Email" class="control-label">E-mail Corporativo</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CodigoCargo" class="control-label"></label>
-                <input asp-for="CodigoCargo" class="form-control" />
-                
+               <input asp-for="CodigoCargo" type="hidden" class="form-control" />
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.CodigoCargo, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -37,33 +34,42 @@
                     @Html.DropDownListFor(model => model.CodigoCargo, Model.cargo, new { @id = "CodigoCargo", @class = "form-control" })
 
                 </div>
-                <div class="form-group">
-                    <label asp-for="Ativo" class="control-label"></label>
-                    <input asp-for="Ativo" class="form-control" />
+                
+                <div class="center">
+
+                    <h>Inativo
+                    <input asp-for="Ativo" type="range" min="0" max="1" class="range-field" />
+                    Ativo</h>
                     <span asp-validation-for="Ativo" class="text-danger"></span>
                 </div>
+                
+                   
+                <input type="hidden" asp-for="CodigoEscola" class="form-control" />
+                <input type="hidden" asp-for="CodigoAdministrador" class="form-control" />
+                    
                 <div class="form-group">
-                    <label asp-for="CodigoEscola" class="control-label"></label>
-                    <input asp-for="CodigoEscola" class="form-control" />
-                    <span asp-validation-for="CodigoEscola" class="text-danger"></span>
+                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                        Salvar
+                        <i class="material-icons right">save</i>
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label asp-for="CodigoAdministrador" class="control-label"></label>
-                    <input asp-for="CodigoAdministrador" class="form-control" />
-                    <span asp-validation-for="CodigoAdministrador" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
+            </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<p>
+    <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc})' class="waves-effect waves-light btn">
+        <span class="material-icons">
+            
+                view_list
+            
+        </span>
+        Lista Colaboradores
+    </a>
+</p>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

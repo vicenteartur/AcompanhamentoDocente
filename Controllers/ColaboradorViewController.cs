@@ -36,7 +36,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var colaborador = await _colabview.localizaColaborador(col);
             ViewData["admin"] = await _colabview.MontarAdmin(id);
-
+            ViewData["esc"] = esc;
             return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
 
@@ -44,6 +44,7 @@ namespace AcompanhamentoDocente.Controllers
         public async Task<ActionResult> Create(int id, int esc)
         {
             ViewData["admin"] = await _colabview.MontarAdmin(id);
+            ViewData["esc"] = esc;
             return View(await _colabview.MontarColaborador(id, esc, null));
         }
 
@@ -80,6 +81,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var colaborador = await _colabview.localizaColaborador(col);
             ViewData["admin"] = await _colabview.MontarAdmin(id);
+            ViewData["esc"] = esc;
             return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
 
@@ -115,6 +117,7 @@ namespace AcompanhamentoDocente.Controllers
             var col = await _colabview.localizaColaborador(colaborador.Codigo);
             var colab = await _colabview.MontarColaborador((int)id, esc, col);
             ViewData["admin"] = await _colabview.MontarAdmin((int)id);
+            ViewData["esc"] = esc;
             return View(colaborador);
 
         }
