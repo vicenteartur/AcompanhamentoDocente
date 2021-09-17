@@ -394,54 +394,51 @@ namespace AcompanhamentoDocente.Services
 
         public async Task RemoverColaborador(ColaboradorViewModel colaborador)
         {
+            var criterioavdeletar = new List<TbCriterioAvaliado>();
+            var avaliacaodeletar = new List<TbAvaliacao>();
+            var atribturmadeletar = new List<TbAtribuicaoComponenteCurricularAnoColaboradorEscola>();
+            var atribdeletar      = await db.TbAtribuicaoColaboradorEscolas.Where(at => at.CodigoColaborador == colaborador.Codigo).AsNoTracking().ToListAsync();
 
-            var codigo = new SqlParameter("@CodigoColaborador", colaborador.Codigo);
+            foreach (var item in atribdeletar)
+            {
+                var atribturmaaux = await db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas.Where(att => att.CodigoAtribuicaoColaboradorEscola == item.Codigo).AsNoTracking().ToListAsync();
+                foreach (var itemaux in atribturmaaux)
+                {
+                    atribturmadeletar.Add(itemaux); 
+                }
+            }
 
+            foreach (var item in atribturmadeletar)
+            {
+                var atribturmadeletaraux = await db.TbAvaliacaos.Where(att => att.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola == item.Codigo).AsNoTracking().ToListAsync();
+                foreach (var itemaux in atribturmadeletaraux)
+                {
+                    avaliacaodeletar.Add(itemaux);
+                }
+            }
 
-            db.Database.ExecuteSqlRaw("exec spApagaAtribuicaoColaboradorEscola @CodigoColaborador", codigo);
+            foreach (var item in avaliacaodeletar)
+            {
+                var criteriodeletaraux = await db.TbCriterioAvaliados.Where(ca => ca.CodigoAvaliacao == item.Codigo).AsNoTracking().ToListAsync();
+                foreach (var itemaux in criteriodeletaraux)
+                {
+                    criterioavdeletar.Add(itemaux);
+                }
+            }
 
-            //using (var dbContextTransaction = db.Database.BeginTransaction())
-            //{
-            //    var removeratibuicao = new List<TbAtribuicaoColaboradorEscola>();
-            //    removeratibuicao = await (from at in db.TbAtribuicaoColaboradorEscolas
-            //                           where at.CodigoColaborador == colaborador.Codigo
-            //                           select at).AsNoTracking().ToListAsync();
-
-
-
-
-
-            //    foreach (var item in removeratibuicao)
-            //    {
-            //        var apagaratribuicao = new TbAtribuicaoColaboradorEscola();
-            //        {
-            //            apagaratribuicao.Codigo = item.Codigo;
-            //            apagaratribuicao.CodigoColaborador = item.CodigoColaborador;
-            //            apagaratribuicao.CodigoEscola = item.CodigoEscola;
-            //            apagaratribuicao.Ativa = item.Ativa;
-            //        }
-
-            //        if (apagaratribuicao != null)
-            //        {
-
-            //            db.TbAtribuicaoColaboradorEscolas.Remove(apagaratribuicao);
-            //            //db.SaveChanges();
-            //        }
-            //    }
-
-            //    var col = new TbColaborador()
-            //    {
-            //        Codigo = colaborador.Codigo,
-            //        Nome = colaborador.Nome,
-            //        Email = colaborador.Email,
-            //        CodigoCargo = colaborador.CodigoCargo,
-            //        Ativo = colaborador.Ativo
-            //    };
-
-            //    db.TbColaboradors.Remove(col);
-            //    db.SaveChanges();
-            //    dbContextTransaction.Commit();
-            //}
+            await db.BulkDeleteAsync(criterioavdeletar);
+            await db.SaveChangesAsync();
+            await db.BulkDeleteAsync(avaliacaodeletar);
+            await db.SaveChangesAsync();
+            await db.BulkDeleteAsync(atribturmadeletar);
+            await db.SaveChangesAsync();
+            await db.BulkDeleteAsync(atribdeletar);
+            await db.SaveChangesAsync();
+            var remover_colab = await db.TbColaboradors.Where(c => c.Codigo == colaborador.Codigo).FirstAsync();
+                        
+            db.TbColaboradors.Remove(remover_colab);
+            
+            await db.SaveChangesAsync();
 
         }
 

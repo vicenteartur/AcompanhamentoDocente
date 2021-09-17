@@ -60,21 +60,21 @@
                     </td>
                     <td>
                         <p>
-                            <a href='@Url.Action("Edit", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn">
+                            <a href='@Url.Action("Edit", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn" id="bteditar">
                                 <span class="material-icons">
                                     mode_edit
                                 </span>
                             </a>
                         </p>
                         <p>
-                            <a href='@Url.Action("Details", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn">
+                            <a href='@Url.Action("Details", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn" id="btdetalhes">
                                 <span class="material-icons">
                                     info
                                 </span>
                             </a>
                         </p>
                         <p>
-                            <a href='@Url.Action("Delete", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn">
+                            <a href='@Url.Action("Delete", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
                                 <span class="material-icons">
                                     person_remove
                                 </span>

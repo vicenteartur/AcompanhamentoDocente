@@ -24,6 +24,18 @@ a {
     text-decoration-color: white;
     background-color: var(--primary);
     border-color: var(--primary);
+    width:180px;
+    text-align: center;
+    font-size: 12px;
+    
+}
+
+.linha_tabela {
+    color: #fff;
+    text-emphasis-color: white;
+    text-decoration-color: white;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -103,6 +115,10 @@ h1 {
     font-size: x-large;
     color: var(--primary);
 }
+h3 {
+    font-size: xx-large;
+    color: var(--primary);
+}
 .range-field {
     display: inline-block;
     width: 20px;
@@ -117,4 +133,28 @@ h1 {
     background-color: white;
     border-color: var(--primary);
 }
+#btestado, #btcidade, #btescola, #btcargo, #btmodalidade, #btano, #btccurricular, #btadministrar, 
+#btestado1, #btcidade1, #btescola1, #btcargo1, #btmodalidade1, #btano1, #btccurricular1 {
+    background-color: white;
+    color: var(--primary);
+    width: 195px;
+    text-align: left;
+}
+#btadministrar1 {
+    background-color: var(--primary);
+    color: white;
+    width: 200px;
+    text-align: center;
+}
 
+#bteditar,#btdetalhes,#btremover {
+    background-color: var(--primary);
+    color: white;
+    width: 50px;
+    text-align: center;
+}
+
+.dropdown-content {
+    height: 500px;
+    background-color: white;
+}

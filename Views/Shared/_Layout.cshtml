@@ -32,15 +32,15 @@
 
                         if (ViewBag.admin != null)
                         {
-                            <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Administrar</a>
+                            <a class='dropdown-trigger btn' href='#' id="btadministrar1" data-target='dropdown1'>Administrar</a>
                             <ul id='dropdown1' class='dropdown-content'>
-                                <li><a href='@Url.Action("Index", "Estado", new { id = ViewBag.admin.Codigo })' class="waves-effect">Estados</a></li>
-                                <li><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.admin.Codigo })' class="waves-effect">Cidades</a></li>
-                                <li><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.admin.Codigo })' class="waves-effect">Escolas</a></li>
-                                <li><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.admin.Codigo })' class="waves-effect">Cargos</a></li>
-                                <li><a href='@Url.Action("Index", "Modalidades", new { id = ViewBag.admin.Codigo })' class="waves-effect">Modalidades</a></li>
-                                <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' class="waves-effect">Anos</a></li>
-                                <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' class="waves-effect">Componente Curricular</a></li>
+                                <li><a href='@Url.Action("Index", "Estado", new { id = ViewBag.admin.Codigo })' id="btestado1" class="waves-effect">Estados</a></li>
+                                <li><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.admin.Codigo })' id="btcidade1" class="waves-effect">Cidades</a></li>
+                                <li><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.admin.Codigo })' id="btescola1" class="waves-effect">Escolas</a></li>
+                                <li><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.admin.Codigo })' id="btcargo1" class="waves-effect">Cargos</a></li>
+                                <li><a href='@Url.Action("Index", "Modalidades", new { id = ViewBag.admin.Codigo })' id="btmodalidade1" class="waves-effect">Modalidades</a></li>
+                                <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' id="btano1" class="waves-effect">Anos</a></li>
+                                <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' id="btccurricular1" class="waves-effect">Componente Curricular</a></li>
                             </ul>
                         }
                         else
@@ -108,15 +108,15 @@
                 {
                     if (ViewBag.admin != null)
                     {
-                        <a class='dropdown-trigger btn' href='#' data-target='dropdown2'>Administrar</a>
+                        <a class='dropdown-trigger btn' href='#' data-target='dropdown2' id="btadministrar">Administrar</a>
                         <ul id='dropdown2' class='dropdown-content'>
-                            <li><a href='@Url.Action("Index", "Estado", new { id = ViewBag.admin.Codigo })' class="waves-effect">Estados</a></li>
-                            <li><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.admin.Codigo })' class="waves-effect">Cidades</a></li>
-                            <li><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.admin.Codigo })' class="waves-effect">Escolas</a></li>
-                            <li><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.admin.Codigo })' class="waves-effect">Cargos</a></li>
-                            <li><a href='@Url.Action("Index", "Modalidades", new { id = ViewBag.admin.Codigo })' class="waves-effect">Modalidades</a></li>
-                            <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' class="waves-effect">Anos</a></li>
-                            <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' class="waves-effect">Componente Curricular</a></li>
+                            <li><a href='@Url.Action("Index", "Estado", new { id = ViewBag.admin.Codigo })' id="btestado" class="waves-effect">Estados</a></li>
+                            <li><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.admin.Codigo })' id="btcidade" class="waves-effect">Cidades</a></li>
+                            <li><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.admin.Codigo })' id="btescola" class="waves-effect">Escolas</a></li>
+                            <li><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.admin.Codigo })' id="btcargo" class="waves-effect">Cargos</a></li>
+                            <li><a href='@Url.Action("Index", "Modalidades", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Modalidades</a></li>
+                            <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' id="btano" class="waves-effect">Anos</a></li>
+                            <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Componente Curricular</a></li>
                         </ul>
                     }
                     else

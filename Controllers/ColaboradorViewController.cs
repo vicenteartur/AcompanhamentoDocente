@@ -3,6 +3,7 @@ using AcompanhamentoDocente.Services;
 using AcompanhamentoDocente.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -143,9 +144,9 @@ namespace AcompanhamentoDocente.Controllers
                 var montarremovido = await _colabview.MontarColaborador(colaborador.CodigoAdministrador, colaborador.CodigoEscola, removercolab);
                 await _colabview.RemoverColaborador(montarremovido);
 
-                return RedirectToAction("Index", new { id = montarremovido.CodigoAdministrador, esc = montarremovido.CodigoEscola });
+                return RedirectToAction("Index", new { id = colaborador.CodigoAdministrador, esc = colaborador.CodigoEscola });
             }
-            catch
+            catch (Exception ex)
             {
                 ViewData["admin"] = await _colabview.MontarAdmin(colaborador.CodigoAdministrador);
                 return View(colaborador);
