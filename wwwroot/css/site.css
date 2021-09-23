@@ -81,7 +81,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background-color: #f1f0f1
+    background-color: #f1f0f1;
 }
 .footer {
   position: absolute;
@@ -147,7 +147,7 @@ h3 {
     text-align: center;
 }
 
-#bteditar,#btdetalhes,#btremover {
+#bteditar,#btdetalhes,#btremover, #btavaliar, #btlistar {
     background-color: var(--primary);
     color: white;
     width: 50px;
@@ -158,3 +158,22 @@ h3 {
     height: 500px;
     background-color: white;
 }
+
+select {
+    background-color: #f1f0f1;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-family: sans-serif;
+    /* 1 */
+    font-size: 100%;
+    /* 1 */
+    line-height: 1.15;
+    /* 1 */
+    margin: 0;
+    /* 2 */
+    text-transform: none;
+    border-bottom: 1px solid #9e9e9e;
+}
+    
+select:focus {
+        outline: 1px solid #c9f3ef;
+    }

@@ -7,7 +7,7 @@
 
 }
 
-<div class="center"><h1>Atribuições</h1></div>
+<div class="center"><h1>Atribuições de @ViewBag.Colaborador.Nome</h1></div>
 
 <p>
     <a href='@Url.Action("ListaProfessor", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escol.Codigo })' class="waves-effect waves-light btn">
@@ -46,13 +46,11 @@
         {
             <tr class="linha_tabela">
                 <td>
-                    <p><label class="negrito">Nome: </label>@Html.DisplayFor(modelItem => item.Nome)</p>
-                    <p><label class="negrito">Cargo: </label>@Html.DisplayFor(modelItem => item.Cargo)</p>
                     <p><label class="negrito">Componente: </label>@Html.DisplayFor(modelItem => item.CompCurr)</p>
                     <p><label class="negrito">Turma: </label>@Html.DisplayFor(modelItem => item.Ano)</p>
                 </td>
 
-                
+
                 <td>
                     <p>
                         <a href='@Url.Action("Edit", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo  })' class="waves-effect waves-light btn" id="bteditar">
@@ -78,9 +76,9 @@
                     <p>
                         <a href='@Url.Action("Avaliar", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo })' class="waves-effect waves-light btn" id="btavaliar">
                             <span class="material-icons">
-                                
-                                    trending_up
-                                
+
+                                trending_up
+
                             </span>
                         </a>
                     </p>

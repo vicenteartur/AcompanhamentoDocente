@@ -5,51 +5,44 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Professores da Unidade</h1>
 
 <p>
-    @Html.ActionLink("Create", "Create", new { id = @ViewBag.admin.Codigo, escol = @ViewBag.escol.Codigo })|
-    
+    <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escol.Codigo})' class="waves-effect waves-light btn">
+        <i class="material-icons">
+            arrow_back
+        </i>
+        Gerenciar Escola
+    </a>
 </p>
 
-
-<table class="table">
+<table class="highlight">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cargo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ativo)
-            </th>
-            <th></th>
-        </tr>
+        
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="linha_tabela">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
+                    <p><label class="negrito">Nome: </label>@Html.DisplayFor(modelItem => item.Nome)</p>
+                    <p><label class="negrito">E-mail: </label>@Html.DisplayFor(modelItem => item.Email)</p>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cargo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ativo)
-                </td>
-                <td>
-                    @Html.ActionLink("Atribuir", "Create", new { id = @ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, col = item.Codigo }) |
-                    
+                    <p>
+                        <a href='@Url.Action("Create", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, col = item.Codigo  })' class="waves-effect waves-light btn" id="bteditar">
+                            <span class="material-icons">
+                                assignment
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("ListaAtribuicaoProfessor", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, col = item.Codigo  })' class="waves-effect waves-light btn" id="btlistar">
+                            <span class="material-icons">
+                                view_list
+                            </span>
+                        </a>
+                    </p>
                 </td>
             </tr>
         }

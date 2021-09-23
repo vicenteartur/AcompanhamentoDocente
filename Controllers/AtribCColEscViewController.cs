@@ -122,6 +122,7 @@ namespace AcompanhamentoDocente.Controllers
             atrib.ano = ano;
             var cc = await _atribuicao.ListaCCurricular(atrib.CodigoCC, atrib.CodigoModalidade);
             atrib.CCurricular = cc;
+            ViewData["CodigoModalidade"] = _atribuicao.ListaModalidadeUp(atrib);
             ViewData["escol"] = escola;
             ViewData["admin"] = admin;
 
@@ -184,6 +185,8 @@ namespace AcompanhamentoDocente.Controllers
             detalhes.NomeAdministrador = admin.Nome;
             detalhes.CargoAdministrador = admin.CodigoCargoNavigation.Cargo;
             detalhes.CodigoAdministrador = admin.Codigo;
+            ViewData["admin"] = admin;
+            ViewData["esc"] = escola;
 
 
             return View(detalhes);
@@ -244,5 +247,19 @@ namespace AcompanhamentoDocente.Controllers
             return RedirectToAction("Create", "AvaliacaoView", new { id = id, esc = esc, atrib = atribu });
 
         }
+
+        public async Task<ActionResult> ListaAtribuicaoProfessor(int? id, int? esc, int? col)
+        {
+            var escola = await _atribuicao.MontarEsc((int)esc);
+            var admin = await _atribuicao.MontarAdmin((int)id);
+            var colaborador = await _atribuicao.MontarAdmin((int)col);
+            var lista = await _atribuicao.ListaAtribuicaoProfessor((int)id, (int)esc,(int)col);
+            ViewData["escol"] = escola;
+            ViewData["admin"] = admin;
+            ViewData["colaborador"] = colaborador;
+            return View(lista);
+
+        }
+
     }
 }

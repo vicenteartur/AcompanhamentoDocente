@@ -23,5 +23,6 @@ namespace AcompanhamentoDocente.Interface
         Task<TbAtribuicaoColaboradorEscola> BuscaAtrib(int id, int esc);
         SelectList ListaModalidade();
         SelectList ListaModalidadeUp(AtribCCColEscViewModel atribuicao);
+        Task<List<AtribCCColEscViewModel>> ListaAtribuicaoProfessor(int id, int esc,int col);
     }
 }

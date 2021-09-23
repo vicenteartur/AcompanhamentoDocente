@@ -5,49 +5,48 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="center"><h1>Detalhes da Atribuição</h1></div>
 
-<p>@Html.DisplayNameFor(model => model.NomeEscola) | @Html.DisplayFor(model => model.NomeEscola)</p>
-<p>@Html.DisplayNameFor(model => model.NomeAdministrador) | @Html.DisplayFor(model => model.NomeAdministrador)</p>
-<p>@Html.DisplayNameFor(model => model.CargoAdministrador) | @Html.DisplayFor(model => model.CargoAdministrador)</p>
+
 
 <div>
-    <h4>Atribuição de Disciplinan e Turma para Professor</h4>
-    <hr />
+    
+    
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
+            <label class="negrito">Nome: </label>@Html.DisplayFor(model => model.Nome)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
+            <label class="negrito">E-mail: </label>@Html.DisplayFor(model => model.Email)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cargo)
-        </dt>
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cargo)
+            <label class="negrito">Cargo: </label>@Html.DisplayFor(model => model.Cargo)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CompCurr)
-        </dt>
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompCurr)
+            <label class="negrito">Componente: </label>@Html.DisplayFor(model => model.CompCurr)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Ano)
-        </dt>
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Ano)
+            <label class="negrito">Turma: </label>@Html.DisplayFor(model => model.Ano)
         </dd>
     </dl>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CodigoAdministrador, esc = Model.CodigoEscola, col = Model.Codigo }) |
-    @Html.ActionLink("Index", "Index", new { id = Model.CodigoAdministrador, esc = Model.CodigoEscola })
-</div>
+<p>
+    <a href='@Url.Action("Edit", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = Model.Codigo  })' class="waves-effect waves-light btn" >
+        <span class="material-icons">
+            mode_edit
+        </span>
+        Modificar
+    </a>
+</p>
+<a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = Model.Codigo  })' class="waves-effect waves-light btn">
+    <span class="material-icons">
+        view_list
+    </span>
+    Atribuições
+</a>
+

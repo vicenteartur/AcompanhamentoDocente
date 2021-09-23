@@ -209,6 +209,24 @@ namespace AcompanhamentoDocente.Services
 
         public async Task Deletar(AtribCCColEscViewModel atribuicao)
         {
+            var aval = await db.TbAvaliacaos.
+                Where(a => a.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola == atribuicao.Codigo).AsNoTracking().ToListAsync();
+
+            var criterios = new List<TbCriterioAvaliado>();
+
+
+            foreach (var item in aval)
+            {
+                var criterioaux = new List<TbCriterioAvaliado>();
+                criterioaux = await db.TbCriterioAvaliados.Where(c => c.CodigoAvaliacao == item.Codigo).AsNoTracking().
+                    ToListAsync();
+
+                foreach (var itemaux in criterioaux)
+                {
+                    criterios.Add(itemaux);
+                }
+                
+            }
             var atrib = new TbAtribuicaoComponenteCurricularAnoColaboradorEscola()
             {
                 Codigo = atribuicao.Codigo,
@@ -321,6 +339,39 @@ namespace AcompanhamentoDocente.Services
         {
             var lista = new SelectList(db.TbModalidades, "Codigo", "Modalidade", atribuicao.CodigoModalidade);
             return lista;
+        }
+
+
+        public async Task<List<AtribCCColEscViewModel>> ListaAtribuicaoProfessor(int id, int esc, int col)
+        {
+            var atribfinal = await (from atc in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
+                                    join at in db.TbAtribuicaoColaboradorEscolas on atc.CodigoAtribuicaoColaboradorEscola equals at.Codigo
+                                    join c in db.TbColaboradors.Include(cg => cg.CodigoCargoNavigation) on at.CodigoColaborador equals c.Codigo
+                                    join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
+                                    join cc in db.TbComponenteCurriculars on atc.CodigoComponenteCurricular equals cc.Codigo
+                                    join ano in db.TbAnos on atc.CodigoAno equals ano.Codigo
+                                    join m in db.TbModalidades on ano.CodigoModalidade equals m.Codigo
+
+                                    where at.CodigoEscola == esc && c.CodigoCargoNavigation.NiveldeAcesso < 1 && c.Codigo == col
+
+                                    select new AtribCCColEscViewModel
+                                    {
+                                        Codigo = atc.Codigo,
+                                        CodigoAtribuicaoColaboradorEscola = at.Codigo,
+                                        CodigoAno = ano.Codigo,
+                                        CodigoCC = cc.Codigo,
+                                        CodigoColaborador = c.Codigo,
+                                        Nome = c.Nome,
+                                        CodigoCargo = c.CodigoCargoNavigation.Codigo,
+                                        Cargo = c.CodigoCargoNavigation.Cargo,
+                                        NiveldeAcesso = c.CodigoCargoNavigation.NiveldeAcesso,
+                                        Ano = $"{ano.Ano + ano.Turma + " - " + m.Modalidade + " - " + ano.Periodo}",
+                                        CompCurr = cc.ComponenteCurricular,
+                                        CodigoEscola = e.Codigo,
+                                        NomeEscola = e.Escola
+                                    }).ToListAsync();
+
+            return atribfinal;
         }
     }
 }

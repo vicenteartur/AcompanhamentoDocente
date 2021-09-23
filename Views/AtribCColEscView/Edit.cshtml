@@ -5,12 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Editar</h1>
-
-<h4>Atribuiçao de Disciplina por Professor</h4>
+<div class="center"><h1>Editar Atribuiçao de Disciplina por Professor</h1></div>
 
 
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -26,42 +23,56 @@
                 <input asp-for="Cargo" class="form-control" />
                 <span asp-validation-for="Cargo" class="text-danger"></span>
             </div>
-                <div class="form-group">
-                    <label asp-for="CodigoModalidade" class="control-label"></label>
-                    @Html.DropDownListFor(model => model.CodigoModalidade, (IEnumerable<SelectListItem>)ViewBag.CodigoModalidade, "--Selecione", new { @id = "CodigoModalidade", @class = "form-control" })
-                </div>
+            <div class="form-group">
+                <label asp-for="CodigoModalidade" class="control-label"></label>
+                @Html.DropDownListFor(model => model.CodigoModalidade, (IEnumerable<SelectListItem>)ViewBag.CodigoModalidade, "--Selecione", new { @id = "CodigoModalidade", @class = "browser-default" })
+            </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.ano, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.CodigoAno, Model.ano, "--Selecione", new { @id = "CodigoAno", @name = "CodigoAno", @class = "form-control" })
+                    @Html.DropDownListFor(model => model.CodigoAno, Model.ano, "--Selecione", new { @id = "CodigoAno", @name = "CodigoAno", @class = "browser-default" })
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.CCurricular, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.CodigoCC, Model.CCurricular, "--Selecione", new { @id = "CodigoCC", @class = "form-control" })
+                        @Html.DropDownListFor(model => model.CodigoCC, Model.CCurricular, "--Selecione", new { @id = "CodigoCC", @class = "browser-default" })
 
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="CodigoEscola" class="control-label"></label>
-                    <input name="esc" class="form-control" value="@ViewBag.escol.Codigo" />
-                    <span asp-validation-for="CodigoEscola" class="text-danger"></span>
+
+                    <input type="hidden" name="esc" class="form-control" value="@ViewBag.escol.Codigo" />
+
                 </div>
                 <div class="form-group">
-                    <label asp-for="CodigoAdministrador" class="control-label"></label>
-                    <input name="id" class="form-control" value="@ViewBag.admin.Codigo" />
-                    <span asp-validation-for="CodigoAdministrador" class="text-danger"></span>
+
+                    <input name="id" type="hidden" class="form-control" value="@ViewBag.admin.Codigo" />
+
                 </div>
                 <div class="form-group">
-                    <label asp-for="CodigoAtribuicaoColaboradorEscola" class="control-label"></label>
-                    <input asp-for="CodigoAtribuicaoColaboradorEscola" class="form-control" />
-                    <span asp-validation-for="CodigoAdministrador" class="text-danger"></span>
+
+                    <input asp-for="CodigoAtribuicaoColaboradorEscola" type="hidden" class="form-control" />
+
                 </div>
+                <p></p>
                 <div class="form-group">
-                    <input type="submit" asp-action="Edit" value="Save" class="btn btn-primary" />
+                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                        Salvar
+                        <i class="material-icons right">save</i>
+                    </button>
                 </div>
+                <p>
+                    <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escol.Codigo})' class="waves-effect waves-light btn">
+                        <span class="material-icons">
+
+                            view_list
+
+                        </span>
+                        Lista Atribuições
+                    </a>
+                </p>
             </div>
         </form>
     </div>
