@@ -133,25 +133,31 @@ h3 {
     background-color: white;
     border-color: var(--primary);
 }
-#btestado, #btcidade, #btescola, #btcargo, #btmodalidade, #btano, #btccurricular, #btadministrar, 
-#btestado1, #btcidade1, #btescola1, #btcargo1, #btmodalidade1, #btano1, #btccurricular1 {
+#btestado, #btcidade, #btescola, #btcargo, #btmodalidade, #btano, #btccurricular, #btadministrar,
+#btestado1, #btcidade1, #btescola1, #btcargo1, #btmodalidade1, #btano1, #btccurricular1, #btsupervisionar1 {
     background-color: white;
     color: var(--primary);
     width: 195px;
-    text-align: left;
+    text-align: center;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
 }
-#btadministrar1, btnDetalhes {
+#btadministrar1, btnDetalhes, #btsupervisionar {
     background-color: var(--primary);
     color: white;
     width: 200px;
     text-align: center;
 }
 
-#bteditar,#btdetalhes,#btremover, #btavaliar, #btlistar {
+#bteditar, #btdetalhes, #btremover, #btavaliar, #btlistar {
     background-color: var(--primary);
     color: white;
     width: 50px;
     text-align: center;
+    justify-content: center;
+    align-items: center;
+    display:flex;
 }
 
 .dropdown-content {
@@ -159,7 +165,7 @@ h3 {
     background-color: white;
 }
 
-select {
+select, textarea {
     background-color: #f1f0f1;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     font-family: sans-serif;
@@ -182,13 +188,14 @@ select:focus {
     line-height: 3;
 }
 
-#btsalvarpequeno, #btlistapequeno {
+#btsalvarpequeno, #btlistapequeno, #btmodificarpequeno, #btlistapequeno1 {
     color: #fff;
     text-emphasis-color: white;
     text-decoration-color: white;
     background-color: var(--primary);
     border-color: var(--primary);
-    width: 150px;
+    width: 170px;
     text-align: center;
     font-size: 12px;
+    
 }

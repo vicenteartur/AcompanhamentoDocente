@@ -5,12 +5,12 @@
 
 
 // faz o build das caixa select 
-document.addEventListener('DOMContentLoaded', function () {
-    var elems = document.querySelectorAll('select');
-    var options = {};
-    var instance = M.FormSelect.init(elems, options);
+    //document.addEventListener('DOMContentLoaded', function () {
+    //    var elems = document.querySelectorAll('select');
+    //    var options = {};
+    //    var instance = M.FormSelect.init(elems, options);
 
-});
+//});
 
 
 

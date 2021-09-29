@@ -5,39 +5,52 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="center"><h1>Detalhes do Componente</h1></div>
 
 <div>
-    <h4>TbComponenteCurricular</h4>
-    <hr />
+    
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ComponenteCurricular)
-        </dt>
+
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ComponenteCurricular)
+            <label class="negrito">Componente Curricular: </label>@Html.DisplayFor(model => model.ComponenteCurricular)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CodigoModalidadeNavigation.Modalidade)
-        </dt>
+
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CodigoModalidadeNavigation.Modalidade)
+            <label class="negrito">Modalidade: </label>@Html.DisplayFor(model => model.CodigoModalidadeNavigation.Modalidade)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SubArea)
-        </dt>
+
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SubArea)
+            <label class="negrito">Sub-Área: </label> @Html.DisplayFor(model => model.SubArea)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Ativa)
-        </dt>
+
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Ativa)
+            <label class="negrito">Ativo: </label>
+            @if (Model.Ativa != 1)
+            {<b>Não</b>}
+            else
+            { <b>Sim</b>}
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, comp = Model.Codigo }) |
-    @Html.ActionLink("Index", "Index", new { id = ViewBag.Admin.Codigo })
+    <div class="center">
+        <p id="l_botao">
+            <a href='@Url.Action("Edit", "CCurricular", new { id = ViewBag.Admin.Codigo, comp = Model.Codigo })' class="waves-effect waves-light btn-small" id="btmodificarpequeno">
+                <span class="material-icons">
+                    mode_edit
+                </span>
+                Modificar
+            </a>
+
+            <a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.Admin.Codigo })' class="waves-effect waves-light btn-small" id="btlistapequeno1">
+                <span class="material-icons">
+
+                    view_list
+
+                </span>
+                Componentes
+            </a>
+        </p>
+    </div>
+    
 </div>

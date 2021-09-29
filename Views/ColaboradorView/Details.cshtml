@@ -38,23 +38,23 @@
 </div>
 <div>
     
-    <p>
-        <a href='@Url.Action("Edit", "ColaboradorView", new { id = Model.CodigoAdministrador, esc = Model.CodigoEscola, col = Model.Codigo })' class="waves-effect waves-light btn">
-            <span class="material-icons">
-                mode_edit
-            </span>
-            Modificar
-        </a>
-    </p>
+    <div class="center">
+        <p id="l_botao">
+            <a href='@Url.Action("Edit", "ColaboradorView", new { id = Model.CodigoAdministrador, esc = Model.CodigoEscola, col = Model.Codigo })' class="waves-effect waves-light btn-small" id="btmodificarpequeno">
+                <span class="material-icons">
+                    mode_edit
+                </span>
+                Modificar
+            </a>
+        
+            <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                <span class="material-icons">
 
-    <p>
-        <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc})' class="waves-effect waves-light btn">
-            <span class="material-icons">
+                    view_list
 
-                view_list
-
-            </span>
-            Lista Colaboradores
-        </a>
-    </p>
+                </span>
+                Lista Colaboradores
+            </a>
+        </p>
+    </div>
 </div>

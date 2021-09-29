@@ -5,50 +5,63 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="center"><h1>Componentes Curriculares</h1></div>
 
-<p>
-    @Html.ActionLink("Create", "Create", new { id = ViewBag.Admin.Codigo })
-</p>
-<table class="table">
+<div class="fixed-action-btn">
+    <a href='@Url.Action("Create", "CCurricular", new { id = ViewBag.admin.Codigo})' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+        <i class="large material-icons">
+            add
+        </i>
+    </a>
+</div>
+<table class="highlight">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ComponenteCurricular)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CodigoModalidadeNavigation.Modalidade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubArea)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ativa)
-            </th>
-            <th></th>
-        </tr>
+
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+        @foreach (var item in Model)
+        {
+        <tr class="linha_tabela">
             <td>
-                @Html.DisplayFor(modelItem => item.ComponenteCurricular)
+                <p><label class="negrito">Componente: </label> @Html.DisplayFor(modelItem => item.ComponenteCurricular)</p>
+
+                <p><label class="negrito">Modalidade: </label> @Html.DisplayFor(modelItem => item.CodigoModalidadeNavigation.Modalidade)</p>
+
+                <p><label class="negrito">Sub-Área: </label> @Html.DisplayFor(modelItem => item.SubArea)</p>
+                <p>
+                    <h>
+                        Inativa
+                        @Html.TextBoxFor(modelItem => item.Ativa, new { @class = "range-field", type = "range", min = "0", max = "1", disabled = "True" })
+                        Ativa
+                    </h>
+                </p>
             </td>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.CodigoModalidadeNavigation.Modalidade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubArea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ativa)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, comp = item.Codigo }) |
-                @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, comp = item.Codigo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, comp = item.Codigo })
+                <p>
+                    <a href='@Url.Action("Edit", "CCurricular", new { id = ViewBag.Admin.Codigo, comp = item.Codigo})' class="waves-effect waves-light btn" id="bteditar">
+                        <span class="material-icons">
+                            mode_edit
+                        </span>
+                    </a>
+                </p>
+                <p>
+                    <a href='@Url.Action("Details", "CCurricular", new { id = ViewBag.Admin.Codigo, comp = item.Codigo})' class="waves-effect waves-light btn" id="btdetalhes">
+                        <span class="material-icons">
+                            info
+                        </span>
+                    </a>
+                </p>
+                <p>
+                    <a href='@Url.Action("Delete", "CCurricular", new { id = ViewBag.Admin.Codigo, comp = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
+                        <span class="material-icons">
+                            delete
+                        </span>
+                    </a>
+                </p>
+                
             </td>
         </tr>
-}
+         }
     </tbody>
 </table>

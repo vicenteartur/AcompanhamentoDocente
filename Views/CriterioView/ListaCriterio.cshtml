@@ -5,42 +5,54 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="center"><h1>Lista de Critérios para @ViewBag.cc.ComponenteCurricular - @ViewBag.cc.CodigoModalidadeNavigation.Modalidade</h1></div>
 
-<p>
-    <a asp-action="Create" asp-route-id="@ViewBag.admin.Codigo">Create New</a>
-</p>
-<table class="table">
+<div class="fixed-action-btn">
+    <a href='@Url.Action("Create", "CriterioView", new { id = ViewBag.admin.Codigo})' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+        <i class="large material-icons">
+            add
+        </i>
+    </a>
+</div>
+
+<table class="highlight">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Criterio)
-            </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.clcriterio)
-            </th>
-
-            <th></th>
-        </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Criterio)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr class="linha_tabela">
+                <td>
+                    <p><label class="negrito">Critério: </label>  @Html.DisplayFor(modelItem => item.Criterio)
 
-            <td>
-                @Html.DisplayFor(modelItem => item.clcriterio)
-            </td>
-            
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo }) |
-                @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo })
-            </td>
-        </tr>
-}
+                    <p><label class="negrito">Classificação: </label> @Html.DisplayFor(modelItem => item.clcriterio)
+                </td>
+
+                <td>
+                    <p>
+                        <a href='@Url.Action("Edit", "CriterioView", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo})' class="waves-effect waves-light btn" id="bteditar">
+                            <span class="material-icons">
+                                mode_edit
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Details", "CriterioView", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo})' class="waves-effect waves-light btn" id="btdetalhes">
+                            <span class="material-icons">
+                                info
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Delete", "CriterioView", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
+                            <span class="material-icons">
+                                delete
+                            </span>
+                        </a>
+                    </p>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

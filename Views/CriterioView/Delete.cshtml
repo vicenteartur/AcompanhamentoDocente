@@ -5,37 +5,52 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Delete</h1>
+<div class="center">
+<h1>Apagar Critério</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Tem certeza que deseja apagar o Critério?</h3>
+</div>
 <div>
-    <h4>TbCriterioAvaliacao</h4>
-    <hr />
+
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Criterio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Criterio)
+        <dd class="col-sm-10">
+            <label class="negrito">Critério: </label>@Html.DisplayFor(model => model.Criterio)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ativa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ativa)
+
+        <dd class="col-sm-10">
+            <label class="negrito">Classificação do Critério: </label>@Html.DisplayFor(model => model.clcriterio)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.clcriterio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.clcriterio)
-        </dd class>
+
+        <dd class="col-sm-10">
+            <label class="negrito">Ativo: </label>
+            @if (Model.Ativa != 1)
+            {<b>Não</b>}
+            else
+            { <b>Sim</b>}
+        </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Codigo" />
-        <input type="hidden" id ="id" name="id" value="@ViewBag.admin.Codigo"/>
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Critérios</a>
+        <input type="hidden" id="id" name="id" value="@ViewBag.admin.Codigo" />
+        <div class="center">
+            <p id="l_botao">
+                <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                    <i class="material-icons left">delete</i>
+                    Remover
+                </button>
+
+                <a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo , criterio = Model.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                    <span class="material-icons">
+
+                        view_list
+
+                    </span>
+                    Lista
+                </a>
+            </p>
+        </div>
+
     </form>
 </div>
+

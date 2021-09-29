@@ -13,7 +13,7 @@ namespace AcompanhamentoDocente.Services
     public class CriterioViewService : ICriterioViewModel
     {
 
-        private dbContext db = new dbContext();
+        private readonly dbContext db = new dbContext();
 
 
 
@@ -192,7 +192,7 @@ namespace AcompanhamentoDocente.Services
             {
                 Criterio = criterioparcial.Criterio,
                 CodigoClassificacaoCriterio = criterioparcial.CodigoClassificacaoCriterio,
-                Ativa = criterioparcial.Ativa
+                Ativa = 1
             };
             await db.TbCriterioAvaliacaos.AddAsync(criterioaux);
             await db.SaveChangesAsync();
@@ -246,6 +246,14 @@ namespace AcompanhamentoDocente.Services
         {
             var tbcomponentecurricular = await db.TbComponenteCurriculars.Include(cc => cc.CodigoModalidadeNavigation)
                .ToListAsync();
+
+            return tbcomponentecurricular;
+        }
+
+        public async Task<TbComponenteCurricular> Comp(int ccurr)
+        {
+            var tbcomponentecurricular = await db.TbComponenteCurriculars.Include(cc => cc.CodigoModalidadeNavigation)
+                .Where(c => c.Codigo == ccurr).FirstAsync();
 
             return tbcomponentecurricular;
         }

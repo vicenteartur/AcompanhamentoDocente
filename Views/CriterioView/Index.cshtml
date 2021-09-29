@@ -5,45 +5,44 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="center"><h1>Selecione o Componente para Visualizar os Critérios</h1></div>
 
+<div class="fixed-action-btn">
+    <a href='@Url.Action("Create", "CCurricular", new { id = ViewBag.admin.Codigo})' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+        <i class="large material-icons">
+            add
+        </i>
+    </a>
+</div>
 
-<table class="table">
+<table class="highlight">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ComponenteCurricular)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CodigoModalidadeNavigation.Modalidade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubArea)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ativa)
-            </th>
-            <th></th>
-        </tr>
+        
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr class="linha_tabela">
             <td>
-                @Html.DisplayFor(modelItem => item.ComponenteCurricular)
+                <p><label class="negrito">Componente: </label>  @Html.DisplayFor(modelItem => item.ComponenteCurricular)</p>
+                <p><label class="negrito">Modalidade: </label> @Html.DisplayFor(modelItem => item.CodigoModalidadeNavigation.Modalidade)</p>
+                <p><label class="negrito">Sub-Área: </label> @Html.DisplayFor(modelItem => item.SubArea)</p>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CodigoModalidadeNavigation.Modalidade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubArea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ativa)
-            </td>
-            <td>
-                @Html.ActionLink("ListaCriterio", "ListaCriterio", new { id = ViewBag.Admin.Codigo, ccur = item.Codigo })
+                <h>
+                    Inativa
+                    @Html.TextBoxFor(modelItem => item.Ativa, new { @class = "range-field", type = "range", min = "0", max = "1", disabled = "True" })
+
+                    Ativa
+                </h>
                 
+            </td>
+            <td>
+                <a href='@Url.Action("ListaCriterio", "CriterioView", new { id = ViewBag.Admin.Codigo, ccur = item.Codigo })'class="waves-effect waves-light btn" id="btdetalhes">
+                    <span class="material-icons">
+                          info
+                    </span>
+                </a>
+
             </td>
         </tr>
 }

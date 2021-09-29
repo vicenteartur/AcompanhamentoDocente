@@ -34,6 +34,8 @@ namespace AcompanhamentoDocente.Controllers
             var admin = await _criterio.MontarAdmin((int)id);
             List<CriterioViewModel> criterio = await _criterio.ListaCriterios((int)ccur);
             ViewData["admin"] = admin;
+            var cc = await _criterio.Comp((int)ccur);
+            ViewData["cc"] = cc;
             return View(criterio);
         }
 
@@ -42,6 +44,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var admin = await _criterio.MontarAdmin((int)id);
             ViewData["admin"] = admin;
+
             if (id == null)
             {
                 return NotFound();

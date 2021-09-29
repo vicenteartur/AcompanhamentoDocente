@@ -21,6 +21,7 @@ namespace AcompanhamentoDocente.Interface
         MultiSelectList CompCurri();
         MultiSelectList UpCompCurri(int crit);
         bool TbCriterioExists(int id);
+        Task<TbComponenteCurricular> Comp(int ccurr);
 
     }
 }
