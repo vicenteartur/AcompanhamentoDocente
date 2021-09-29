@@ -9,14 +9,16 @@
 
 <div class="center"><h1>Atribuições</h1></div>
 
-<p>
-    <a href='@Url.Action("ListaProfessor", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escol.Codigo })' class="waves-effect waves-light btn">
-        <span class="material-icons">
-            person
-        </span>
-        Atribuir
-    </a>
-</p>
+<p></p>
+
+    <div class="fixed-action-btn">
+        <a href='@Url.Action("ListaProfessor", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escol.Codigo })' id="adcionar" class ="btn-floating btn-large waves-effect waves-light">
+            <i class="large material-icons">
+                add
+            </i>
+        </a>
+    </div>
+
 
 <p>
     <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escol.Codigo})' class="waves-effect waves-light btn">
@@ -76,7 +78,7 @@
                         </a>
                     </p>
                     <p>
-                        <a href='@Url.Action("Avaliar", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atribu = item.Codigo })' class="waves-effect waves-light btn" id="btavaliar">
+                        <a href='@Url.Action("ListaAbertaAvaliacaoAtribuicao", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, atrib = item.Codigo })' class="waves-effect waves-light btn" id="btavaliar" alt="continuar avaliando">
                             <span class="material-icons">
                                 
                                     trending_up

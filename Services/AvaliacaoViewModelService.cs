@@ -17,7 +17,7 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<TbCriterioAvaliado> MontarCritAv(int avaliacao)
         {
-            var critav = await db.TbCriterioAvaliados.Where(c => c.Codigo == avaliacao).FirstAsync();
+            var critav = await db.TbCriterioAvaliados.Include(ct => ct.CodigoCriterioAvaliacaoNavigation).Where(c => c.Codigo == avaliacao).FirstAsync();
             await db.SaveChangesAsync();
             return critav;
         }
@@ -224,6 +224,38 @@ namespace AcompanhamentoDocente.Services
                 .FirstOrDefaultAsync(m => m.Codigo == id);
 
             return tbescola;
+        }
+
+        public async Task<List<AvaliacaoViewModel>> ListaAvaliacoesAtribuicao(int id, int esc, int atrib)
+        {
+            var avaliacao = await(from c in db.TbColaboradors
+                                  join at in db.TbAtribuicaoColaboradorEscolas on c.Codigo equals at.CodigoColaborador
+                                  join atribcc in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas on at.Codigo equals atribcc.CodigoAtribuicaoColaboradorEscola
+                                  join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
+                                  join av in db.TbAvaliacaos on atribcc.Codigo equals av.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola
+                                  join cc in db.TbComponenteCurriculars on atribcc.CodigoComponenteCurricular equals cc.Codigo
+                                  join acc in db.TbCriterioComponenteCurriculars on cc.Codigo equals acc.CodigoComponenteCurricular
+                                  join an in db.TbAnos on atribcc.CodigoAno equals an.Codigo
+                                  join m in db.TbModalidades on an.CodigoModalidade equals m.Codigo
+                                  where c.Ativo == 1 && at.Ativa == 1 && atribcc.Ativa == 1 && e.Ativa == 1 && cc.Ativa == 1 && acc.Ativa == 1 &&
+                                  e.Codigo == esc && av.Finalizada != 1 && av.CodigoColaboradorAvaliador == id && av.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola == atrib
+                                  select new AvaliacaoViewModel
+                                  {
+                                      Codigo = av.Codigo,
+                                      dataavaliacao = av.Datarealizacao,
+                                      CodigoColaboradorAvaliador = av.CodigoColaboradorAvaliador,
+                                      CodigoACECCA = atribcc.Codigo,
+                                      NomeColaborador = c.Nome,
+                                      escola = e.Escola,
+                                      ano = $"{an.Ano + an.Turma + " - " + m.Modalidade + " - " + an.Periodo}",
+                                      ccurric = cc.ComponenteCurricular,
+                                      Finalizada = av.Finalizada
+                                  }
+                             ).ToListAsync();
+
+
+
+            return avaliacao;
         }
     }
 }

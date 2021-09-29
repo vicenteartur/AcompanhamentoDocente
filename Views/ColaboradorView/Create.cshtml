@@ -43,24 +43,28 @@
                 <input type="hidden" asp-for="CodigoEscola" class="form-control" />
                 <input type="hidden" asp-for="CodigoAdministrador" class="form-control" />
                 <div class="form-group">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">
-                        Salvar
-                        <i class="material-icons right">save</i>
-                    </button>
-                </div>
+                    <div class="center">
+                        <p id="l_botao">
+                            <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                                Salvar
+                                <i class="material-icons left">save</i>
+                            </button>
+                            <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                                <span class="material-icons">
+
+                                    view_list
+
+                                </span>
+                                Lista Colaboradores
+                            </a>
+                        </p>
+                    </div>
             </div>
 
         </form>
     </div>
 </div>
-<a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc})' class="waves-effect waves-light btn">
-    <span class="material-icons">
 
-        view_list
-
-    </span>
-    Lista Colaboradores
-</a>
 
 
 

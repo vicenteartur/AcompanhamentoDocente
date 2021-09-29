@@ -47,24 +47,26 @@
             <input type="hidden" asp-for="@Model.CodigoAdministrador" id="ad" />
 
             <div class="form-group">
-                <button class="btn waves-effect waves-light" type="submit" name="action">
-                    <i class="material-icons right">person_remove</i>
-                    Remover
-                </button>
+
+                <div class="center">
+                    <p id="l_botao">
+                        <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                            <i class="material-icons left">person_remove</i>
+                            Remover
+                        </button>
+
+                        <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = Model.CodigoEscola})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                            <span class="material-icons">
+
+                                view_list
+
+                            </span>
+                            Lista Colaboradores
+                        </a>
+                    </p>
+                </div>
             </div>
-            
-            <p>
-                <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc.Codigo})' class="waves-effect waves-light btn">
-                    <span class="material-icons">
 
-                        view_list
-
-                    </span>
-                    Lista Colaboradores
-                </a>
-            </p>
-
-            
         </form>
     </div>
 </div>

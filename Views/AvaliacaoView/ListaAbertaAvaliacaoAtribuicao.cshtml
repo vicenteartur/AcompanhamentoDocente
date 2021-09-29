@@ -1,0 +1,62 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.AvaliacaoViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center"><h1>Avaliações em Aberto</h1></div>
+
+    <p></p>
+    <div class="fixed-action-btn">
+        
+        <a href='@Url.Action("Avaliar", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })' id = "adcionar" class ="btn-floating btn-large waves-effect waves-light">
+            <i class="large material-icons">
+                add
+            </i>
+        </a>
+    </div>
+        <table class="highlight">
+            <thead>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="linha_tabela">
+
+                        <td>
+                            <p><label class="negrito">Nome: </label>@Html.DisplayFor(modelItem => item.NomeColaborador)</p>
+                            <p><label class="negrito">Componente: </label>@Html.DisplayFor(modelItem => item.ccurric)</p>
+                            <p><label class="negrito">Turma: </label>@Html.DisplayFor(modelItem => item.ano)</p>
+                        </td>
+                        <td>
+                            <p>
+                                <a href='@Url.Action("Edit", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo  })' class="waves-effect waves-light btn" id="bteditar">
+                                    <span class="material-icons">
+                                        mode_edit
+                                    </span>
+                                </a>
+                            </p>
+                            <p>
+                                <a href='@Url.Action("Details", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo  })' class="waves-effect waves-light btn" id="btdetalhes">
+                                    <span class="material-icons">
+                                        info
+                                    </span>
+                                </a>
+                            </p>
+                            <p>
+                                <a href='@Url.Action("Delete", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo  })' class="waves-effect waves-light btn" id="btremover">
+                                    <span class="material-icons">
+                                        delete
+                                    </span>
+                                </a>
+                            </p>
+
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+

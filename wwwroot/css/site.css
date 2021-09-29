@@ -140,7 +140,7 @@ h3 {
     width: 195px;
     text-align: left;
 }
-#btadministrar1 {
+#btadministrar1, btnDetalhes {
     background-color: var(--primary);
     color: white;
     width: 200px;
@@ -177,3 +177,18 @@ select {
 select:focus {
         outline: 1px solid #c9f3ef;
     }
+
+#l_botao {
+    line-height: 3;
+}
+
+#btsalvarpequeno, #btlistapequeno {
+    color: #fff;
+    text-emphasis-color: white;
+    text-decoration-color: white;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    width: 150px;
+    text-align: center;
+    font-size: 12px;
+}

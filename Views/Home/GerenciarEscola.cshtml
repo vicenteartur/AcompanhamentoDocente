@@ -3,16 +3,21 @@
 }
 
 
-
-<p><a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn-large">
-    <span class="material-icons">
-        person
-    </span>
-    Colaborador
-</a></p>
-<p><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn-large">
-       <span class="material-icons">
-           supervised_user_circle
-       </span>
-               Atribuições
-</a></p>
+<div class="center">
+    <p id="l_botao">
+    
+        <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
+            <span class="material-icons">
+                person
+            </span>
+            Colaborador
+        </a>
+   
+        <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
+            <span class="material-icons">
+                supervised_user_circle
+            </span>
+            Atribuições
+        </a>
+    </p>
+</div>

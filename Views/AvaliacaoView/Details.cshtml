@@ -10,95 +10,93 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
 
-<h1>Edit</h1>
-
-<h4>AvaliacaoViewModel</h4>
-<div id="xamego" class="row">
-    <div class="col-md-4">
-
-        @Html.ActionLink("Avaliações Abertas", "Index", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })|
-        @Html.ActionLink("Continuar Avaliando", "Edit", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = Model.CodigoACECCA, aval = Model.Codigo }) 
-
-        <form asp-action="Edit">
-
-            <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
-            <input type="hidden" name="esc" value="@ViewBag.escola.Codigo" />
-            <input type="hidden" asp-for="CodigoColaboradorAvaliador" value="@ViewBag.admin.Codigo" />
-            @Html.EditorFor((model => model.Codigo), new { @type = "hidden" })
-            @Html.EditorFor((model => model.CodigoACECCA), new { @type = "hidden" })
-            @Html.EditorFor((model => model.dataavaliacao), new { @type = "hidden" })
+<div class="center"><h1>Avaliação em Andamento</h1></div>
 
 
+    <div id="xamego" class="row">
+        <div class="center">
+            <p id="l_botao">
 
-            <hr />
-            <dl class="row">
-                <dt class="col-sm-10">
-                    @Html.DisplayNameFor(model => model.NomeAvaliador)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.NomeAvaliador)
-                </dd>
-                <dt class="col-sm-10">
-                    @Html.DisplayNameFor(model => model.NomeColaborador)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.NomeColaborador)
-                </dd>
-                <dt class="col-sm-10">
-                    @Html.DisplayNameFor(model => model.dataavaliacao)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.dataavaliacao)
-                </dd>
-                <dt class="col-sm-10">
-                    @Html.DisplayNameFor(model => model.ccurric)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.ccurric)
-                </dd>
-                <dt class="col-sm-10">
-                    @Html.DisplayNameFor(model => model.ano)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.ano)
-                </dd>
-            </dl>
+                <a href='@Url.Action("Index", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
+                    <span class="material-icons">
+                        view_list
+                    </span>
+                    Avaliações
+                </a>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CriterioAvaliado)
-                        </th>
-                        <th></th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CriterioAvaliado)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.CriterioAvaliado)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.Criterio)
-                            </td>
-                            <td></td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Conceito)
-                            </td>
-                            <td></td>
+                <a href='@Url.Action("Edit", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = Model.CodigoACECCA, aval = Model.Codigo  })' class="waves-effect waves-light btn">
+                    <span class="material-icons">
+                        mode_edit
+                    </span>
+                    Continuar Avaliando
+                </a>
+            </p>
+        </div>
+        <div class="col-md-4">
 
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <div class="form-group">
+            <form asp-action="Edit">
 
-            </div>
-        </form>
+                <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
+                <input type="hidden" name="esc" value="@ViewBag.escola.Codigo" />
+                <input type="hidden" asp-for="CodigoColaboradorAvaliador" value="@ViewBag.admin.Codigo" />
+                <input type="hidden" asp-for="Codigo" value="@Model.Codigo" />
+                <input type="hidden" asp-for="CodigoACECCA" value="@Model.CodigoACECCA" />
+                <input type="hidden" asp-for="dataavaliacao" value="@Model.dataavaliacao" />
+
+
+
+
+                <dl class="row">
+
+                    <dd class="col-sm-10">
+                        <label class="negrito">Nome do Avaliador: </label>@Html.DisplayFor(model => model.NomeAvaliador)
+                    </dd>
+                    <dd class="col-sm-10">
+                        <label class="negrito">Nome do Colaborador Avaliado: </label>@Html.DisplayFor(model => model.NomeColaborador)
+                    </dd>
+                    <dd class="col-sm-10">
+                        <label class="negrito">Data de Avaliação: </label>@Html.DisplayFor(model => model.dataavaliacao)
+                    </dd>
+                    <dd class="col-sm-10">
+                        <label class="negrito">Componente: </label>@Html.DisplayFor(model => model.ccurric)
+                    </dd>
+                    <dd class="col-sm-10">
+                        <label class="negrito">Turma: </label>@Html.DisplayFor(model => model.ano)
+                    </dd>
+                </dl>
+
+                <table class="highlight">
+                    <thead>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.CriterioAvaliado)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.Criterio)
+                                </td>
+                                <td></td>
+                                <td>
+                                    <h>
+                                        Não Atende
+                                        @Html.TextBoxFor(modelItem => item.Conceito, new { @class = "range-field", type = "range", min = "0", max = "1", disabled = "True" })
+
+                                        Atende
+                                    </h>
+
+                                </td>
+                                <td></td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="form-group">
+
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
 

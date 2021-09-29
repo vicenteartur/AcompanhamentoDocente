@@ -18,6 +18,7 @@ namespace AcompanhamentoDocente.Interface
         Task<TbEscola> MontarEscola(int id);
         bool AvaliacaoExists(int id);
         Task<List<AvaliacaoViewModel>> ListaAvaliacoesFinalizadas(int esc);
+        Task<List<AvaliacaoViewModel>> ListaAvaliacoesAtribuicao(int id, int esc, int atrib);
 
     }
 }

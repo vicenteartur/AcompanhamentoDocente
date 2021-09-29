@@ -236,5 +236,13 @@ namespace AcompanhamentoDocente.Controllers
 
         }
 
+        public async Task<ActionResult> ListaAbertaAvaliacaoAtribuicao(int? id, int? esc, int? atrib)
+        {
+            ViewData["admin"] = await _avaliacao.MontarAdmin((int)id);
+            ViewData["escola"] = await _avaliacao.MontarEscola((int)esc);
+
+            return View(await _avaliacao.ListaAvaliacoesAtribuicao((int)id, (int)esc,(int)atrib));
+        }
+
     }
 }
