@@ -29,6 +29,7 @@
 
                 <p><label class="negrito">Sub-Área: </label> @Html.DisplayFor(modelItem => item.SubArea)</p>
                 <p>
+                    <label class="negrito">Ativo:   </label>
                     <h>
                         Inativa
                         @Html.TextBoxFor(modelItem => item.Ativa, new { @class = "range-field", type = "range", min = "0", max = "1", disabled = "True" })

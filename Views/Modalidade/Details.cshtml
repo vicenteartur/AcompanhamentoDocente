@@ -5,21 +5,35 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="center"><h1>Detalhes da Modalidade</h1></div>
 
 <div>
-    <h4>TbModalidade</h4>
-    <hr />
+    
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Modalidade)
-        </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Modalidade)
+            <label class="negrito">Modalidade: </label> @Html.DisplayFor(model => model.Modalidade)
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, mod = Model.Codigo }) |
-    @Html.ActionLink("Index", "Index", new { id = ViewBag.Admin.Codigo })
+    <div class="center">
+        <p id="l_botao">
+            <a href='@Url.Action("Edit", "Modalidade", new { id = ViewBag.Admin.Codigo, mod = Model.Codigo })' class="waves-effect waves-light btn-small" id="btmodificarpequeno">
+                <span class="material-icons">
+                    mode_edit
+                </span>
+                Modificar
+            </a>
+
+            <a href='@Url.Action("Index", "Modalidade", new { id = ViewBag.Admin.Codigo })' class="waves-effect waves-light btn-small" id="btlistapequeno1">
+                <span class="material-icons">
+
+                    view_list
+
+                </span>
+                Componentes
+            </a>
+        </p>
+    </div>
+    
 </div>

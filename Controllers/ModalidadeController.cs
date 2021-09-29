@@ -130,6 +130,8 @@ namespace AcompanhamentoDocente.Controllers
         // GET: Modalidade/Delete/5
         public async Task<IActionResult> Delete(int? id, int? mod)
         {
+            var admin = await _modalidade.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
             if (id == null)
             {
                 return NotFound();
