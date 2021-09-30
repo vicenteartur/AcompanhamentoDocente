@@ -316,30 +316,52 @@ namespace AcompanhamentoDocente.Services
 
 
 
-            var removerartibuicao = new List<TbAtribuicaoColaboradorEscola>();
-            removerartibuicao = await (from at in db.TbAtribuicaoColaboradorEscolas
-                                       where at.CodigoEscola == Escola.Codigo
-                                       select at).AsNoTracking().ToListAsync();
+            var removeratribuicao = new List<TbAtribuicaoColaboradorEscola>();
 
-            var bulkremocao = new List<TbAtribuicaoColaboradorEscola>();
+            removeratribuicao = await db.TbAtribuicaoColaboradorEscolas.Where(at => at.CodigoEscola == Escola.Codigo).AsNoTracking().ToListAsync();
 
-            foreach (var item in removerartibuicao)
+            var removerACCEA = new List<TbAtribuicaoComponenteCurricularAnoColaboradorEscola>();
+
+            foreach (var item in removeratribuicao)
             {
-                var apagaratribuicao = new TbAtribuicaoColaboradorEscola();
-                {
-                    dbContext db = new dbContext();
-                    apagaratribuicao.Codigo = item.Codigo;
-                    apagaratribuicao.CodigoColaborador = item.CodigoColaborador;
-                    apagaratribuicao.CodigoEscola = item.CodigoEscola;
-                    apagaratribuicao.Ativa = item.Ativa;
-                }
+                var removeraux = await db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
+                    .Where(a => a.CodigoAtribuicaoColaboradorEscola == item.Codigo).AsNoTracking().ToListAsync();
 
-                bulkremocao.Add(apagaratribuicao);
-                //db.TbAtribuicaoColaboradorEscolas.Remove(apagaratribuicao);
-                //await db.SaveChangesAsync();
+                foreach (var itemaux in removeraux)
+                {
+                    removerACCEA.Add(itemaux);
+                }
             }
 
-            await db.BulkDeleteAsync<TbAtribuicaoColaboradorEscola>(bulkremocao);
+            var removeravaliacao = new List<TbAvaliacao>();
+            foreach (var item in removerACCEA)
+            {
+                var removeraux = await db.TbAvaliacaos.Where(ac => ac.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola == item.Codigo)
+                    .AsNoTracking().ToListAsync();
+
+                foreach (var itemaux in removeraux)
+                {
+                    removeravaliacao.Add(itemaux);
+                }
+            }
+            var removercritaval = new List<TbCriterioAvaliado>();
+
+            foreach (var item in removeravaliacao)
+            {
+                var removeraux = await db.TbCriterioAvaliados.Where(cr => cr.CodigoAvaliacao == item.Codigo)
+                    .AsNoTracking().ToListAsync();
+
+                foreach (var itemaux in removeraux)
+                {
+                    removercritaval.Add(itemaux);
+                }
+            }
+
+
+            await db.BulkDeleteAsync<TbCriterioAvaliado>(removercritaval);
+            await db.BulkDeleteAsync<TbAvaliacao>(removeravaliacao);
+            await db.BulkDeleteAsync<TbAtribuicaoComponenteCurricularAnoColaboradorEscola>(removerACCEA);
+            await db.BulkDeleteAsync<TbAtribuicaoColaboradorEscola>(removeratribuicao);
 
             var remover = new TbEscola();
             remover.Codigo = Escola.Codigo;

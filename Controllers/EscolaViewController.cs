@@ -24,7 +24,7 @@ namespace AcompanhamentoDocente.Controllers
             var escola = new List<EscolaViewModel>();
             escola = await _escolaview.ListaEscolasAtivas((int)id);
             var colaborador = await _escolaview.MontarColaborador((int)id);
-            ViewData["colaborador"] = colaborador;
+            ViewData["admin"] = colaborador;
             return View(escola);
         }
 
@@ -33,7 +33,7 @@ namespace AcompanhamentoDocente.Controllers
             var escola = new List<EscolaViewModel>();
             escola = await _escolaview.ListaEscolasInativas((int)id);
             var colaborador = await _escolaview.MontarColaborador((int)id);
-            ViewData["colaborador"] = colaborador;
+            ViewData["admin"] = colaborador;
             return View(escola);
         }
 
@@ -42,6 +42,8 @@ namespace AcompanhamentoDocente.Controllers
         {
             var escola = new EscolaViewModel();
             escola = await _escolaview.MontarEscola(0, (int)id);
+            var colaborador = await _escolaview.MontarColaborador((int)id);
+            ViewData["admin"] = colaborador;
 
             return View(escola);
         }
@@ -70,6 +72,8 @@ namespace AcompanhamentoDocente.Controllers
                 return RedirectToAction("Index", new { id = id });
             }
             var escola = _escolaview.MontarEscola(0, (int)id);
+            var colaborador = await _escolaview.MontarColaborador((int)id);
+            ViewData["admin"] = colaborador;
 
             return View(escola);
         }
@@ -80,6 +84,8 @@ namespace AcompanhamentoDocente.Controllers
             if (id != null && col != null)
             {
                 var escola = await _escolaview.MontarEscola((int)id, (int)col);
+                var colaborador = await _escolaview.MontarColaborador((int)col);
+                ViewData["admin"] = colaborador;
                 return View(escola);
             }
 
@@ -129,6 +135,8 @@ namespace AcompanhamentoDocente.Controllers
                 return RedirectToAction("Index", new { id = tbEscola.CodigoColaborador });
             }
             var escola = await _escolaview.MontarEscola((int)id, tbEscola.CodigoColaborador);
+            var colaborador = await _escolaview.MontarColaborador((int)tbEscola.CodigoColaborador);
+            ViewData["admin"] = colaborador;
             return View(escola);
 
         }
@@ -146,6 +154,8 @@ namespace AcompanhamentoDocente.Controllers
             }
 
             var detalheescola = await _escolaview.MontarEscola((int)id, (int)col);
+            var colaborador = await _escolaview.MontarColaborador((int)col);
+            ViewData["admin"] = colaborador;
             if (detalheescola == null)
             {
                 return NotFound();
@@ -168,6 +178,8 @@ namespace AcompanhamentoDocente.Controllers
             }
 
             var apagarescola = await _escolaview.MontarEscola((int)id, (int)col);
+            var colaborador = await _escolaview.MontarColaborador((int)col);
+            ViewData["admin"] = colaborador;
             if (apagarescola == null)
             {
                 return NotFound();

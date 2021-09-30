@@ -6,78 +6,37 @@
 
 }
 
-<div class="form-horizontal">
-    <h4>EscolaViewModel</h4>
-    <hr />
+<div class="center"><h1>Modificar dados da Escola</h1></div>
 
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
 <form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.DisplayNameFor(model => model.colaborador.Codigo)
 
-    <dd>
-
-        @Html.EditorFor(model => model.CodigoColaborador, new { @id = "CodigoColaborador" })
-
-    </dd>
-
-    <dt>
-        @Html.DisplayNameFor(model => model.colaborador.Nome)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.colaborador.Nome)
-    </dd>
-    <dt>
-        @Html.DisplayNameFor(model => model.colaborador.Email)
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.colaborador.Email)
-    </dd>
-
+    <input type="hidden" asp-for="Codigo" class="browser-default" />
+    <input type="hidden" asp-for="CodigoColaborador" value="@ViewBag.admin.Codigo" class="browser-default" />
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CodigoColaborador, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CodigoColaborador, new { htmlAttributes = new { @class = "form-control", @id = "CodigoColaborador", @hidden = "false", @disable = "true" } })
-            @Html.ValidationMessageFor(model => model.CodigoColaborador, "", new { @class = "text-danger" })
-        </div>
+        <label asp-for="Escola" class="control-label">Escola</label>
+        <input asp-for="Escola" class="form-control" />
+        <span asp-validation-for="Escola" class="text-danger"></span>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control", @id = "Id", @disable = "" } })
-            @Html.ValidationMessageFor(model => model.Escola, "", new { @class = "text-danger" })
-        </div>
+        <label asp-for="Rua" class="control-label">Rua</label>
+        <input asp-for="Rua" class="form-control" />
+        <span asp-validation-for="Rua" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Escola, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Escola, new { htmlAttributes = new { @class = "form-control", @id = "Escola" } })
-            @Html.ValidationMessageFor(model => model.Escola, "", new { @class = "text-danger" })
-        </div>
+        <label asp-for="Bairro" class="control-label">Bairro</label>
+        <input asp-for="Bairro" class="form-control" />
+        <span asp-validation-for="Bairro" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Rua, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Rua, new { htmlAttributes = new { @class = "form-control", @id = "Rua" } })
-            @Html.ValidationMessageFor(model => model.Rua, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control", @id = "Bairro" } })
-            @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.CodigoEstado, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.CodigoEstado, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.CodigoEstado, Model.estado, new { @id = "CodigoEstado", @class = "browser-default" })
 
@@ -85,7 +44,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CodigoCidade, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.CodigoCidade, "Cidade", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.CodigoCidade, Model.cidade, "--Selecione", new { @id = "CodigoCidade", @class = "browser-default" })
 
@@ -93,28 +52,44 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.INEP, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.INEP, new { htmlAttributes = new { @class = "form-control", @id = "INEP" } })
-            @Html.ValidationMessageFor(model => model.INEP, "", new { @class = "text-danger" })
-        </div>
+        <label asp-for="INEP" class="control-label">INEP</label>
+        <input asp-for="INEP" class="form-control" />
+        <span asp-validation-for="INEP" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Ativa, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Ativa, new { htmlAttributes = new { @class = "form-control", @id = "Ativa" } })
-            @Html.ValidationMessageFor(model => model.Ativa, "", new { @class = "text-danger" })
-        </div>
+    <div class="center">
+
+        <h>
+            Inativa
+            <input asp-for="Ativa" type="range" min="0" max="1" class="range-field" />
+            Ativa
+        </h>
+        <span asp-validation-for="Ativa" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <input type="submit" value="Salvar" class="btn btn-primary" />
+        <div class="center">
+            <p id="l_botao">
+                <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                    Salvar
+                    <i class="material-icons left">save</i>
+                </button>
+                <a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.admin.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                    <span class="material-icons">
+
+                        view_list
+
+                    </span>
+                    Lista
+                </a>
+            </p>
+        </div>
     </div>
 
 </form>
 
-    
+
 </div>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>

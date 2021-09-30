@@ -5,69 +5,57 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="center"><h1>Detalhes da Escola</h1></div>
 
 <div>
-    <h4>Escola</h4>
-    <hr />
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.CodigoColaborador)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.CodigoColaborador)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.colaborador.Nome)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.colaborador.Nome)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.colaborador.Email)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.colaborador.Email)
-    </dd>
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Escola)
-        </dt>
+        
+
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Escola)
+            <label class="negrito">Escola: </label> @Html.DisplayFor(model => model.Escola)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.INEP)
-        </dt>
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.INEP)
+            <label class="negrito">INEP: </label>@Html.DisplayFor(model => model.INEP)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Rua)
-        </dt>
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Rua)
+            <label class="negrito">Rua: </label>@Html.DisplayFor(model => model.Rua)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Bairro)
-        </dt>
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Bairro)
+            <label class="negrito">Bairro: </label> @Html.DisplayFor(model => model.Bairro)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.nomeCidade)
-        </dt>
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.nomeCidade)
+            <label class="negrito">Cidade: </label>@Html.DisplayFor(model => model.nomeCidade)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.sigla)
-        </dt>
+        
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.sigla)
+            <label class="negrito">Estado: </label>@Html.DisplayFor(model => model.sigla)
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Codigo, col = Model.colaborador.Codigo }) |
-    @Html.ActionLink("Voltar", "Index", new { id = Model.colaborador.Codigo }) |
+    <div class="center">
+        <p id="l_botao">
+            <a href='@Url.Action("Edit", "EscolaView", new { id = Model.Codigo, col = Model.colaborador.Codigo })' class="waves-effect waves-light btn-small" id="btmodificarpequeno">
+                <span class="material-icons">
+                    mode_edit
+                </span>
+                Modificar
+            </a>
+
+            <a href='@Url.Action("Index", "EscolaView", new { id = Model.colaborador.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                <span class="material-icons">
+
+                    view_list
+
+                </span>
+                Lista Colaboradores
+            </a>
+        </p>
+    </div>
+    
 </div>
