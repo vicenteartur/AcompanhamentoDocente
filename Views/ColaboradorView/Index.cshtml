@@ -73,6 +73,8 @@
                                     </span>
                                 </a>
                             </p>
+                            @if (User.IsInRole("admin") || User.IsInRole("Supervisor") || User.IsInRole("User"))
+                            {
                             <p>
                                 <a href='@Url.Action("Delete", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
                                     <span class="material-icons">
@@ -80,7 +82,7 @@
                                     </span>
                                 </a>
                             </p>
-
+                            }
                         </td>
                     </tr>
 

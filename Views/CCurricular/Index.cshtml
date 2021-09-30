@@ -53,14 +53,17 @@
                         </span>
                     </a>
                 </p>
-                <p>
-                    <a href='@Url.Action("Delete", "CCurricular", new { id = ViewBag.Admin.Codigo, comp = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
-                        <span class="material-icons">
-                            delete
-                        </span>
-                    </a>
-                </p>
                 
+                @if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User"))
+                {
+                    <p>
+                        <a href='@Url.Action("Delete", "CCurricular", new { id = ViewBag.Admin.Codigo, comp = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
+                            <span class="material-icons">
+                                delete
+                            </span>
+                        </a>
+                    </p>
+                }
             </td>
         </tr>
          }

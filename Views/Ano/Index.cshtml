@@ -5,53 +5,64 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="center"><h1>Turmas</h1></div>
 
-<input type="" name="id" value="@ViewBag.admin.Codigo" />
+<div class="fixed-action-btn">
+    <a href='@Url.Action("Create", "Ano", new { id = ViewBag.admin.Codigo})' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+        <i class="large material-icons">
+            add
+        </i>
+    </a>
+</div>
 
 
-<p>
-    <a asp-action="Create"asp-route-id="@ViewBag.admin.Codigo">Create New</a>
-</p>
-<table class="table">
+
+<table class="highlight">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Ano)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Turma)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CodigoModalidadeNavigation.Modalidade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Periodo)
-            </th>
-            <th></th>
-        </tr>
+
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ano)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Turma)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CodigoModalidadeNavigation.Modalidade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Periodo)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, Codigo = item.Codigo }) |
-                @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, Codigo = item.Codigo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, Codigo = item.Codigo })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr class="linha_tabela">
+                <td>
+                    <p><label class="negrito">Ano: </label> @Html.DisplayFor(modelItem => item.Ano)</p>
+
+                    <p><label class="negrito">Turma: </label>   @Html.DisplayFor(modelItem => item.Turma)</p>
+
+                    <p><label class="negrito">Modalidade: </label>   @Html.DisplayFor(modelItem => item.CodigoModalidadeNavigation.Modalidade)</p>
+
+                    <p><label class="negrito">Período: </label>   @Html.DisplayFor(modelItem => item.Periodo)</p>
+</td>
+                <td>
+                    <p>
+                        <a href='@Url.Action("Edit", "Ano", new { id = ViewBag.Admin.Codigo, Codigo = item.Codigo})' class="waves-effect waves-light btn" id="bteditar">
+                            <span class="material-icons">
+                                mode_edit
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Details", "Ano", new { id = ViewBag.Admin.Codigo, Codigo = item.Codigo})' class="waves-effect waves-light btn" id="btdetalhes">
+                            <span class="material-icons">
+                                info
+                            </span>
+                        </a>
+                    </p>
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User"))
+                    {
+                        <p>
+                            <a href='@Url.Action("Delete", "Ano", new { id = ViewBag.Admin.Codigo, Codigo = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
+                                <span class="material-icons">
+                                    delete
+                                </span>
+                            </a>
+                        </p>
+                    }
+                    
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
