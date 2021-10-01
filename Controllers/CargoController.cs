@@ -74,7 +74,7 @@ namespace AcompanhamentoDocente.Controllers
         }
 
         // GET: Cargo/Edit/5
-        public async Task<IActionResult> Edit(int? id, int? cdcargo)
+        public async Task<IActionResult> Edit(int? id, int? cargo)
         {
             var admin = await _cargo.MontarAdmin((int)id);
             ViewData["admin"] = admin;
@@ -84,7 +84,7 @@ namespace AcompanhamentoDocente.Controllers
                 return NotFound();
             }
             var tbCargo = new TbCargo();
-            tbCargo = await _cargo.Detalhes((int)cdcargo);
+            tbCargo = await _cargo.Detalhes((int)cargo);
 
             if (tbCargo == null)
             {
@@ -132,7 +132,7 @@ namespace AcompanhamentoDocente.Controllers
         }
 
         // GET: Cargo/Delete/5
-        public async Task<IActionResult> Delete(int? id, int? Cargo)
+        public async Task<IActionResult> Delete(int? id, int? cargo)
         {
             var admin = await _cargo.MontarAdmin((int)id);
             ViewData["admin"] = admin;
@@ -142,7 +142,7 @@ namespace AcompanhamentoDocente.Controllers
                 return NotFound();
             }
 
-            var tbCargo = await _cargo.Detalhes((int)Cargo);
+            var tbCargo = await _cargo.Detalhes((int)cargo);
             if (tbCargo == null)
             {
                 return NotFound();
