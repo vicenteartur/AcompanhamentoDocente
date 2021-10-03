@@ -8,24 +8,37 @@
 <h1>Details</h1>
 
 <div>
-    <h4>TbCidade</h4>
-    <hr />
+    
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cidade)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cidade)
+
+        <dd class="col-sm-10">
+            <label class="negrito">Cidade: </label> @Html.DisplayFor(model => model.Cidade)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CodigoEstadoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CodigoEstadoNavigation.Estado)
+
+        <dd class="col-sm-10">
+            <label class="negrito">Estado: </label>@Html.DisplayFor(model => model.CodigoEstadoNavigation.Estado)
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, cidade = Model.Codigo }) |
-    @Html.ActionLink("Index", "Index", new { id = ViewBag.Admin.Codigo })
+    <div class="center">
+        <p id="l_botao">
+            <a href='@Url.Action("Edit", "Cidade", new { id = ViewBag.Admin.Codigo, criterio = Model.Codigo })' class="waves-effect waves-light btn-small" id="btmodificarpequeno">
+                <span class="material-icons">
+                    mode_edit
+                </span>
+                Modificar
+            </a>
+
+            <a href='@Url.Action("Index", "Cidade", new { id = ViewBag.Admin.Codigo, criterio = Model.Codigo })' class="waves-effect waves-light btn-small" id="btlistapequeno1">
+                <span class="material-icons">
+
+                    view_list
+
+                </span>
+                Lista
+            </a>
+        </p>
+    </div>
+    
 </div>

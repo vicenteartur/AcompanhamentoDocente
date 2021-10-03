@@ -28,7 +28,7 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<TbCidade> Detalhes(int id)
         {
-            var tbcidade = await db.TbCidades.Where(e => e.Codigo == id).FirstAsync();
+            var tbcidade = await db.TbCidades.Where(e => e.Codigo == id).Include(c => c.CodigoEstadoNavigation).FirstAsync();
             return tbcidade;
         }
 
@@ -40,7 +40,7 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<List<TbCidade>> ListaCidade()
         {
-            return await db.TbCidades.OrderBy(c => c.Cidade).ToListAsync();
+            return await db.TbCidades.Include(c =>c.CodigoEstadoNavigation).OrderBy(c => c.Cidade).ToListAsync();
         }
 
         public async Task<TbColaborador> MontarAdmin(int id)
