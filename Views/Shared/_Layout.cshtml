@@ -44,6 +44,33 @@
                                     <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' id="btano1" class="waves-effect">Anos</a></li>
                                     <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' id="btccurricular1" class="waves-effect">Componente Curricular</a></li>
                                 </ul>
+                                
+                            }
+                            else
+                            {
+                                <li>
+                                    <form method="post" asp-controller="account" asp-action="montar">
+                                        <input type="hidden" name="Email" value="@User.Identity.Name" />
+                                        <input type="hidden" name="Password" value="-" />
+                                        <input type="hidden" name="RememberMe" value="false" />
+                                        <button type="submit" style="width:auto"
+                                                class="waves-effect waves-light btn">
+                                            <span class="material-icons">
+                                                login
+                                            </span>
+                                            DashBoard
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+
+                        }
+                        if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User"))
+                        {
+
+                            if (ViewBag.admin != null)
+                            {
+
                                 <a class='dropdown-trigger btn' href='#' data-target='dropdown4' id="btsupervisionar">Supervisão</a>
                                 <ul id='dropdown4' class='dropdown-content'>
                                     <li><a href='@Url.Action("Index", "Modalidade", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Modalidade</a></li>
@@ -71,15 +98,15 @@
                             }
 
                         }
-                        if (User.IsInRole("Supervisor")  || User.IsInRole("User"))
+                        if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User")|| User.IsInRole("Operador"))
                         {
 
                             if (ViewBag.admin != null)
                             {
-                                
-                                <a class='dropdown-trigger btn' href='#' data-target='dropdown4' id="btsupervisionar">Supervisão</a>
-                                <ul id='dropdown4' class='dropdown-content'>
-                                    <li><a href='@Url.Action("Index", "Modalidade", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Modalidade</a></li>
+
+                                <a class='dropdown-trigger btn' href='#' data-target='dropdown5' id="btoperar">Operações</a>
+                                <ul id='dropdown5' class='dropdown-content'>
+                                    <li><a href='@Url.Action("DashBoard", "Home", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Selecionar Escola</a></li>
                                     <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' id="btano" class="waves-effect">Anos</a></li>
                                     <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Componente Curricular</a></li>
                                     <li><a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Critérios</a></li>
@@ -161,6 +188,32 @@
 
                         </ul>
 
+                        
+                    }
+                    else
+                    {
+                        <li>
+                            <form method="post" asp-controller="account" asp-action="montar">
+                                <input type="hidden" name="Email" value="@User.Identity.Name" />
+                                <input type="hidden" name="Password" value="-" />
+                                <input type="hidden" name="RememberMe" value="false" />
+                                <button type="submit" style="width:auto"
+                                        class="waves-effect waves-light btn">
+                                    <span class="material-icons">
+                                        login
+                                    </span>
+                                    DashBoard
+                                </button>
+                            </form>
+                        </li>
+                    }
+
+                }
+
+                if (User.IsInRole("Admin")|| User.IsInRole("Supervisor") || User.IsInRole("User"))
+                {
+                    if (ViewBag.admin != null)
+                    {
                         <a class='dropdown-trigger btn' href='#' data-target='dropdown3' id="btsupervisionar1">Supervisão</a>
                         <ul id='dropdown3' class='dropdown-content'>
                             <li><a href='@Url.Action("Index", "Modalidade", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Modalidade</a></li>
@@ -189,13 +242,13 @@
 
                 }
 
-                if (User.IsInRole("Supervisor") || User.IsInRole("User"))
+                if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User") || User.IsInRole("Operador"))
                 {
                     if (ViewBag.admin != null)
                     {
-                        <a class='dropdown-trigger btn' href='#' data-target='dropdown3' id="btsupervisionar1">Supervisão</a>
-                        <ul id='dropdown3' class='dropdown-content'>
-                            <li><a href='@Url.Action("Index", "Modalidade", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Modalidade</a></li>
+                        <a class='dropdown-trigger btn' href='#' data-target='dropdown6' id="btoperar1">Operações</a>
+                        <ul id='dropdown6' class='dropdown-content'>
+                            <li><a href='@Url.Action("DashBoard", "Home", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Selecionar Escola</a></li>
                             <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' id="btano" class="waves-effect">Anos</a></li>
                             <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Componente Curricular</a></li>
                             <li><a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Critérios</a></li>

@@ -5,10 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="center"><h1>Editar Estado</h1></div>
 
-<h4>TbEstado</h4>
-<hr />
+
 <div class="row">
     <div class="col-md-4">
         <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
@@ -17,7 +16,7 @@
             <input type="hidden" asp-for="Codigo" />
             <div class="form-group">
                 <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" />
+                <input asp-for="Estado" value="@Model.Estado" class="form-control" />
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -26,14 +25,29 @@
                 <span asp-validation-for="Sigla" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <div class="center">
+                    <p id="l_botao">
+                        <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                            Salvar
+                            <i class="material-icons left">save</i>
+                        </button>
+                        <a href='@Url.Action("Index", "Estado", new { id = ViewBag.admin.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                            <span class="material-icons">
+
+                                view_list
+
+                            </span>
+                            Lista
+                        </a>
+                    </p>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Estados</a>
+    
 </div>
 
 @section Scripts {
