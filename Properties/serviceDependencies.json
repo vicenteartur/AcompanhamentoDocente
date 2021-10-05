@@ -3,13 +3,13 @@
     "secrets1": {
       "type": "secrets"
     },
-    "mssql1": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:AcompanhamentoDocente"
-    },
     "mssql2": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:ConnectionStrings:AcompanhamentoDocente"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:AcompanhamentoDocente"
     }
   }
 }

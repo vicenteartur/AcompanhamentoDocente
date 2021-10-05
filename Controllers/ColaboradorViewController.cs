@@ -28,7 +28,7 @@ namespace AcompanhamentoDocente.Controllers
             model = await _colabview.ColaboradorAtivo(id, esc);
             var col = await _colabview.MontarAdmin(id);
             ViewData["admin"] = col;
-            ViewData["esc"] = esc;
+            ViewData["escola"] = esc;
             return View(model);
         }
 
@@ -37,7 +37,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var colaborador = await _colabview.localizaColaborador(col);
             ViewData["admin"] = await _colabview.MontarAdmin(id);
-            ViewData["esc"] = esc;
+            ViewData["escola"] = await _colabview.localizaescola(esc);
             return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
 
@@ -45,7 +45,7 @@ namespace AcompanhamentoDocente.Controllers
         public async Task<ActionResult> Create(int id, int esc)
         {
             ViewData["admin"] = await _colabview.MontarAdmin(id);
-            ViewData["esc"] = esc;
+            ViewData["escola"] = await _colabview.localizaescola(esc); 
             return View(await _colabview.MontarColaborador(id, esc, null));
         }
 
@@ -70,6 +70,7 @@ namespace AcompanhamentoDocente.Controllers
 
                 }
                 ViewData["admin"] = await _colabview.MontarAdmin((int)id);
+                ViewData["escola"] = await _colabview.localizaescola(esc);
                 return RedirectToAction("Index", new { id = id, esc });
             }
 
@@ -82,7 +83,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var colaborador = await _colabview.localizaColaborador(col);
             ViewData["admin"] = await _colabview.MontarAdmin(id);
-            ViewData["esc"] = esc;
+            ViewData["escola"] = await _colabview.localizaescola(esc);
             return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
 
@@ -105,6 +106,7 @@ namespace AcompanhamentoDocente.Controllers
                 try
                 {
                     ViewData["admin"] = await _colabview.MontarAdmin((int)id);
+                    ViewData["escola"] = await _colabview.localizaescola(esc);
                     await _colabview.AtualizarColaborador(colaborador);
                     return RedirectToAction("Index", new { id = id, esc });
 
@@ -118,7 +120,7 @@ namespace AcompanhamentoDocente.Controllers
             var col = await _colabview.localizaColaborador(colaborador.Codigo);
             var colab = await _colabview.MontarColaborador((int)id, esc, col);
             ViewData["admin"] = await _colabview.MontarAdmin((int)id);
-            ViewData["esc"] = esc;
+            ViewData["escola"] = await _colabview.localizaescola(esc);
             return View(colaborador);
 
         }
@@ -128,6 +130,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             var colaborador = await _colabview.localizaColaborador(col);
             ViewData["admin"] = await _colabview.MontarAdmin(id);
+            ViewData["escola"] = await _colabview.localizaescola(esc);
             return View(await _colabview.MontarColaborador(id, esc, colaborador));
         }
 
@@ -149,6 +152,7 @@ namespace AcompanhamentoDocente.Controllers
             catch (Exception ex)
             {
                 ViewData["admin"] = await _colabview.MontarAdmin(colaborador.CodigoAdministrador);
+                ViewData["escola"] = await _colabview.localizaescola(colaborador.CodigoEscola);
                 return View(colaborador);
             }
         }
@@ -165,7 +169,7 @@ namespace AcompanhamentoDocente.Controllers
             }
 
             ViewData["admin"] = await _colabview.MontarAdmin(id);
-            ViewData["esc"] = esc;
+            ViewData["escola"] = await _colabview.localizaescola(esc);
             return View(model);
         }
 
@@ -175,8 +179,8 @@ namespace AcompanhamentoDocente.Controllers
 
 
             await _colabview.AtribuirColaboradorEstendido(col, esc);
-
-
+            ViewData["escola"] = await _colabview.localizaescola(esc);
+            ViewData["admin"] = await _colabview.MontarAdmin(id);
 
             return RedirectToAction("Index", new { id = id, esc = esc });
         }

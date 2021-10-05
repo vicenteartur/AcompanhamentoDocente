@@ -12,6 +12,7 @@ namespace AcompanhamentoDocente.Interface
         Task<List<SelectListItem>> ListaEscolas(int CodigoAdministrador, int CodigoEscola);
         Task<List<SelectListItem>> ListaCargos(int CodigoAdministrador, int CodigoCargo);
         Task<TbColaborador> localizaColaborador(int codigo);
+        Task<TbEscola> localizaescola(int codigo);
         Task<ColaboradorViewModel> MontarColaborador(int CodigoAdministrador, int CodigoEscola, TbColaborador colaborador);
         Task<List<ColaboradorViewModel>> ColaboradorAtivo(int CodigoAdministrador, int CodigoEscola);
         Task<List<TbColaborador>> ColaboradorInativo(int CodigoAdministrador, int CodigoEscola);

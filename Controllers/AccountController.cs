@@ -58,6 +58,7 @@ namespace AcompanhamentoDocente.Controllers
 
 
                         string regra = "";
+
                         if (colaborador.CodigoCargoNavigation.NiveldeAcesso == 4)
                         {
                             regra = "Admin";

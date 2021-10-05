@@ -35,7 +35,7 @@ namespace AcompanhamentoDocente.Services
             return colaborador;
         }
 
-        private async Task<TbEscola> localizaescola(int codigo)
+        public async Task<TbEscola> localizaescola(int codigo)
         {
             var escola = await db.TbEscolas.FindAsync(codigo);
             return escola;
