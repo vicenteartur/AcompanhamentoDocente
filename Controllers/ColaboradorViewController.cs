@@ -28,7 +28,7 @@ namespace AcompanhamentoDocente.Controllers
             model = await _colabview.ColaboradorAtivo(id, esc);
             var col = await _colabview.MontarAdmin(id);
             ViewData["admin"] = col;
-            ViewData["escola"] = esc;
+            ViewData["escola"] = await _colabview.localizaescola(esc);
             return View(model);
         }
 
@@ -166,6 +166,10 @@ namespace AcompanhamentoDocente.Controllers
             {
 
                 model = await _colabview.EstenderJornada(id, esc, email);
+            }
+            else
+            {
+                model = null;
             }
 
             ViewData["admin"] = await _colabview.MontarAdmin(id);

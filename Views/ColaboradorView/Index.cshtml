@@ -9,41 +9,43 @@
 
 
 <p></p>
-
-    <div class="fixed-action-btn">
-        <a href='@Url.Action("Create", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola })' id="adcionar" class ="btn-floating btn-large waves-effect waves-light">
-            <i class="large material-icons">
-                add
-            </i>
-        </a>
-    </div>
-
-      
-    <div class="center">
-        <p id="l_botao">
-            <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola})' class="waves-effect waves-light btn">
+    
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">mode_edit</i>
+    </a>
+    <ul>
+       <li>
+            <a href='@Url.Action("Create", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    add
+                </i>
+            </a>
+        </li>
+        
+        <li><a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
                 <i class="material-icons">
                     arrow_back
                 </i>
-                Voltar
+                    Voltar
             </a>
-        
-            <a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola, email = "null" })' class="waves-effect waves-light btn">
+        </li>
+
+        <li><a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, email = "null" })' class="btn-floating btn-large waves-effect waves-light">
                 <i class="material-icons">
                     view_list
                 </i>
-                Estender Jornada
             </a>
-        
-            <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola })' class="waves-effect waves-light btn">
-                <span class="material-icons">
-                    supervised_user_circle
-                </span>
-                Atribuições
+        </li>
+        <li><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="btn-floating btn-large waves-effect waves-light">
+            <span class="material-icons">
+                supervised_user_circle
+            </span>
             </a>
-        </p>
-    </div>
-
+        </li>
+    </ul>
+</div>
+   
         <table class="highlight">
             <thead>
 

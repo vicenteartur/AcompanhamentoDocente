@@ -185,7 +185,7 @@ namespace AcompanhamentoDocente.Services
                 var cargo = await ListaCargos(CodigoAdministrador, 0);
                 var escola = await ListaEscolas(CodigoAdministrador, 0);
 
-                var consulta = (from e in db.TbEscolas
+                var consulta = await (from e in db.TbEscolas
                                 join at in db.TbAtribuicaoColaboradorEscolas
                                 on e.Codigo equals at.CodigoEscola
                                 join col in db.TbColaboradors
@@ -206,7 +206,7 @@ namespace AcompanhamentoDocente.Services
                                 }).FirstAsync();
 
 
-                return await consulta;
+                return consulta;
             }
             else
             {

@@ -26,9 +26,9 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.CodigoCargo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.CodigoCargo,"Cargo", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.CodigoCargo, Model.cargo, new { @id = "CodigoCargo", @class = "form-control" })
+                    @Html.DropDownListFor(model => model.CodigoCargo, Model.cargo, new { @id = "CodigoCargo", @class = "browser-default" })
 
                 </div>
             </div>
@@ -50,7 +50,7 @@
                                 Salvar
                                 <i class="material-icons left">save</i>
                             </button>
-                            <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.esc})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                            <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
                                 <span class="material-icons">
 
                                     view_list

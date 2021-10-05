@@ -77,8 +77,8 @@
                                     <li><a href='@Url.Action("DashBoard", "Home", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Selecionar Escola</a></li>
                                     @if (ViewBag.escola != null)
                                     {
-                                    <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' id="btano" class="waves-effect">Anos</a></li>
-                                    <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Componente Curricular</a></li>
+                                        <li><a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect" id="btcolaborador">Colaborador</a></li>
+                                        <li><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular" class="waves-effect">Atribuições</a></li>
                                     <li><a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Critérios</a></li>
                                     }
                                 </ul>
@@ -190,8 +190,8 @@
                             <li><a href='@Url.Action("DashBoard", "Home", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Selecionar Escola</a></li>
                             @if (ViewBag.escola != null)
                             {
-                            <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' id="btano" class="waves-effect">Anos</a></li>
-                            <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Componente Curricular</a></li>
+                            <li><a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect" id="btcolaborador">Colaborador</a></li>
+                            <li><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular" class="waves-effect">Atribuições</a></li>
                             <li><a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Critérios</a></li>
                             }
                         </ul>
@@ -259,6 +259,7 @@
         $(document).ready(function () {
             $('.sidenav').sidenav();
             $('.select').formSelect();
+            $('select').formSelect();
             $('.dropdown-trigger').dropdown();
             $('.fixed-action-btn').floatingActionButton({
                 toolbarEnabled: false
