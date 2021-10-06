@@ -281,8 +281,10 @@ namespace AcompanhamentoDocente.Services
                             ClassificacaoCriterio = aux.ClassCriterio,
                             Pontuacao = pontos,
                             PontuacaoMaxima = contador
+                            
                         };
-                        
+                        int calc = Convert.ToInt32(255-(255*((float)pontos/contador)));
+                        linha.Aprov = calc;
                         grafico.Add(linha);
                     
                         foreach (var itemrem in listaaux)

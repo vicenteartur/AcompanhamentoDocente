@@ -79,7 +79,7 @@
                                     {
                                         <li><a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect" id="btcolaborador">Colaborador</a></li>
                                         <li><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular" class="waves-effect">Atribuições</a></li>
-                                    <li><a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Critérios</a></li>
+                                        <li><a href='@Url.Action("Index", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular" class="waves-effect">Avaliações Abertas</a></li>
                                     }
                                 </ul>
                             }
@@ -191,8 +191,8 @@
                             @if (ViewBag.escola != null)
                             {
                             <li><a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect" id="btcolaborador">Colaborador</a></li>
-                            <li><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular" class="waves-effect">Atribuições</a></li>
-                            <li><a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Critérios</a></li>
+                            <li><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular1" class="waves-effect">Atribuições</a></li>
+                            <li><a href='@Url.Action("Index", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular1" class="waves-effect">Avaliações Abertas</a></li>
                             }
                         </ul>
                     }
@@ -261,8 +261,10 @@
             $('.select').formSelect();
             $('select').formSelect();
             $('.dropdown-trigger').dropdown();
-            $('.fixed-action-btn').floatingActionButton({
-                toolbarEnabled: false
+            var elems = document.querySelectorAll('.fixed-action-btn');
+            var instances = M.FloatingActionButton.init(elems, {
+                direction: 'left',
+                hoverEnabled: true
             });
             
                 

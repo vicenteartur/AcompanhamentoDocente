@@ -10,7 +10,7 @@
 <p>
     <form method="post" action="ListaColab">
         <input type ="hidden" name="id" value="@ViewBag.admin.Codigo" />
-        <input type ="hidden" name="esc" value="@ViewBag.esc" />
+        <input type ="hidden" name="esc" value="@ViewBag.escola.Codigo" />
         <input name="email" placeholder="Digite aqui o E-mail do Colaborador"/>
         <div class="form-group">
             <div class="center"><input type="submit" value="Procurar" class="waves-effect waves-light btn" /></div>
@@ -35,7 +35,7 @@
                 </td>
                 
                 <td>
-                    <a href='@Url.Action("EstendeAtribuicao", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn">
+                    <a href='@Url.Action("EstendeAtribuicao", "ColaboradorView", new { id = item.CodigoAdministrador, esc = ViewBag.escola.Codigo, col = item.Codigo })' class="waves-effect waves-light btn">
                         <span class="material-icons">
                             add
                         </span>

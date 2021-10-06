@@ -13,5 +13,6 @@ namespace AcompanhamentoDocente.ViewModel
         public string   ClassificacaoCriterio { get; set; }
         public int      Pontuacao { get; set; }
         public int      PontuacaoMaxima { get; set; }
+        public int Aprov { get; set; }
     }
 }

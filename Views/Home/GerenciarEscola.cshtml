@@ -37,10 +37,20 @@
 
                         <p><label class="negrito">Classificação: </label>  @Html.DisplayFor(modelItem => item.ClassificacaoCriterio)</p>
 
-                        <p><label class="negrito">Pontuacao: </label>    @Html.DisplayFor(modelItem => item.Pontuacao) / @Html.DisplayFor(modelItem => item.PontuacaoMaxima) </p>
+                        <p><label class="negrito">Pontuacao (Atende / Total): </label>    @Html.DisplayFor(modelItem => item.Pontuacao) / @Html.DisplayFor(modelItem => item.PontuacaoMaxima) </p>
                     </td>
                     <td>
+
                         
+                        <div class="graph">
+                            <svg>
+                                <circle cx="50" cy="50" r="40" />
+                            </svg>
+                            <svg class="cor" stroke-dashoffset=@item.Aprov>
+                                <circle cx="50" cy="50" r="40" />
+                            </svg>
+                            @Html.DisplayFor(modelItem => item.Pontuacao) / @Html.DisplayFor(modelItem => item.PontuacaoMaxima) 
+                        </div>
                     </td>
                 </tr>
             }

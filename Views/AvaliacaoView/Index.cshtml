@@ -5,52 +5,94 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Avaliações em Aberto</h1>
+<div class="center"><h1>Avaliações em Aberto</h1></div>
 
-<p>
-    @Html.ActionLink("Nova", "Avaliar", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })
-</p>
-<table class="table">
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">mode_edit</i>
+    </a>
+    <ul>
+        <li>
+            <a href='@Url.Action("Create", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    add
+                </i>
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    arrow_back
+                </i>
+                Voltar
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, email = "null" })' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    view_list
+                </i>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="btn-floating btn-large waves-effect waves-light">
+                <span class="material-icons">
+                    supervised_user_circle
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<table class="highlight">
     <thead>
-        <tr>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.NomeColaborador)
-            </th>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.ccurric)
-            </th>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.ano)
-            </th>
-            <th></th>
-        </tr>
+
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.NomeColaborador)
-            </td>
-            <td></td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ccurric)
-            </td>
-            <td></td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ano)
-            </td>
-            <td></td>
-            <td>
-                @Html.ActionLink("Continuar Avaliando", "Edit", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo }) |
-                @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo })
-            </td>
-        </tr>
+
+            <tr class="linha_tabela">
+
+                <td>
+                    <p><label class="negrito">Nome: </label> @Html.DisplayFor(modelItem => item.NomeColaborador)</p>
+
+                    <p><label class="negrito">Componente: </label>    @Html.DisplayFor(modelItem => item.ccurric)</p>
+
+                    <p><label class="negrito">Turma: </label>@Html.DisplayFor(modelItem => item.ano)</p>
+                    <p><label class="negrito">Data: </label>@Html.DisplayFor(modelItem => item.dataavaliacao)</p>
+                </td>
+                <td>
+ 
+                    <p>
+                        <a href='@Url.Action("Edit", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo})' class="waves-effect waves-light btn" id="bteditar">
+                            <span class="material-icons">
+                                mode_edit
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Details", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo })' class="waves-effect waves-light btn" id="btdetalhes">
+                            <span class="material-icons">
+                                info
+                            </span>
+                        </a>
+                    </p>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User"))
+                    {
+                        <p>
+                            <a href='@Url.Action("Delete", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
+                                <span class="material-icons">
+                                    person_remove
+                                </span>
+                            </a>
+                        </p>
+                    }
+
+                </td>
+            </tr>
         }
     </tbody>
 </table>
