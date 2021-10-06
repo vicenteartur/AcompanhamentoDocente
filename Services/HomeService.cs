@@ -1,5 +1,6 @@
 ﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
+using AcompanhamentoDocente.ModelsRelatorio;
 using AcompanhamentoDocente.ViewModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -217,5 +218,92 @@ namespace AcompanhamentoDocente.Services
                 return escola;
             }
         }
+
+        public async Task<List<GraficoViewModel>> RelatorioGeral(int CodigoEscola)
+        {
+            var relatorio = await (from e in db.TbEscolas
+                                   join at in db.TbAtribuicaoColaboradorEscolas
+                                   on e.Codigo equals at.CodigoEscola
+                                   join accea in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
+                                   on at.Codigo equals accea.CodigoAtribuicaoColaboradorEscola
+                                   join aval in db.TbAvaliacaos
+                                   on accea.Codigo equals aval.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola
+                                   join cc in db.TbComponenteCurriculars
+                                   on accea.CodigoComponenteCurricular equals cc.Codigo
+                                   join m in db.TbModalidades
+                                   on cc.CodigoModalidade equals m.Codigo
+                                   join cav in db.TbCriterioAvaliados
+                                   on aval.Codigo equals cav.CodigoAvaliacao
+                                   join crt in db.TbCriterioAvaliacaos
+                                   on cav.CodigoCriterioAvaliacao equals crt.Codigo
+                                   join classif in db.TbClassificacaoCriterios
+                                   on crt.CodigoClassificacaoCriterio equals classif.Codigo
+                                   
+                                   where e.Codigo == CodigoEscola && aval.Finalizada == 1 && aval.CodigoColaboradorAvaliador!= at.CodigoColaborador
+
+                                   orderby m.Modalidade, cc.SubArea, cc.ComponenteCurricular
+
+                                   select new Linhas_Avaliacao
+                                   { 
+                                   CodigoCC = cc.Codigo,
+                                   Componente = cc.ComponenteCurricular,
+                                   CodigoModalidade = m.Codigo,
+                                   Modalidade = m.Modalidade,
+                                   CodCriterio = cav.Codigo,
+                                   Conceito = cav.Conceito,
+                                   CodClassCriterio = classif.Codigo,
+                                   ClassCriterio = classif.Classificacao
+                                   }).ToListAsync();
+
+            var grafico = new List<GraficoViewModel>();
+
+            while (relatorio.Count !=0)
+            {
+
+                           
+                var aux = relatorio.First();
+                
+                        var listaaux = relatorio.Where(r => r.CodigoCC == aux.CodigoCC && r.CodClassCriterio == aux.CodClassCriterio).ToList();
+                        int contador = 0;
+                        int pontos = 0;
+                        
+                        foreach (var itemlistaaux in listaaux)
+                            {
+                                contador = contador + 1;
+                                pontos = pontos + itemlistaaux.Conceito;
+                            }
+
+                        var linha = new GraficoViewModel
+                        {
+                            CodigoComponente = aux.CodigoCC,
+                            Componente = aux.Componente,
+                            Modalidade = aux.Modalidade,
+                            ClassificacaoCriterio = aux.ClassCriterio,
+                            Pontuacao = pontos,
+                            PontuacaoMaxima = contador
+                        };
+                        
+                        grafico.Add(linha);
+                    
+                        foreach (var itemrem in listaaux)
+                            {
+
+                                relatorio.Remove(itemrem);
+
+                            }
+
+                        if (relatorio.Count == 0)
+                        {
+                            break;
+                        }
+
+            }
+
+            return grafico;
+
+        }
+
+        
+
     }
 }

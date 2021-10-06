@@ -1,18 +1,18 @@
-﻿
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.GraficoViewModel>
 @{
 }
 
 
 <div class="center">
     <p id="l_botao">
-    
+
         <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
             <span class="material-icons">
                 person
             </span>
             Colaborador
         </a>
-   
+
         <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
             <span class="material-icons">
                 supervised_user_circle
@@ -20,4 +20,32 @@
             Atribuições
         </a>
     </p>
+
+    <table class="highlight">
+        <thead>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr class="linha_tabela">
+                    <td>
+                        <p><label class="negrito">Componente: </label>  @Html.DisplayFor(modelItem => item.Componente)</p>
+
+                        <p><label class="negrito">Modalidade: </label> @Html.DisplayFor(modelItem => item.Modalidade)</p>
+
+                        <p><label class="negrito">Classificação: </label>  @Html.DisplayFor(modelItem => item.ClassificacaoCriterio)</p>
+
+                        <p><label class="negrito">Pontuacao: </label>    @Html.DisplayFor(modelItem => item.Pontuacao) / @Html.DisplayFor(modelItem => item.PontuacaoMaxima) </p>
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
 </div>

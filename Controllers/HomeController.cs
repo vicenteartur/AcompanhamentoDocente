@@ -40,11 +40,13 @@ namespace AcompanhamentoDocente.Controllers
 
         public async Task<IActionResult> GerenciarEscola(int id, int esc)
         {
+
+            var rel = await _acesso.RelatorioGeral(esc);
             var col = await _acesso.MontarAdmin(id);
             ViewData["admin"] = col;
             var escola = await _acesso.MontarEscola(esc, id);
             ViewData["escola"] = escola;
-            return View();
+            return View(rel);
         }
 
 

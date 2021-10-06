@@ -103,7 +103,7 @@ namespace AcompanhamentoDocente.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int? id, int? esc, int? atrib, int? aval, [Bind("Codigo,CodigoColaboradorAvaliador,CodigoACECCA,dataavaliacao")] AvaliacaoViewModel avaliacao)
         {
-            var admin = await _avaliacao.MontarAdmin(avaliacao.CodigoColaboradorAvaliador);
+            var admin = await _avaliacao.MontarAdmin((int)id);
 
             if (ModelState.IsValid)
             {

@@ -19,31 +19,34 @@
 
                 <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
                 <input type="hidden" name="esc" value="@ViewBag.escola.Codigo" />
+                <input type="hidden" asp-for="Codigo" />
                 <input type="hidden" asp-for="CodigoColaboradorAvaliador" value="@ViewBag.admin.Codigo" />
-                
+                <input type="hidden" asp-for="CodigoACECCA" />
+                <input type="hidden" asp-for="dataavaliacao" />
                 
 
 
 
-                
+
+
                 <dl class="row">
-                    
+
                     <dd class="col-sm-10">
                         <label class="negrito">Nome do Avaliador: </label>@Html.DisplayFor(model => model.NomeAvaliador)
                     </dd>
-                    
+
                     <dd class="col-sm-10">
                         <label class="negrito">Nome do Colaborador: </label>@Html.DisplayFor(model => model.NomeColaborador)
                     </dd>
-                    
+
                     <dd class="col-sm-10">
                         <label class="negrito">Data de Criação: </label>@Html.DisplayFor(model => model.dataavaliacao)
                     </dd>
-                    
+
                     <dd class="col-sm-10">
                         <label class="negrito">Componente: </label>@Html.DisplayFor(model => model.ccurric)
                     </dd>
-                    
+
                     <dd class="col-sm-10">
                         <label class="negrito">Turma: </label>@Html.DisplayFor(model => model.ano)
                     </dd>
@@ -69,9 +72,8 @@
                         }
                     </tbody>
                 </table>
-                <p></p>
                 <div class="form-group">
-                    <input type="submit" value="Finalizar" class="btn btn-primary" />
+                    <input type="submit" value="Finalizar" class="btn btn-primary" name="action" />
                 </div>
             </form>
         </div>
