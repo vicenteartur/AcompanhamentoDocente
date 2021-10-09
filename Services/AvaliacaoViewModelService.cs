@@ -46,14 +46,8 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<AvaliacaoViewModel> Detalhes(int esc, int atrib, int aval)
         {
-            var adm = await (from cl in db.TbColaboradors
-                             join cg in db.TbCargos on cl.CodigoCargo equals cg.Codigo
-                             join ae in db.TbAtribuicaoColaboradorEscolas on cl.Codigo equals ae.CodigoColaborador
-                             join es in db.TbEscolas on ae.CodigoEscola equals es.Codigo
-                             join ca in db.TbAvaliacaos on cl.Codigo equals ca.CodigoColaboradorAvaliador
-                             where es.Codigo == esc && cg.NiveldeAcesso > 0 && ca.Codigo == aval
-                             select cl).AsNoTracking().FirstAsync();
-
+            
+            
             var avaliacao = await (from c in db.TbColaboradors
                                    join at in db.TbAtribuicaoColaboradorEscolas on c.Codigo equals at.CodigoColaborador
                                    join atribcc in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas on at.Codigo equals atribcc.CodigoAtribuicaoColaboradorEscola
@@ -69,8 +63,7 @@ namespace AcompanhamentoDocente.Services
                                    {
                                        Codigo = av.Codigo,
                                        dataavaliacao = av.Datarealizacao,
-                                       CodigoColaboradorAvaliador = adm.Codigo,
-                                       NomeAvaliador = adm.Nome,
+                                       CodigoColaboradorAvaliador = av.CodigoColaboradorAvaliador,
                                        CodigoACECCA = atribcc.Codigo,
                                        NomeColaborador = c.Nome,
                                        escola = e.Escola,
@@ -79,6 +72,13 @@ namespace AcompanhamentoDocente.Services
                                        Finalizada = av.Finalizada
                                    }
                              ).FirstAsync();
+
+            var adm = await db.TbColaboradors.Where(c => c.Codigo == avaliacao.CodigoColaboradorAvaliador).FirstAsync();
+            avaliacao.NomeAvaliador = adm.Nome;
+
+
+
+
             avaliacao.CriterioAvaliado = await db.TbCriterioAvaliados
                                         .Include(ca => ca.CodigoCriterioAvaliacaoNavigation.CodigoClassificacaoCriterioNavigation)
                                         .Where(ca => ca.Codigo == aval)
@@ -101,14 +101,14 @@ namespace AcompanhamentoDocente.Services
 
             var aval = await db.TbAvaliacaos.Where(a => a.CodigoColaboradorAvaliador == avaliacao.CodigoColaboradorAvaliador &&
                                              a.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola == avaliacao.CodigoACECCA &&
-                                             a.Datarealizacao == DateTime.Today).FirstAsync();
+                                             a.Datarealizacao == DateTime.Today && a.Finalizada < 1).LastOrDefaultAsync();
 
             var criterios = await (from cc in db.TbCriterioComponenteCurriculars
                                    join ca in db.TbCriterioAvaliacaos on cc.CodigoCriterioAvaliacao equals ca.Codigo
                                    join at in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas on cc.CodigoComponenteCurricular equals at.CodigoComponenteCurricular
                                    where cc.Ativa == 1 && ca.Ativa == 1 && at.Ativa == 1 && at.Codigo == avaliacao.CodigoACECCA
-                                   orderby ca.CodigoClassificacaoCriterio ascending
-                                   orderby ca.Criterio
+                                   orderby ca.CodigoClassificacaoCriterio,ca.Criterio ascending
+                                   
                                    select new TbCriterioAvaliado
                                    {
                                        CodigoAvaliacao = aval.Codigo,
