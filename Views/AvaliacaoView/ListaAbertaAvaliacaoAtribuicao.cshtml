@@ -10,7 +10,7 @@
     <p></p>
     <div class="fixed-action-btn">
         
-        <a href='@Url.Action("Avaliar", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })' id = "adcionar" class ="btn-floating btn-large waves-effect waves-light">
+        <a href='@Url.Action("Create", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = ViewBag.atrib })' id = "adcionar" class ="btn-floating btn-large waves-effect waves-light">
             <i class="large material-icons">
                 add
             </i>

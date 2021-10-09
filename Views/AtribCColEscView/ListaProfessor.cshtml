@@ -8,7 +8,7 @@
 <h1>Professores da Unidade</h1>
 
 <p>
-    <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escol.Codigo})' class="waves-effect waves-light btn">
+    <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="waves-effect waves-light btn">
         <i class="material-icons">
             arrow_back
         </i>
@@ -30,14 +30,14 @@
                 </td>
                 <td>
                     <p>
-                        <a href='@Url.Action("Create", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, col = item.Codigo  })' class="waves-effect waves-light btn" id="bteditar">
+                        <a href='@Url.Action("Create", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, col = item.Codigo  })' class="waves-effect waves-light btn" id="bteditar">
                             <span class="material-icons">
                                 assignment
                             </span>
                         </a>
                     </p>
                     <p>
-                        <a href='@Url.Action("ListaAtribuicaoProfessor", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escol.Codigo, col = item.Codigo  })' class="waves-effect waves-light btn" id="btlistar">
+                        <a href='@Url.Action("ListaAtribuicaoProfessor", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, col = item.Codigo  })' class="waves-effect waves-light btn" id="btlistar">
                             <span class="material-icons">
                                 view_list
                             </span>

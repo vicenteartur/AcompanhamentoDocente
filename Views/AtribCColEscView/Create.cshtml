@@ -45,7 +45,7 @@
                     </div>
 
                     
-                        <input name="esc" class="form-control" type="hidden" value="@ViewBag.escol.Codigo" />
+                        <input name="esc" class="form-control" type="hidden" value="@ViewBag.escola.Codigo" />
                     
                         <input name="id" class="form-control" type="hidden" value="@ViewBag.admin.Codigo" />
                     
@@ -59,7 +59,7 @@
                         </button>
                     </div>
                     <p>
-                        <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escol.Codigo})' class="waves-effect waves-light btn">
+                        <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="waves-effect waves-light btn">
                             <span class="material-icons">
 
                                 view_list
@@ -77,7 +77,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 <script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 <script src="~/Scripts/SelecionaComponente.js"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

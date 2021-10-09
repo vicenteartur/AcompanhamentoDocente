@@ -240,6 +240,7 @@ namespace AcompanhamentoDocente.Controllers
         {
             ViewData["admin"] = await _avaliacao.MontarAdmin((int)id);
             ViewData["escola"] = await _avaliacao.MontarEscola((int)esc);
+            ViewData["atrib"] = (int)atrib;
 
             return View(await _avaliacao.ListaAvaliacoesAtribuicao((int)id, (int)esc,(int)atrib));
         }

@@ -29,7 +29,7 @@
 $(document).ready(function () {
     $("#CodigoAno").on("change", function () {
         $list = $("#CodigoCC");
-        $id = $("#CodigoAno").val();
+        $id = $("#CodigoModalidade").val();
         console.log(this.id);
         $.ajax({
             url: "/AtribCColEscView/ListaCC/" + $id,
