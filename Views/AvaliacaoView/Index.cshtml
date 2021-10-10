@@ -12,15 +12,7 @@
         <i class="large material-icons">mode_edit</i>
     </a>
     <ul>
-        <li>
-            <a href='@Url.Action("Create", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
-                <i class="large material-icons">
-                    add
-                </i>
-            </a>
-        </li>
-
-        <li>
+       <li>
             <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
                 <i class="material-icons">
                     arrow_back
@@ -85,7 +77,7 @@
                         <p>
                             <a href='@Url.Action("Delete", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
                                 <span class="material-icons">
-                                    person_remove
+                                    delete
                                 </span>
                             </a>
                         </p>
