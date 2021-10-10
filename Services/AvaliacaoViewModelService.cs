@@ -15,6 +15,12 @@ namespace AcompanhamentoDocente.Services
 
         private dbContext db = new dbContext();
 
+        public async Task<TbAvaliacao>AvaliacaoExisteAberta(int atrib)
+        {
+            var avaliacao = await db.TbAvaliacaos.Where(a => a.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola == atrib && a.Finalizada != 1).FirstOrDefaultAsync();
+            
+            return avaliacao;
+        }
         public async Task<TbCriterioAvaliado> MontarCritAv(int avaliacao)
         {
             var critav = await db.TbCriterioAvaliados.Include(ct => ct.CodigoCriterioAvaliacaoNavigation).Where(c => c.Codigo == avaliacao).FirstAsync();
@@ -81,8 +87,8 @@ namespace AcompanhamentoDocente.Services
 
             avaliacao.CriterioAvaliado = await db.TbCriterioAvaliados
                                         .Include(ca => ca.CodigoCriterioAvaliacaoNavigation.CodigoClassificacaoCriterioNavigation)
-                                        .Where(ca => ca.Codigo == aval)
-                                        .OrderBy(ca => ca.CodigoCriterioAvaliacaoNavigation.CodigoClassificacaoCriterioNavigation.Classificacao)
+                                        .Where(ac => ac.CodigoAvaliacao == aval)
+                                        .OrderBy(a => a.CodigoCriterioAvaliacaoNavigation.CodigoClassificacaoCriterioNavigation.Classificacao)
                                         .ToListAsync();
             return avaliacao;
         }
@@ -101,7 +107,7 @@ namespace AcompanhamentoDocente.Services
 
             var aval = await db.TbAvaliacaos.Where(a => a.CodigoColaboradorAvaliador == avaliacao.CodigoColaboradorAvaliador &&
                                              a.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola == avaliacao.CodigoACECCA &&
-                                             a.Datarealizacao == DateTime.Today && a.Finalizada < 1).LastOrDefaultAsync();
+                                             a.Datarealizacao == DateTime.Today && a.Finalizada < 1).OrderBy(av =>av.Datarealizacao).LastOrDefaultAsync();
 
             var criterios = await (from cc in db.TbCriterioComponenteCurriculars
                                    join ca in db.TbCriterioAvaliacaos on cc.CodigoCriterioAvaliacao equals ca.Codigo
