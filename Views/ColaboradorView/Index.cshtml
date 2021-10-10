@@ -12,7 +12,7 @@
     
 <div class="fixed-action-btn">
     <a class="btn-floating btn-large">
-        <i class="large material-icons">mode_edit</i>
+        <i class="large material-icons">more_horiz</i>
     </a>
     <ul>
        <li>
@@ -25,7 +25,7 @@
         
         <li><a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
                 <i class="material-icons">
-                    arrow_back
+                    donut_large
                 </i>
                     Voltar
             </a>
@@ -33,7 +33,7 @@
 
         <li><a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, email = "null" })' class="btn-floating btn-large waves-effect waves-light">
                 <i class="material-icons">
-                    view_list
+                    person_search
                 </i>
             </a>
         </li>

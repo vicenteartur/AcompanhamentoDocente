@@ -138,7 +138,7 @@ h3 {
     border-color: var(--primary);
 }
 #btestado, #btcidade, #btescola, #btcargo, #btmodalidade, #btano, #btccurricular, #btadministrar,
-#btestado1, #btcidade1, #btescola1, #btcargo1, #btmodalidade1, #btano1, #btccurricular1, #btsupervisionar1, #btoperar1, #btcolaborador {
+#btestado1, #btcidade1, #btescola1, #btcargo1, #btmodalidade1, #btano1, #btccurricular1, #btsupervisionar1, #btoperar1, #btcolaborador{
     background-color: white;
     color: var(--primary);
     width: 195px;
@@ -154,14 +154,14 @@ h3 {
     text-align: center;
 }
 
-#bteditar, #btdetalhes, #btremover, #btavaliar, #btlistar {
+#bteditar, #btdetalhes, #btremover, #btavaliar, #btlistar{
     background-color: var(--primary);
     color: white;
     width: 50px;
     text-align: center;
     justify-content: center;
     align-items: center;
-    display:flex;
+    display: flex;
 }
 
 .dropdown-content {
@@ -192,7 +192,7 @@ select:focus {
     line-height: 3;
 }
 
-#btsalvarpequeno, #btlistapequeno, #btmodificarpequeno, #btlistapequeno1 {
+#btsalvarpequeno, #btlistapequeno, #btmodificarpequeno, #btlistapequeno1, #btprocurar {
     color: #fff;
     text-emphasis-color: white;
     text-decoration-color: white;
@@ -201,7 +201,7 @@ select:focus {
     width: 170px;
     text-align: center;
     font-size: 12px;
-    
+
 }
 
 .graph {
