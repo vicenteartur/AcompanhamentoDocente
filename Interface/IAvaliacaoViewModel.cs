@@ -1,5 +1,6 @@
 ﻿using AcompanhamentoDocente.Models;
 using AcompanhamentoDocente.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,6 +20,7 @@ namespace AcompanhamentoDocente.Interface
         bool AvaliacaoExists(int id);
         Task<List<AvaliacaoViewModel>> ListaAvaliacoesFinalizadas(int esc);
         Task<List<AvaliacaoViewModel>> ListaAvaliacoesAtribuicao(int id, int esc, int atrib);
+        Task<TbAvaliacao> AvaliacaoExisteAberta(int atrib);
 
     }
 }

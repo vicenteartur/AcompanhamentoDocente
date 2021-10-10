@@ -57,15 +57,29 @@ namespace AcompanhamentoDocente.Controllers
                 return NotFound();
             }
 
-            var avaliacao = new AvaliacaoViewModel
+
+            var existe = new TbAvaliacao();
+            existe = await _avaliacao.AvaliacaoExisteAberta((int)atrib);
+
+            if ( existe != null)
             {
-                CodigoColaboradorAvaliador = (int)id,
-                CodigoACECCA = (int)atrib
-            };
-            var aval = await _avaliacao.Inserir(avaliacao);
+                return RedirectToAction("Edit", new { id = id, esc = esc, atrib = atrib, aval = existe.Codigo });
+            }
 
+            else
+            {
 
-            return RedirectToAction("Edit", new { id = id, esc = esc, atrib = atrib, aval = aval.Codigo });
+                    var avaliacao = new AvaliacaoViewModel
+                    {
+                        CodigoColaboradorAvaliador = (int)id,
+                        CodigoACECCA = (int)atrib
+                    };
+
+                    var aval = await _avaliacao.Inserir(avaliacao);
+
+                    return RedirectToAction("Edit", new { id = id, esc = esc, atrib = atrib, aval = aval.Codigo });
+            }
+            
         }
 
         // GET: AvaliacaoViewController/Edit/5
