@@ -223,19 +223,19 @@ namespace AcompanhamentoDocente.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("nchar(80)")
+                        .HasColumnType("nvarchar(80)")
                         .IsFixedLength(true);
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("nchar(80)")
+                        .HasColumnType("nvarchar(80)")
                         .IsFixedLength(true);
 
                     b.Property<string>("Senha")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("nchar(20)")
+                        .HasColumnType("nvarchar(20)")
                         .IsFixedLength(true);
 
                     b.HasKey("Codigo")
@@ -262,13 +262,13 @@ namespace AcompanhamentoDocente.Migrations
                     b.Property<string>("ComponenteCurricular")
                         .IsRequired()
                         .HasMaxLength(25)
-                        .HasColumnType("nchar(25)")
+                        .HasColumnType("nvarchar(25)")
                         .IsFixedLength(true);
 
                     b.Property<string>("SubArea")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
+                        .HasColumnType("nvarchar(50)")
                         .IsFixedLength(true);
 
                     b.HasKey("Codigo")
@@ -434,7 +434,7 @@ namespace AcompanhamentoDocente.Migrations
                     b.Property<string>("Modalidade")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nchar(50)")
+                        .HasColumnType("nvarchar(50)")
                         .IsFixedLength(true);
 
                     b.HasKey("Codigo");
