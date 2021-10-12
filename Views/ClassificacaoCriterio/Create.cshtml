@@ -5,10 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="center"><h1>Nova Classificação de Critério</h1></div>
 
-<h4>TbClassificacaoCriterio</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -19,16 +17,27 @@
                 <span asp-validation-for="Classificacao" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <p id="l_botao">
+                    <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                        Salvar
+                        <i class="material-icons left">save</i>
+                    </button>
+                    <a href='@Url.Action("Index", "ClassificacaoCriterio", new { id = ViewBag.admin.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                        <span class="material-icons">
+
+                            view_list
+
+                        </span>
+                        Lista
+                    </a>
+                </p>
             </div>
             <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Classificações</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
