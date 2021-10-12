@@ -23,13 +23,14 @@
                     </span>
                     Avaliações
                 </a>
-
+                @if (Model.Finalizada == 0) { 
                 <a href='@Url.Action("Edit", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = Model.CodigoACECCA, aval = Model.Codigo  })' class="waves-effect waves-light btn">
                     <span class="material-icons">
                         mode_edit
                     </span>
                     Continuar Avaliando
                 </a>
+                }
             </p>
         </div>
         <div class="col-md-4">
@@ -73,20 +74,21 @@
                         @foreach (var item in Model.CriterioAvaliado)
                         {
                             <tr>
-                                <td>
+                                
+                                    
+                                    <td style="max-inline-size:200px">
                                     @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.Criterio)
-                                </td>
+                                    </td>
                                 <td></td>
                                 <td>
                                     <h>
-                                        Não Atende
+                                        Não
                                         @Html.TextBoxFor(modelItem => item.Conceito, new { @class = "range-field", type = "range", min = "0", max = "1", disabled = "True" })
-
-                                        Atende
+                                        Sim
                                     </h>
 
                                 </td>
-                                <td></td>
+                                
 
                             </tr>
                         }

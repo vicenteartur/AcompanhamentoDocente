@@ -5,48 +5,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Avaliações Finalizadas</h1>
+
+<div class="center"><h1>Avaliações Finalizadas</h1></div>
+
 
 <p>
     @Html.ActionLink("Nova", "Avaliar", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })
 </p>
-<table class="table">
+<table class="highlight">
     <thead>
-        <tr>
-
-            <th>
-                @Html.DisplayNameFor(model => model.NomeColaborador)
-            </th>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.ccurric)
-            </th>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.ano)
-            </th>
-            <th></th>
-        </tr>
     </thead>
+
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="linha_tabela">
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.NomeColaborador)
+                    <p><label class="negrito">Nome: </label>@Html.DisplayFor(modelItem => item.NomeColaborador)</p>
+                    <p><label class="negrito">Componente: </label>@Html.DisplayFor(modelItem => item.ccurric)</p>
+                    <p><label class="negrito">Turma: </label>@Html.DisplayFor(modelItem => item.ano)</p>
                 </td>
                 <td></td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ccurric)
-                </td>
-                <td></td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ano)
-                </td>
-                <td></td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo })
+                    <p>
+                        <a href='@Url.Action("Details", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo  })' class="waves-effect waves-light btn" id="btdetalhes">
+                            <span class="material-icons">
+                                info
+                            </span>
+                        </a>
+                    </p>
                 </td>
             </tr>
         }
