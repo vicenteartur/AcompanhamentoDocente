@@ -17,19 +17,30 @@
         <div class="center">
             <p id="l_botao">
 
-                <a href='@Url.Action("Index", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
-                    <span class="material-icons">
-                        view_list
-                    </span>
-                    Avaliações
-                </a>
-                @if (Model.Finalizada == 0) { 
-                <a href='@Url.Action("Edit", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = Model.CodigoACECCA, aval = Model.Codigo  })' class="waves-effect waves-light btn">
-                    <span class="material-icons">
-                        mode_edit
-                    </span>
-                    Continuar Avaliando
-                </a>
+                @if (Model.Finalizada == 0)
+                {
+                    <a href='@Url.Action("Index", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
+                        <span class="material-icons">
+                            view_list
+                        </span>
+                        Avaliações
+                    </a>
+
+                    <a href='@Url.Action("Edit", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = Model.CodigoACECCA, aval = Model.Codigo  })' class="waves-effect waves-light btn">
+                        <span class="material-icons">
+                            mode_edit
+                        </span>
+                        Continuar Avaliando
+                    </a>
+                }
+                else
+                {
+                    <a href='@Url.Action("AvFinalizadas", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
+                        <span class="material-icons">
+                            view_list
+                        </span>
+                        Avaliações
+                    </a>
                 }
             </p>
         </div>
