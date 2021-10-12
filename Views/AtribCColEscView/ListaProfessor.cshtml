@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Professores da Unidade</h1>
+<div class="center"><h1>Professores da Unidade</h1></div>
 
 <p>
     <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="waves-effect waves-light btn">
@@ -15,6 +15,41 @@
         Gerenciar Escola
     </a>
 </p>
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">more_horiz</i>
+    </a>
+    <ul>
+
+
+        <li>
+            <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    donut_large
+                </i>
+                Voltar
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    person
+                </i>
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, email = "null" })' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    person_search
+                </i>
+            </a>
+        </li>
+
+    </ul>
+</div>
 
 <table class="highlight">
     <thead>
