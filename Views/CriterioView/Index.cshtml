@@ -7,12 +7,44 @@
 
 <div class="center"><h1>Selecione o Componente para Visualizar os Critérios</h1></div>
 
+
 <div class="fixed-action-btn">
-    <a href='@Url.Action("Create", "CCurricular", new { id = ViewBag.admin.Codigo})' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
-        <i class="large material-icons">
-            add
-        </i>
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">more_horiz</i>
     </a>
+    <ul>
+        <li>
+            <a href='@Url.Action("Create", "CCurricular", new { id = ViewBag.admin.Codigo})' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    add
+                </i>
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    checklist
+                </i>
+                Voltar
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("Home", "DashBoard", new { id = ViewBag.admin.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    dashboard
+                </i>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "Modalidade", new { id = ViewBag.admin.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <span class="material-icons">
+                    cast_for_education
+                </span>
+            </a>
+        </li>
+    </ul>
 </div>
 
 <table class="highlight">

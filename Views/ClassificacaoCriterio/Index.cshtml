@@ -5,32 +5,91 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="center"><h1>Classificação para Critérios de Avaliação</h1></div>
 
-<p>
-    @Html.ActionLink("Create", "Create", new { id = ViewBag.Admin.Codigo })
-</p>
-<table class="table">
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">more_horiz</i>
+    </a>
+    <ul>
+        <li>
+            <a href='@Url.Action("Create", "ClassificacaoCriterio", new { id = ViewBag.admin.Codigo})' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    add
+                </i>
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    checklist
+                </i>
+                Voltar
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("Home", "DashBoard", new { id = ViewBag.admin.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    dashboard
+                </i>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "Modalidade", new { id = ViewBag.admin.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <span class="material-icons">
+                    cast_for_education
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>
+<table class="highlight">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Classificacao)
-            </th>
-            <th></th>
-        </tr>
+
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Classificacao)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, classificacao = item.Codigo }) |
-                @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, classificacao = item.Codigo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, classificacao = item.Codigo })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr class="linha_tabela">
+                <td>
+                    <p><label class="negrito">Classificação: </label>@Html.DisplayFor(modelItem => item.Classificacao)</p>
+                </td>
+                
+                <td>
+                    <p>
+                        <a href='@Url.Action("Edit", "ClassificacaoCriterio", new { id = ViewBag.Admin.Codigo, classificacao = item.Codigo})' class="waves-effect waves-light btn" id="bteditar">
+                            <span class="material-icons">
+                                mode_edit
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Details", "ClassificacaoCriterio", new { id = ViewBag.Admin.Codigo, classificacao = item.Codigo})' class="waves-effect waves-light btn" id="btdetalhes">
+                            <span class="material-icons">
+                                info
+                            </span>
+                        </a>
+                    </p>
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User"))
+                    {
+                        <p>
+                            <a href='@Url.Action("Delete", "ClassificacaoCriterio", new { id = ViewBag.Admin.Codigo, classificacao = item.Codigo})' class="waves-effect waves-light btn" id="btremover">
+                                <span class="material-icons">
+                                    delete
+                                </span>
+                            </a>
+                        </p>
+                    }
+                
+                    @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, classificacao = item.Codigo }) |
+                    @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, classificacao = item.Codigo }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, classificacao = item.Codigo })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
