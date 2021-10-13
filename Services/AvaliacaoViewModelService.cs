@@ -30,6 +30,10 @@ namespace AcompanhamentoDocente.Services
 
         public async Task AtualizaCritAv(TbCriterioAvaliado avaliacao)
         {
+            if (avaliacao.Comentario == "-")
+            {
+                avaliacao.Comentario = "ok";
+            }
             db.TbCriterioAvaliados.Update(avaliacao);
             await db.SaveChangesAsync();
         }

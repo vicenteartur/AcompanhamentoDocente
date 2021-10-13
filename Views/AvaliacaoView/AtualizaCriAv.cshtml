@@ -39,11 +39,17 @@
                 <input asp-for="CodigoAvaliacao" class="form-control" type ="hidden" />
                 <span asp-validation-for="CodigoAvaliacao" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <button class="btn waves-effect waves-light" type="submit" name="action">
+            <div class="center">
+                <button class="btn waves-effect waves-light" type="submit" name="action" id="salvar">
                     Salvar
-                    <i class="material-icons right">save</i>
+                    <i class="material-icons right">Salvar</i>
                 </button>
+
+                <button>
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </button>
+
+
             </div>
         </form>
     </div>

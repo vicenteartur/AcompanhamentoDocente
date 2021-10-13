@@ -60,15 +60,30 @@
                     <tbody>
                         @foreach (var item in Model.CriterioAvaliado)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.Criterio)
-                                </td>
-                                <td></td>
-                                <td>
-                                    <a href="#" id="btnDetalhes" class="btn btn-default btnDetalhes" data-value="@item.Codigo">Avaliar</a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.CodigoClassificacaoCriterioNavigation.Classificacao)
+                            </td>
+                            <td></td>
+                            <td>
+                                
+
+                                @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.Criterio)
+                            </td>
+                            <td></td>
+                            <td>
+                                @if (item.Comentario != "-")
+                                {
+                                    <a href="#" id="btnCriterio" class="btn btn-default btnCriterio" style = "background-color:#41780a" data-value="@item.Codigo" onclick="setColor(event, 'button', '#101010')">Avaliar</a>
+                                }
+
+                                else
+                                {
+                                    <a href="#" id="btnCriterio" class="btn btn-default btnCriterio" background-color="#8e558e" data-value="@item.Codigo" onclick="setColor(event, 'button', '#101010')">Avaliar</a>
+                                }
+                                
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -103,7 +118,7 @@
 
             $.ajaxSetup({ cache: false });
 
-            $("#btnDetalhes").click(function () {
+            $(".btnCriterio").click(function () {
 
                 var id = $(this).data("value");
 
@@ -113,6 +128,16 @@
             });
         });
     </script>
+
+<script type ="text/javascript">
+    function setColor(e, btn, color) {
+        var target = e.target,
+            count = +target.dataset.count;
+
+        target.style.backgroundColor = count === 1 ? "#8e558e" : "#41780a";
+        target.dataset.count = count === 1 ? 0 : 1;
+    }
+</script>
 
 
 

@@ -84,24 +84,27 @@
                     <tbody>
                         @foreach (var item in Model.CriterioAvaliado)
                         {
-                            <tr>
-                                
-                                    
-                                    <td style="max-inline-size:200px">
-                                    @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.Criterio)
-                                    </td>
-                                <td></td>
-                                <td>
-                                    <h>
-                                        Não
-                                        @Html.TextBoxFor(modelItem => item.Conceito, new { @class = "range-field", type = "range", min = "0", max = "1", disabled = "True" })
-                                        Sim
-                                    </h>
+                        <tr>
 
-                                </td>
-                                
+                            <td style="max-inline-size:200px">
+                                @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.CodigoClassificacaoCriterioNavigation.Classificacao)
+                            </td>
+                            <td></td>
+                            <td style="max-inline-size:200px">
+                                @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.Criterio)
+                            </td>
+                            <td></td>
+                            <td>
+                                <h>
+                                    Não
+                                    @Html.TextBoxFor(modelItem => item.Conceito, new { @class = "range-field", type = "range", min = "0", max = "1", disabled = "True" })
+                                    Sim
+                                </h>
 
-                            </tr>
+                            </td>
+
+
+                        </tr>
                         }
                     </tbody>
                 </table>
