@@ -5,6 +5,8 @@ using AcompanhamentoDocente.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
+using System.IO;
 
 namespace AcompanhamentoDocente.Controllers
 {
@@ -257,6 +259,64 @@ namespace AcompanhamentoDocente.Controllers
             ViewData["atrib"] = (int)atrib;
 
             return View(await _avaliacao.ListaAvaliacoesAtribuicao((int)id, (int)esc,(int)atrib));
+        }
+
+        public async Task<IActionResult> AvaliacaoImpressa(int? id, int? esc, int? aval, int? atrib)
+        {
+            var dados = await _avaliacao.Detalhes((int)id, (int)atrib, (int)aval);
+
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Avaliacao");
+            var currentRow = 1;
+            var currentCol = 1;
+
+            worksheet.Column(currentCol).AdjustToContents();
+
+            worksheet.Cell(currentRow, currentCol).Value = "Avaliador";
+            worksheet.Cell(currentRow, currentCol+1).Value = dados.NomeAvaliador;
+            currentRow++;
+            worksheet.Cell(currentRow, currentCol).Value = "Colaborador Avaliado";
+            worksheet.Cell(currentRow, currentCol + 1).Value = dados.NomeColaborador;
+            currentRow++;
+            worksheet.Cell(currentRow, currentCol).Value = "Data de Criação";
+            worksheet.Cell(currentRow, currentCol + 1).Value = dados.dataavaliacao.ToShortDateString();
+            currentRow++;
+            worksheet.Cell(currentRow, currentCol).Value = "Componente";
+            worksheet.Cell(currentRow, currentCol + 1).Value = dados.ccurric;
+            currentRow++;
+            worksheet.Cell(currentRow, currentCol).Value = "Turma";
+            worksheet.Cell(currentRow, currentCol + 1).Value = dados.ano;
+
+            currentRow = currentRow+2;
+            currentCol = 1;
+
+            worksheet.Cell(currentRow, currentCol).Value = "Classificaçao";
+            worksheet.Cell(currentRow, currentCol+1).Value = "Critério";
+            worksheet.Cell(currentRow, currentCol+2).Value = "Atende?";
+            worksheet.Cell(currentRow, currentCol + 3).Value = "Comentário";
+            currentRow++;
+            
+
+            foreach (var item in dados.CriterioAvaliado)
+            {
+                worksheet.Cell(currentRow, currentCol).Value = item.CodigoCriterioAvaliacaoNavigation.CodigoClassificacaoCriterioNavigation.Classificacao;
+                worksheet.Cell(currentRow, currentCol + 1).Value = item.CodigoCriterioAvaliacaoNavigation.Criterio;
+                worksheet.Cell(currentRow, currentCol + 2).Value = item.Conceito;
+                worksheet.Cell(currentRow, currentCol + 3).Value = item.Comentario;
+                currentRow++;
+            }
+
+            for (int i = 1; i < 100; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+            }
+            
+            await using var memory = new MemoryStream();
+            workbook.SaveAs(memory);
+
+            return File(memory.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "avaliacao.xlsx");
+
+            
         }
 
     }

@@ -144,33 +144,7 @@ namespace AcompanhamentoDocente.Services
 
             var avaliacao = new List<AvaliacaoViewModel>();
 
-            /*avaliacao = await (from av in db.TbAvaliacaos
-                                   join atribcc in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas on av.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola equals atribcc.CodigoAtribuicaoColaboradorEscola
-                                   join at in db.TbAtribuicaoColaboradorEscolas on atribcc.CodigoAtribuicaoColaboradorEscola equals at.Codigo
-                                   join c in db.TbColaboradors on at.CodigoColaborador equals c.Codigo
-                                   join e in db.TbEscolas on at.CodigoEscola equals e.Codigo
-                                   join cc in db.TbComponenteCurriculars on atribcc.CodigoComponenteCurricular equals cc.Codigo
-                                   join acc in db.TbCriterioComponenteCurriculars on cc.Codigo equals acc.CodigoComponenteCurricular
-                                   join an in db.TbAnos on atribcc.CodigoAno equals an.Codigo
-                                   join m in db.TbModalidades on an.CodigoModalidade equals m.Codigo
-                                   where c.Ativo == 1 && at.Ativa == 1 && atribcc.Ativa == 1 && e.Ativa == 1 && cc.Ativa == 1 && acc.Ativa == 1 &&
-                                   e.Codigo == esc && av.Finalizada != 1 && av.CodigoColaboradorAvaliador == id
-                                   
-                                   select new AvaliacaoViewModel
-                                   {
-                                       Codigo = av.Codigo,
-                                       dataavaliacao = av.Datarealizacao,
-                                       CodigoColaboradorAvaliador = av.CodigoColaboradorAvaliador,
-                                       CodigoACECCA = atribcc.Codigo,
-                                       NomeColaborador = c.Nome,
-                                       escola = e.Escola,
-                                       ano = $"{an.Ano + an.Turma + " - " + m.Modalidade + " - " + an.Periodo}",
-                                       ccurric = cc.ComponenteCurricular,
-                                       Finalizada = av.Finalizada
-                                   }
-                             ).ToListAsync();
-
-            */
+            
 
 
             avaliacao = await (from av in db.TbAvaliacaos

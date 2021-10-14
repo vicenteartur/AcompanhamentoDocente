@@ -9,81 +9,92 @@
 <script src="~/lib/Jquery3/jquery-3.4.1.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
+@if (Model.Finalizada == 0)
+    {
+        <div class="center"><h1>Avaliação em Andamento</h1></div> 
+    }
+else
+    {
+        <div class="center"><h1>Avaliação em Finalizada</h1></div>
+    }
+            }
 
-<div class="center"><h1>Avaliação em Andamento</h1></div>
+<div id="xamego" class="row">
+    <div class="center">
+        <p id="l_botao">
+            <a href='@Url.Action("AvaliacaoImpressa", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = Model.CodigoACECCA, aval = Model.Codigo  })' class="waves-effect waves-light btn">
+                <span class="material-icons">
+                    file_download
+                </span>
+                Exportar XLSM
+            </a>
+            @if (Model.Finalizada == 0)
+            {
+                <a href='@Url.Action("Index", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
+                    <span class="material-icons">
+                        view_list
+                    </span>
+                    Avaliações
+                </a>
+
+                <a href='@Url.Action("Edit", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = Model.CodigoACECCA, aval = Model.Codigo  })' class="waves-effect waves-light btn">
+                    <span class="material-icons">
+                        mode_edit
+                    </span>
+                    Continuar Avaliando
+                </a>
+            }
+            else
+            {
+                <a href='@Url.Action("AvFinalizadas", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
+                    <span class="material-icons">
+                        view_list
+                    </span>
+                    Avaliações
+                </a>
+            }
+        </p>
+    </div>
+    <div class="col-md-4">
+
+        <form asp-action="Details">
+
+            <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
+            <input type="hidden" name="esc" value="@ViewBag.escola.Codigo" />
+            <input type="hidden" asp-for="CodigoColaboradorAvaliador" value="@ViewBag.admin.Codigo" />
+            <input type="hidden" asp-for="Codigo" value="@Model.Codigo" />
+            <input type="hidden" asp-for="CodigoACECCA" value="@Model.CodigoACECCA" />
+            <input type="hidden" asp-for="dataavaliacao" value="@Model.dataavaliacao" />
 
 
-    <div id="xamego" class="row">
-        <div class="center">
-            <p id="l_botao">
-
-                @if (Model.Finalizada == 0)
-                {
-                    <a href='@Url.Action("Index", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
-                        <span class="material-icons">
-                            view_list
-                        </span>
-                        Avaliações
-                    </a>
-
-                    <a href='@Url.Action("Edit", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = Model.CodigoACECCA, aval = Model.Codigo  })' class="waves-effect waves-light btn">
-                        <span class="material-icons">
-                            mode_edit
-                        </span>
-                        Continuar Avaliando
-                    </a>
-                }
-                else
-                {
-                    <a href='@Url.Action("AvFinalizadas", "AvaliacaoView", new { id = ViewBag.Admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
-                        <span class="material-icons">
-                            view_list
-                        </span>
-                        Avaliações
-                    </a>
-                }
-            </p>
-        </div>
-        <div class="col-md-4">
-
-            <form asp-action="Details">
-
-                <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
-                <input type="hidden" name="esc" value="@ViewBag.escola.Codigo" />
-                <input type="hidden" asp-for="CodigoColaboradorAvaliador" value="@ViewBag.admin.Codigo" />
-                <input type="hidden" asp-for="Codigo" value="@Model.Codigo" />
-                <input type="hidden" asp-for="CodigoACECCA" value="@Model.CodigoACECCA" />
-                <input type="hidden" asp-for="dataavaliacao" value="@Model.dataavaliacao" />
 
 
+            <dl class="row">
 
+                <dd class="col-sm-10">
+                    <label class="negrito">Nome do Avaliador: </label>@Html.DisplayFor(model => model.NomeAvaliador)
+                </dd>
+                <dd class="col-sm-10">
+                    <label class="negrito">Nome do Colaborador Avaliado: </label>@Html.DisplayFor(model => model.NomeColaborador)
+                </dd>
+                <dd class="col-sm-10">
+                    <label class="negrito">Data de Avaliação: </label>@Model.dataavaliacao.ToString("d")
+                </dd>
+                <dd class="col-sm-10">
+                    <label class="negrito">Componente: </label>@Html.DisplayFor(model => model.ccurric)
+                </dd>
+                <dd class="col-sm-10">
+                    <label class="negrito">Turma: </label>@Html.DisplayFor(model => model.ano)
+                </dd>
+            </dl>
 
-                <dl class="row">
+            <table class="highlight">
+                <thead>
+                </thead>
 
-                    <dd class="col-sm-10">
-                        <label class="negrito">Nome do Avaliador: </label>@Html.DisplayFor(model => model.NomeAvaliador)
-                    </dd>
-                    <dd class="col-sm-10">
-                        <label class="negrito">Nome do Colaborador Avaliado: </label>@Html.DisplayFor(model => model.NomeColaborador)
-                    </dd>
-                    <dd class="col-sm-10">
-                        <label class="negrito">Data de Avaliação: </label>@Model.dataavaliacao.ToString("d")
-                    </dd>
-                    <dd class="col-sm-10">
-                        <label class="negrito">Componente: </label>@Html.DisplayFor(model => model.ccurric)
-                    </dd>
-                    <dd class="col-sm-10">
-                        <label class="negrito">Turma: </label>@Html.DisplayFor(model => model.ano)
-                    </dd>
-                </dl>
-
-                <table class="highlight">
-                    <thead>
-                    </thead>
-
-                    <tbody>
-                        @foreach (var item in Model.CriterioAvaliado)
-                        {
+                <tbody>
+                    @foreach (var item in Model.CriterioAvaliado)
+                    {
                         <tr>
 
                             <td style="max-inline-size:200px">
@@ -105,14 +116,14 @@
 
 
                         </tr>
-                        }
-                    </tbody>
-                </table>
-                <div class="form-group">
+                    }
+                </tbody>
+            </table>
+            <div class="form-group">
 
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
+</div>
 
 
