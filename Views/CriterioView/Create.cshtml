@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CodigoClassificacaoCriterio" class="negrito">Classificação Critério</label>
-                    @Html.DropDownListFor(model => model.CodigoClassificacaoCriterio, (IEnumerable<SelectListItem>)ViewBag.CodigoClassificacaoCriterio, "--Selecione", new { @id = "CodigoClassificacaoCriterio", @class = "form-control", @placeholder = "Selecione a Classificação" })
+                    @Html.DropDownListFor(model => model.CodigoClassificacaoCriterio, (IEnumerable<SelectListItem>)ViewBag.CodigoClassificacaoCriterio, "--Selecione", new { @id = "CodigoClassificacaoCriterio", @class = "browser-default", @placeholder = "Selecione a Classificação" })
                     <span asp-validation-for="CodigoClassificacaoCriterio" class="text-danger"></span>
                 </div>
                 <div class="form-group">

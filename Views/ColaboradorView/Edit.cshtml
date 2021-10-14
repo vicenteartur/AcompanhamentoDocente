@@ -7,7 +7,44 @@
 
 <div class="center"><h1>Editar Informações Colaborador</h1></div>
 
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">more_horiz</i>
+    </a>
+    <ul>
+        <li>
+            <a href='@Url.Action("Create", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    add
+                </i>
+            </a>
+        </li>
 
+        <li>
+            <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    person
+                </i>
+                Voltar
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, email = "null" })' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    person_search
+                </i>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="btn-floating btn-large waves-effect waves-light">
+                <span class="material-icons">
+                    supervised_user_circle
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>
 
 <div class="row">
     <div class="col-md-4">
@@ -54,14 +91,7 @@
                                 Salvar
                                 <i class="material-icons left">save</i>
                             </button>
-                            <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
-                                <span class="material-icons">
-
-                                    view_list
-
-                                </span>
-                                Lista Colaboradores
-                            </a>
+                            
                         </p>
                     </div>
                 </div>
