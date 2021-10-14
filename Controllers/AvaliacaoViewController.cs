@@ -270,7 +270,10 @@ namespace AcompanhamentoDocente.Controllers
             var currentRow = 1;
             var currentCol = 1;
 
-            worksheet.Column(currentCol).AdjustToContents();
+            var linha_inicio = currentRow;
+            var coluna_inicio = currentCol;
+
+            
 
             worksheet.Cell(currentRow, currentCol).Value = "Avaliador";
             worksheet.Cell(currentRow, currentCol+1).Value = dados.NomeAvaliador;
@@ -287,6 +290,15 @@ namespace AcompanhamentoDocente.Controllers
             worksheet.Cell(currentRow, currentCol).Value = "Turma";
             worksheet.Cell(currentRow, currentCol + 1).Value = dados.ano;
 
+            var linha_final = currentRow;
+            var coluna_final = currentCol + 1;
+
+            IXLRange range = worksheet.Range(worksheet.Cell(linha_inicio,coluna_inicio).Address, worksheet.Cell(linha_final,coluna_final).Address);
+
+            range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Justify;
+
             currentRow = currentRow+2;
             currentCol = 1;
 
@@ -294,6 +306,12 @@ namespace AcompanhamentoDocente.Controllers
             worksheet.Cell(currentRow, currentCol+1).Value = "Critério";
             worksheet.Cell(currentRow, currentCol+2).Value = "Atende?";
             worksheet.Cell(currentRow, currentCol + 3).Value = "Comentário";
+            
+            linha_inicio = currentRow;
+            coluna_final = currentCol + 3;
+            range = worksheet.Range(worksheet.Cell(linha_inicio, coluna_inicio).Address, worksheet.Cell(linha_final, coluna_final).Address);
+            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
             currentRow++;
             
 
@@ -301,15 +319,36 @@ namespace AcompanhamentoDocente.Controllers
             {
                 worksheet.Cell(currentRow, currentCol).Value = item.CodigoCriterioAvaliacaoNavigation.CodigoClassificacaoCriterioNavigation.Classificacao;
                 worksheet.Cell(currentRow, currentCol + 1).Value = item.CodigoCriterioAvaliacaoNavigation.Criterio;
-                worksheet.Cell(currentRow, currentCol + 2).Value = item.Conceito;
+                if(item.Conceito == 1) 
+                { 
+                    worksheet.Cell(currentRow, currentCol + 2).Value = "SIM";
+                }
+                else
+                {
+                    worksheet.Cell(currentRow, currentCol + 2).Value = "NÃO";
+                }
                 worksheet.Cell(currentRow, currentCol + 3).Value = item.Comentario;
                 currentRow++;
             }
+
+            range = worksheet.Range(worksheet.Cell(linha_inicio, coluna_inicio).Address, worksheet.Cell(currentRow-1, coluna_final).Address);
+            
+            range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+            range = worksheet.Range(worksheet.Cell(linha_inicio+1, coluna_inicio).Address, worksheet.Cell(currentRow-1, coluna_final).Address);
+            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Justify;
+            range.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+
+            range = worksheet.Range(worksheet.Cell(linha_inicio + 1, coluna_inicio+2).Address, worksheet.Cell(currentRow - 1, coluna_final).Address);
+            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
             for (int i = 1; i < 100; i++)
             {
                 worksheet.Column(i).AdjustToContents();
             }
+
+            
             
             await using var memory = new MemoryStream();
             workbook.SaveAs(memory);
