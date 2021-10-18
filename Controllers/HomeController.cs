@@ -49,7 +49,27 @@ namespace AcompanhamentoDocente.Controllers
             return View(rel);
         }
 
+        public async Task<IActionResult> DetalhesSubArea(int id, int esc, string sub)
+        {
 
+            var rel = await _acesso.RelatorioSubArea(esc, sub);
+
+
+            ViewData["admin"] = await _acesso.MontarAdmin(id);
+            ViewData["escola"] = await _acesso.MontarEscola(esc, id);
+            return View(rel);
+        }
+
+        public async Task<IActionResult> DetalhesDisciplina(int id, int esc, int ccc)
+        {
+
+            var rel = await _acesso.RelatorioDisciplina(esc, ccc);
+
+
+            ViewData["admin"] = await _acesso.MontarAdmin(id);
+            ViewData["escola"] = await _acesso.MontarEscola(esc, id);
+            return View(rel);
+        }
         public IActionResult Privacy()
         {
             return View();

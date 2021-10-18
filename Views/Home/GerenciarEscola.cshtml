@@ -2,7 +2,8 @@
 @{
 }
 
-
+<div class="center"><h1>Análise por Sub-Área do Conhecimento</h1></div>
+@*  *@
 <div class="center">
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large">
@@ -42,30 +43,35 @@
             @foreach (var item in Model)
             {
 
-                <tr class="linha_tabela">
-                    <td>
-                        <p><label class="negrito">Componente: </label>  @Html.DisplayFor(modelItem => item.Componente)</p>
+            <tr class="linha_tabela">
+                <td>
+                    <p><label class="negrito">Sub-Área: </label>  @Html.DisplayFor(modelItem => item.SubArea)</p>
 
-                        <p><label class="negrito">Modalidade: </label> @Html.DisplayFor(modelItem => item.Modalidade)</p>
+                    <p><label class="negrito">Modalidade: </label> @Html.DisplayFor(modelItem => item.Modalidade)</p>
 
-                        <p><label class="negrito">Classificação: </label>  @Html.DisplayFor(modelItem => item.ClassificacaoCriterio)</p>
-
-                        <p><label class="negrito">Pontuacao (Atende / Total): </label>    @Html.DisplayFor(modelItem => item.Pontuacao) / @Html.DisplayFor(modelItem => item.PontuacaoMaxima) </p>
-                    </td>
-                    <td>
-
-                        
-                        <div class="graph">
-                            <svg>
-                                <circle cx="50" cy="50" r="40" />
-                            </svg>
-                            <svg class="cor" stroke-dashoffset=@item.Aprov>
-                                <circle cx="50" cy="50" r="40" />
-                            </svg>
-                            @Html.DisplayFor(modelItem => item.Pontuacao) / @Html.DisplayFor(modelItem => item.PontuacaoMaxima) 
-                        </div>
-                    </td>
-                </tr>
+                    <p><label class="negrito">Pontuacao (Atende / Total): </label>    @Html.DisplayFor(modelItem => item.Pontuacao) / @Html.DisplayFor(modelItem => item.PontuacaoMaxima) </p>
+                </td>
+                <td>
+                    <div class="graph">
+                        <svg>
+                            <circle cx="50" cy="50" r="40" />
+                        </svg>
+                        <svg class="cor" stroke-dashoffset=@item.Aprov>
+                            <circle cx="50" cy="50" r="40" />
+                        </svg>
+                        @Html.DisplayFor(modelItem => item.Pontuacao) / @Html.DisplayFor(modelItem => item.PontuacaoMaxima)
+                    </div>
+                </td>
+                
+                <td>
+                    <a href='@Url.Action("DetalhesSubArea", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, sub = item.SubArea })' class="waves-effect waves-light btn" id="btdetalhes">
+                        <span class="material-icons">
+                            info
+                        </span>
+                    </a>
+                </td>
+                
+            </tr>
             }
         </tbody>
 

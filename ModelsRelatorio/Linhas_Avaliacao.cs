@@ -11,6 +11,7 @@ namespace AcompanhamentoDocente.ModelsRelatorio
         public string Componente { get; set; }
         public int CodigoModalidade { get; set; }
         public string Modalidade { get; set; }
+        public string SubArea { get; set; }
         public int CodCriterio { get; set; }
         public int Conceito { get; set; }
         public int CodClassCriterio { get; set; }

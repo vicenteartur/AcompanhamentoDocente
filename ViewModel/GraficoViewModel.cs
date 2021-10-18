@@ -10,6 +10,7 @@ namespace AcompanhamentoDocente.ViewModel
         public int      CodigoComponente { get; set; }
         public string   Componente { get; set; }
         public string   Modalidade { get; set; }
+        public string   SubArea { get; set; }
         public string   ClassificacaoCriterio { get; set; }
         public int      Pontuacao { get; set; }
         public int      PontuacaoMaxima { get; set; }
