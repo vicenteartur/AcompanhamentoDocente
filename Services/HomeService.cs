@@ -219,7 +219,7 @@ namespace AcompanhamentoDocente.Services
             }
         }
 
-        public async Task<List<GraficoViewModel>> RelatorioGeral(int CodigoEscola)
+        public async Task<List<GraficoViewModel>> RelatorioGeral(int CodigoEscola, int ano)
         {
             var relatorio = await (from e in db.TbEscolas
                                    join at in db.TbAtribuicaoColaboradorEscolas
@@ -239,7 +239,7 @@ namespace AcompanhamentoDocente.Services
                                    join classif in db.TbClassificacaoCriterios
                                    on crt.CodigoClassificacaoCriterio equals classif.Codigo
                                    
-                                   where e.Codigo == CodigoEscola && aval.Finalizada == 1 && aval.CodigoColaboradorAvaliador!= at.CodigoColaborador
+                                   where e.Codigo == CodigoEscola && aval.Finalizada == 1 && aval.CodigoColaboradorAvaliador!= at.CodigoColaborador && aval.Datarealizacao.Year == ano
 
                                    orderby m.Modalidade, cc.SubArea, cc.ComponenteCurricular
 
@@ -306,7 +306,7 @@ namespace AcompanhamentoDocente.Services
 
         }
 
-        public async Task<List<GraficoViewModel>> RelatorioSubArea(int CodigoEscola, string sub)
+        public async Task<List<GraficoViewModel>> RelatorioSubArea(int CodigoEscola, string sub, int ano)
         {
             var relatorio = await (from e in db.TbEscolas
                                    join at in db.TbAtribuicaoColaboradorEscolas
@@ -327,7 +327,7 @@ namespace AcompanhamentoDocente.Services
                                    on crt.CodigoClassificacaoCriterio equals classif.Codigo
 
                                    where e.Codigo == CodigoEscola && aval.Finalizada == 1 && aval.CodigoColaboradorAvaliador != at.CodigoColaborador 
-                                   && cc.SubArea==sub
+                                   && cc.SubArea==sub && aval.Datarealizacao.Year == ano
 
                                    orderby m.Modalidade, cc.SubArea, cc.ComponenteCurricular
 
@@ -394,7 +394,7 @@ namespace AcompanhamentoDocente.Services
         }
 
     
-    public async Task<List<GraficoViewModel>> RelatorioDisciplina(int CodigoEscola, int ccc)
+    public async Task<List<GraficoViewModel>> RelatorioDisciplina(int CodigoEscola, int ccc, int ano)
         {
             var relatorio = await (from e in db.TbEscolas
                                    join at in db.TbAtribuicaoColaboradorEscolas
@@ -415,7 +415,7 @@ namespace AcompanhamentoDocente.Services
                                    on crt.CodigoClassificacaoCriterio equals classif.Codigo
 
                                    where e.Codigo == CodigoEscola && aval.Finalizada == 1 && aval.CodigoColaboradorAvaliador != at.CodigoColaborador
-                                   && cc.Codigo == ccc
+                                   && cc.Codigo == ccc && aval.Datarealizacao.Year == ano
 
                                    orderby m.Modalidade, cc.SubArea, cc.ComponenteCurricular
 

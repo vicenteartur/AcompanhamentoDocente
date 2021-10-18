@@ -5,6 +5,7 @@
 <div class="center"><h1>Análise por Componente Curricular e Modalidade de Ensino</h1></div>
 
 
+
 <div class="center">
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large">
@@ -35,7 +36,33 @@
             </li>
         </ul>
     </div>
+    <form>
+        <div class="input-field col s12">
+            <p style="text-align:left"><label class="negrito">Ano:</label></p>
+            <select id="ano" name="ano" class="browser-default">
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="@ViewBag.ano" selected="@ViewBag.ano">@ViewBag.ano</option>
+            </select>
 
+        </div>
+        <div class="form-control">
+            <input type="hidden" id="esc" name="esc" value="@ViewBag.escola.Codigo" />
+            <input type="hidden" id="sub" name="sub" value="@ViewBag.subarea" />
+        </div>
+
+        <div class="center">
+            <p id="l_botao">
+                <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                    Enviar
+                    <i class="material-icons left">send</i>
+                </button>
+
+            </p>
+        </div>
+
+    </form>
     <table class="highlight">
         <thead>
 
@@ -63,7 +90,7 @@
                             @Html.DisplayFor(modelItem => item.Pontuacao) / @Html.DisplayFor(modelItem => item.PontuacaoMaxima)
                         </div>
                     </td>
-                    
+
                     <td>
                         <a href='@Url.Action("DetalhesDisciplina", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, ccc = item.CodigoComponente })' class="waves-effect waves-light btn" id="btdetalhes">
                             <span class="material-icons">
@@ -71,7 +98,7 @@
                             </span>
                         </a>
                     </td>
-                    
+
                 </tr>
             }
         </tbody>

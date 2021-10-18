@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Services;
+using System;
 
 namespace AcompanhamentoDocente.Controllers
 {
@@ -38,37 +39,90 @@ namespace AcompanhamentoDocente.Controllers
             return View(lista);
         }
 
-        public async Task<IActionResult> GerenciarEscola(int id, int esc)
+        public async Task<IActionResult> GerenciarEscola(int id, int esc, int? ano)
         {
-
-            var rel = await _acesso.RelatorioGeral(esc);
             var col = await _acesso.MontarAdmin(id);
             ViewData["admin"] = col;
             var escola = await _acesso.MontarEscola(esc, id);
             ViewData["escola"] = escola;
-            return View(rel);
+            
+
+            if (ano == null) 
+            {
+                DateTime datatual = DateTime.Now;
+                var anoatual = datatual.Year;
+
+            var rel = await _acesso.RelatorioGeral(esc,anoatual);
+                ViewData["ano"] = anoatual;
+                return View(rel);
+            }
+            else
+            {
+            var rel = await _acesso.RelatorioGeral(esc,(int)ano);
+                ViewData["ano"] = ano;
+                return View(rel);
+            }
+            
+            
         }
 
-        public async Task<IActionResult> DetalhesSubArea(int id, int esc, string sub)
+        public async Task<IActionResult> DetalhesSubArea(int id, int esc, string sub, int? ano)
         {
 
-            var rel = await _acesso.RelatorioSubArea(esc, sub);
+            var col = await _acesso.MontarAdmin(id);
+            ViewData["admin"] = col;
+            var escola = await _acesso.MontarEscola(esc, id);
+            ViewData["escola"] = escola;
+            ViewData["subarea"] = sub;
 
 
-            ViewData["admin"] = await _acesso.MontarAdmin(id);
-            ViewData["escola"] = await _acesso.MontarEscola(esc, id);
-            return View(rel);
+            if (ano == null)
+            {
+                DateTime datatual = DateTime.Now;
+                var anoatual = datatual.Year;
+
+                var rel = await _acesso.RelatorioSubArea(esc, sub, anoatual);
+                ViewData["ano"] = anoatual;
+                
+                return View(rel);
+
+            }
+            else
+            {
+
+                var rel = await _acesso.RelatorioSubArea(esc, sub, (int)ano);
+                ViewData["ano"] = ano;
+                return View(rel);
+            }
         }
-
-        public async Task<IActionResult> DetalhesDisciplina(int id, int esc, int ccc)
+            public async Task<IActionResult> DetalhesDisciplina(int id, int esc, int ccc, int? ano)
         {
 
-            var rel = await _acesso.RelatorioDisciplina(esc, ccc);
+            var col = await _acesso.MontarAdmin(id);
+            ViewData["admin"] = col;
+            var escola = await _acesso.MontarEscola(esc, id);
+            ViewData["escola"] = escola;
+            ViewData["ccc"] = ccc;
+            
 
 
-            ViewData["admin"] = await _acesso.MontarAdmin(id);
-            ViewData["escola"] = await _acesso.MontarEscola(esc, id);
-            return View(rel);
+            if (ano == null)
+            {
+                DateTime datatual = DateTime.Now;
+                var anoatual = datatual.Year;
+                var rel = await _acesso.RelatorioDisciplina(esc, ccc, (int)anoatual);
+                ViewData["ano"] = anoatual;
+                return View(rel);
+            }
+            else
+            {
+                var rel = await _acesso.RelatorioDisciplina(esc, ccc, (int)ano);
+                ViewData["ano"] = ano;
+                return View(rel);
+            }
+
+            
+            
         }
         public IActionResult Privacy()
         {
