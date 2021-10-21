@@ -14,27 +14,27 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Codigo" />
             <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
+                <label asp-for="Nome" class="control-label">Nome do Professor</label>
                 <input asp-for="Nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cargo" class="control-label"></label>
+                <label asp-for="Cargo" class="control-label">Cargo</label>
                 <input asp-for="Cargo" class="form-control" />
                 <span asp-validation-for="Cargo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CodigoModalidade" class="control-label"></label>
+                <label asp-for="CodigoModalidade" class="control-label">Modalidade</label>
                 @Html.DropDownListFor(model => model.CodigoModalidade, (IEnumerable<SelectListItem>)ViewBag.CodigoModalidade, "--Selecione", new { @id = "CodigoModalidade", @class = "browser-default" })
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.ano, htmlAttributes: new { @class = "control-label col-md-2" })
+                <label asp-for="ano" class="control-label">Ano</label>
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.CodigoAno, Model.ano, "--Selecione", new { @id = "CodigoAno", @name = "CodigoAno", @class = "browser-default" })
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.CCurricular, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <label asp-for="CompCurr" class="control-label">Componente</label>
                     <div class="col-md-10">
                         @Html.DropDownListFor(model => model.CodigoCC, Model.CCurricular, "--Selecione", new { @id = "CodigoCC", @class = "browser-default" })
 
@@ -57,22 +57,22 @@
 
                 </div>
                 <p></p>
-                <div class="form-group">
+                <div class="center">
                     <button class="btn waves-effect waves-light" type="submit" name="action">
                         Salvar
-                        <i class="material-icons right">save</i>
+                        <i class="material-icons left">save</i>
                     </button>
+                    
+                        <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="waves-effect waves-light btn">
+                            <span class="material-icons">
+
+                                view_list
+
+                            </span>
+                            Lista Atribuições
+                        </a>
+                    
                 </div>
-                <p>
-                    <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="waves-effect waves-light btn">
-                        <span class="material-icons">
-
-                            view_list
-
-                        </span>
-                        Lista Atribuições
-                    </a>
-                </p>
             </div>
         </form>
     </div>
