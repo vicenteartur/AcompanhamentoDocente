@@ -482,5 +482,56 @@ namespace AcompanhamentoDocente.Services
 
         }
 
+        public async Task<List<Planilhas_Relatorio_Av>> RelatorioXLSXDisciplina(int CodigoEscola, int ccc, int ano)
+        {
+            var relatorio = await (from e in db.TbEscolas
+                                   join at in db.TbAtribuicaoColaboradorEscolas
+                                   on e.Codigo equals at.CodigoEscola
+                                   join accea in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
+                                   on at.Codigo equals accea.CodigoAtribuicaoColaboradorEscola
+                                   join aval in db.TbAvaliacaos
+                                   on accea.Codigo equals aval.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola
+                                   join cc in db.TbComponenteCurriculars
+                                   on accea.CodigoComponenteCurricular equals cc.Codigo
+                                   join m in db.TbModalidades
+                                   on cc.CodigoModalidade equals m.Codigo
+                                   join cav in db.TbCriterioAvaliados
+                                   on aval.Codigo equals cav.CodigoAvaliacao
+                                   join crt in db.TbCriterioAvaliacaos
+                                   on cav.CodigoCriterioAvaliacao equals crt.Codigo
+                                   join classif in db.TbClassificacaoCriterios
+                                   on crt.CodigoClassificacaoCriterio equals classif.Codigo
+                                   join an in db.TbAnos
+                                   on accea.CodigoAno equals an.Codigo
+                                   join col in db.TbColaboradors
+                                   on at.CodigoColaborador equals col.Codigo
+
+
+                                   where e.Codigo == CodigoEscola && aval.Finalizada == 1 && aval.CodigoColaboradorAvaliador != at.CodigoColaborador
+                                   && cc.Codigo == ccc && aval.Datarealizacao.Year == ano
+
+                                   orderby an.Ano, col.Nome
+
+                                   select new Planilhas_Relatorio_Av
+                                   {
+                                       CodigoAvaliacao = aval.Codigo,
+                                       Avaliado = col.Nome,
+                                       dataavaliacao = aval.Datarealizacao,
+                                       ccurricular = cc.ComponenteCurricular,
+                                       modalidade = m.Modalidade
+                                   }).ToListAsync();
+
+            
+
+            foreach (var item in relatorio)
+            {
+                item.criterioavaliados  = await db.TbCriterioAvaliados.Include(c => c.CodigoCriterioAvaliacaoNavigation).Where(c => c.CodigoAvaliacao == item.CodigoAvaliacao).ToListAsync();
+            }
+
+            
+
+
+            return relatorio;
+        }
     }
 }
