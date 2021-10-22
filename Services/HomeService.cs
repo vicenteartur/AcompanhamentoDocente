@@ -484,48 +484,60 @@ namespace AcompanhamentoDocente.Services
 
         public async Task<List<Planilhas_Relatorio_Av>> RelatorioXLSXDisciplina(int CodigoEscola, int ccc, int ano)
         {
-            var relatorio = await (from e in db.TbEscolas
-                                   join at in db.TbAtribuicaoColaboradorEscolas
-                                   on e.Codigo equals at.CodigoEscola
+            var consulta = await (from cav in db.TbCriterioAvaliados
+                                   join av in db.TbAvaliacaos
+                                   on cav.CodigoAvaliacao equals av.Codigo
+                                   join cr in db.TbCriterioAvaliacaos
+                                   on cav.CodigoCriterioAvaliacao equals cr.Codigo
                                    join accea in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
-                                   on at.Codigo equals accea.CodigoAtribuicaoColaboradorEscola
-                                   join aval in db.TbAvaliacaos
-                                   on accea.Codigo equals aval.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola
+                                   on av.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola equals accea.Codigo
+                                   join  ace in db.TbAtribuicaoColaboradorEscolas
+                                   on accea.CodigoAtribuicaoColaboradorEscola equals ace.Codigo
+                                   join col in db.TbColaboradors
+                                   on ace.CodigoColaborador equals col.Codigo
+                                   join e in db.TbEscolas
+                                   on ace.CodigoEscola equals e.Codigo
                                    join cc in db.TbComponenteCurriculars
                                    on accea.CodigoComponenteCurricular equals cc.Codigo
-                                   join m in db.TbModalidades
-                                   on cc.CodigoModalidade equals m.Codigo
-                                   join cav in db.TbCriterioAvaliados
-                                   on aval.Codigo equals cav.CodigoAvaliacao
-                                   join crt in db.TbCriterioAvaliacaos
-                                   on cav.CodigoCriterioAvaliacao equals crt.Codigo
-                                   join classif in db.TbClassificacaoCriterios
-                                   on crt.CodigoClassificacaoCriterio equals classif.Codigo
-                                   join an in db.TbAnos
+                                   join an in db.TbAnos 
                                    on accea.CodigoAno equals an.Codigo
-                                   join col in db.TbColaboradors
-                                   on at.CodigoColaborador equals col.Codigo
+                                   join m in db.TbModalidades
+                                   on an.CodigoModalidade equals m.Codigo
 
-
-                                   where e.Codigo == CodigoEscola && aval.Finalizada == 1 && aval.CodigoColaboradorAvaliador != at.CodigoColaborador
-                                   && cc.Codigo == ccc && aval.Datarealizacao.Year == ano
+                                   where e.Codigo == CodigoEscola && av.Finalizada == 1 && av.CodigoColaboradorAvaliador != ace.CodigoColaborador
+                                   && cc.Codigo == ccc && av.Datarealizacao.Year == ano
 
                                    orderby an.Ano, col.Nome
 
-                                   select new Planilhas_Relatorio_Av
+                                   select new linha_plan_relatorio_xls
                                    {
-                                       CodigoAvaliacao = aval.Codigo,
+                                       CodigoAvaliacao = av.Codigo,
+                                       dataavaliacao = av.Datarealizacao,
                                        Avaliado = col.Nome,
-                                       dataavaliacao = aval.Datarealizacao,
+                                       codigoAvaliador = av.CodigoColaboradorAvaliador,
                                        ccurricular = cc.ComponenteCurricular,
-                                       modalidade = m.Modalidade
+                                       anoturma = an.Ano,
+                                       modalidade = m.Modalidade,
+                                       CodigoCriterio = cr.Codigo,
+                                       Criterio = cr.Criterio,
+                                       Conceito = cav.Conceito
                                    }).ToListAsync();
 
-            
+            var admin = await (from e in db.TbEscolas
+                               join ac in db.TbAtribuicaoColaboradorEscolas
+                               on e.Codigo equals ac.CodigoEscola
+                               join c in db.TbColaboradors
+                               on ac.CodigoColaborador equals c.Codigo
+                               join cg in db.TbCargos
+                               on c.CodigoCargo equals cg.Codigo
+                               where cg.NiveldeAcesso > 0 && e.Codigo == CodigoEscola
+                               select new TbColaborador()).ToListAsync();
 
-            foreach (var item in relatorio)
+            var relatorio = new List<Planilhas_Relatorio_Av>();
+
+            foreach (var item in consulta)
             {
-                item.criterioavaliados  = await db.TbCriterioAvaliados.Include(c => c.CodigoCriterioAvaliacaoNavigation).Where(c => c.CodigoAvaliacao == item.CodigoAvaliacao).ToListAsync();
+                
             }
 
             
