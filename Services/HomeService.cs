@@ -482,13 +482,15 @@ namespace AcompanhamentoDocente.Services
 
         }
 
-        public async Task<List<Planilhas_Relatorio_Av>> RelatorioXLSXDisciplina(int CodigoEscola, int ccc, int ano)
+        public async Task<List<linha_plan_relatorio_xls>> RelatorioXLSXDisciplina(int CodigoEscola, string ccc, int ano)
         {
-            var consulta = await (from cav in db.TbCriterioAvaliados
+            var relatorio = await (from cav in db.TbCriterioAvaliados
                                    join av in db.TbAvaliacaos
                                    on cav.CodigoAvaliacao equals av.Codigo
                                    join cr in db.TbCriterioAvaliacaos
                                    on cav.CodigoCriterioAvaliacao equals cr.Codigo
+                                   join clas in db.TbClassificacaoCriterios
+                                   on cr.CodigoClassificacaoCriterio equals clas.Codigo
                                    join accea in db.TbAtribuicaoComponenteCurricularAnoColaboradorEscolas
                                    on av.CodigoAtribuicaoComponenteCurricularAnoColaboradorEscola equals accea.Codigo
                                    join  ace in db.TbAtribuicaoColaboradorEscolas
@@ -505,9 +507,9 @@ namespace AcompanhamentoDocente.Services
                                    on an.CodigoModalidade equals m.Codigo
 
                                    where e.Codigo == CodigoEscola && av.Finalizada == 1 && av.CodigoColaboradorAvaliador != ace.CodigoColaborador
-                                   && cc.Codigo == ccc && av.Datarealizacao.Year == ano
+                                   && cc.ComponenteCurricular == ccc && av.Datarealizacao.Year == ano
 
-                                   orderby an.Ano, col.Nome
+                                   orderby an.Ano, av.Codigo, col.Nome, clas.Classificacao ascending
 
                                    select new linha_plan_relatorio_xls
                                    {
@@ -515,29 +517,36 @@ namespace AcompanhamentoDocente.Services
                                        dataavaliacao = av.Datarealizacao,
                                        Avaliado = col.Nome,
                                        codigoAvaliador = av.CodigoColaboradorAvaliador,
+                                       Escola = e.Escola,
                                        ccurricular = cc.ComponenteCurricular,
                                        anoturma = an.Ano,
                                        modalidade = m.Modalidade,
                                        CodigoCriterio = cr.Codigo,
                                        Criterio = cr.Criterio,
+                                       Classificacao = clas.Classificacao,
                                        Conceito = cav.Conceito
                                    }).ToListAsync();
 
-            var admin = await (from e in db.TbEscolas
+            var admin = await (from c in db.TbColaboradors
                                join ac in db.TbAtribuicaoColaboradorEscolas
-                               on e.Codigo equals ac.CodigoEscola
-                               join c in db.TbColaboradors
-                               on ac.CodigoColaborador equals c.Codigo
+                               on c.Codigo equals ac.CodigoColaborador
+                               join e in db.TbEscolas
+                               on ac.CodigoEscola equals e.Codigo
                                join cg in db.TbCargos
                                on c.CodigoCargo equals cg.Codigo
                                where cg.NiveldeAcesso > 0 && e.Codigo == CodigoEscola
-                               select new TbColaborador()).ToListAsync();
+                               select new TbColaborador() { 
+                               Codigo = c.Codigo,
+                               Nome = c.Nome
+                               }).AsNoTracking().ToListAsync();
 
-            var relatorio = new List<Planilhas_Relatorio_Av>();
 
-            foreach (var item in consulta)
+            var colav = new TbColaborador();
+
+            foreach (var item in relatorio)
             {
-                
+                colav = admin.Where(a => a.Codigo == item.codigoAvaliador).First();
+                item.Avaliador = colav.Nome;
             }
 
             
