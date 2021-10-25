@@ -185,42 +185,50 @@ namespace AcompanhamentoDocente.Controllers
 
             currentRow = linha_inicio;
             currentCol = currentCol + 2;
+            var listaauxiliar = new List<linha_plan_relatorio_xls>();
 
+                        
+            
             foreach (var item in dados)
             {
-                var amostra = dados.First();
-                var col = dados.Where(av => av.CodigoAvaliacao == amostra.CodigoAvaliacao).ToList();
-                
-                worksheet.Cell(currentRow, currentCol).Value = amostra.Avaliado;
-                currentRow++;
-                worksheet.Cell(currentRow, currentCol).Value = amostra.Avaliador;
-                currentRow++;
-                worksheet.Cell(currentRow, currentCol).Value = amostra.dataavaliacao;
-                currentRow++;
-                worksheet.Cell(currentRow, currentCol).Value = amostra.anoturma;
-                currentRow++;
-                
-
-                foreach (var itemcol in tabelacriterio)
+                if(!listaauxiliar.Any(av => av.CodigoAvaliacao == item.CodigoAvaliacao))
                 {
+                    listaauxiliar.Add(item);
+                    worksheet.Cell(currentRow, currentCol).Value = item.Avaliado;
+                    currentRow++;
+                    worksheet.Cell(currentRow, currentCol).Value = item.Avaliador;
+                    currentRow++;
+                    worksheet.Cell(currentRow, currentCol).Value = item.dataavaliacao;
+                    currentRow++;
+                    worksheet.Cell(currentRow, currentCol).Value = item.anoturma;
+                    currentRow++;
 
-                    var critav = col.Where(c => c.CodigoCriterio == itemcol.Codigo).First();
+                    var col = dados.Where(av => av.CodigoAvaliacao == item.CodigoAvaliacao).ToList();
 
-                    if (critav != null)
+                    foreach (var itemcol in tabelacriterio)
                     {
-                        worksheet.Cell(currentRow, currentCol).Value = critav.Conceito;
-                        currentRow++;
+
+                        
+
+                        if (col.Any(l => l.CodigoCriterio == itemcol.Codigo))
+                        {
+                            worksheet.Cell(currentRow, currentCol).Value = col.Where(con => con.CodigoCriterio == item.CodigoCriterio).Select(con => con.Conceito);
+                            currentRow++;
+                        }
+                        else
+                        {
+                            worksheet.Cell(currentRow, currentCol).Value = "-";
+                            currentRow++;
+                        }
+
                     }
-                    else
-                    {
-                        worksheet.Cell(currentRow, currentCol).Value = "-";
-                        currentRow++;
-                    }
+
+                    currentCol = currentCol++;
+                    currentRow = linha_inicio;
 
                 }
-
-                currentCol = currentCol++;
-                currentRow = linha_inicio;
+                
+                
 
             }
             
