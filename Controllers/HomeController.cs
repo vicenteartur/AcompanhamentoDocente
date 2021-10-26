@@ -223,12 +223,12 @@ namespace AcompanhamentoDocente.Controllers
 
                     }
 
-                    currentCol = currentCol++;
-                    currentRow = linha_inicio;
+                    
 
                 }
-                
-                
+
+                currentCol = currentCol++;
+                currentRow = linha_inicio;
 
             }
             
