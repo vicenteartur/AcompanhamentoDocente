@@ -218,18 +218,17 @@ namespace AcompanhamentoDocente.Models
 
                 entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasMaxLength(80)
-                    .IsFixedLength(true);
+                    .HasMaxLength(80);
 
                 entity.Property(e => e.Nome)
                     .IsRequired()
-                    .HasMaxLength(80)
-                    .IsFixedLength(true);
+                    .HasMaxLength(80);
+
 
                 entity.Property(e => e.Senha)
                     .IsRequired()
-                    .HasMaxLength(20)
-                    .IsFixedLength(true);
+                    .HasMaxLength(20);
+                    
 
                 entity.HasOne(d => d.CodigoCargoNavigation)
                     .WithMany(p => p.TbColaboradors)
@@ -246,13 +245,11 @@ namespace AcompanhamentoDocente.Models
 
                 entity.Property(e => e.ComponenteCurricular)
                     .IsRequired()
-                    .HasMaxLength(25)
-                    .IsFixedLength(true);
+                    .HasMaxLength(25);
 
                 entity.Property(e => e.SubArea)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .IsFixedLength(true);
+                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.CodigoModalidadeNavigation)
                     .WithMany(p => p.TbComponenteCurriculars)
@@ -382,8 +379,7 @@ namespace AcompanhamentoDocente.Models
 
                 entity.Property(e => e.Modalidade)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .IsFixedLength(true);
+                    .HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

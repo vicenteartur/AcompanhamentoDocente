@@ -140,24 +140,70 @@ namespace AcompanhamentoDocente.Controllers
 
             var linha_inicio = currentRow;
             var coluna_inicio = currentCol;
+            var linha_format = currentRow;
+            var coluna_format = currentCol;
+
 
             var line = dados.OrderBy(c => c.Classificacao).First();
 
             worksheet.Cell(currentRow, currentCol).Value = "Escola";
+            
             worksheet.Cell(currentRow, currentCol + 1).Value = line.Escola;
             currentRow++;
             worksheet.Cell(currentRow, currentCol).Value = "Componente";
             worksheet.Cell(currentRow, currentCol + 1).Value = line.ccurricular;
-            linha_inicio = currentRow+1;
+            string componentecurr = line.ccurricular;
+            var linha_final = currentRow;
+            var coluna_final = currentCol + 1;
+
+            IXLRange range = worksheet.Range(worksheet.Cell(linha_format, coluna_format).Address, worksheet.Cell(linha_final, coluna_final).Address);
+
+            range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+
+            currentRow = currentRow+3;
+            linha_format = currentRow;
+            coluna_format = currentCol+1;
+
+            linha_inicio = currentRow;
+            worksheet.Cell(currentRow, currentCol + 1).Value = "Professor";
+            currentRow++;
+            worksheet.Cell(currentRow, currentCol + 1).Value = "Avaliador";
+            currentRow++;
+            worksheet.Cell(currentRow, currentCol + 1).Value = "Data";
+            currentRow++;
+            worksheet.Cell(currentRow, currentCol + 1).Value = "Ano";
             
-            currentRow = currentRow+4;
+            linha_final = currentRow;
             
+            range = worksheet.Range(worksheet.Cell(linha_format, coluna_format).Address, worksheet.Cell(linha_final, coluna_format).Address);
+
+            range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+
+            currentRow++;
+            linha_format = currentRow;
+            coluna_format = currentCol;
             worksheet.Cell(currentRow, currentCol).Value = "Cod Critério";
             worksheet.Cell(currentRow, currentCol+1).Value = "Critério";
+                       
+            linha_final = currentRow;
+            coluna_final = currentCol + 1;
+
+            range = worksheet.Range(worksheet.Cell(linha_format, coluna_format).Address, worksheet.Cell(linha_final, coluna_final).Address);
+
+            range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+
+
             currentRow++;
 
-            
-            
+            linha_format = currentRow;
+            coluna_format = currentCol;
+
             var tabelacriterio = new List<TbCriterioAvaliacao>();
             
             foreach (var item in dados)
@@ -183,12 +229,19 @@ namespace AcompanhamentoDocente.Controllers
 
             }
 
+            range = worksheet.Range(worksheet.Cell(linha_format, currentCol).Address, worksheet.Cell(currentRow - 1, currentCol+1).Address);
+
+            range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+
             currentRow = linha_inicio;
             currentCol = currentCol + 2;
             var listaauxiliar = new List<linha_plan_relatorio_xls>();
+            var col = new List<linha_plan_relatorio_xls>();
 
-                        
-            
+
+
             foreach (var item in dados)
             {
                 if(!listaauxiliar.Any(av => av.CodigoAvaliacao == item.CodigoAvaliacao))
@@ -202,8 +255,20 @@ namespace AcompanhamentoDocente.Controllers
                     currentRow++;
                     worksheet.Cell(currentRow, currentCol).Value = item.anoturma;
                     currentRow++;
+                    worksheet.Cell(currentRow, currentCol).Value = "Atende? (0/1)";
+                    
 
-                    var col = dados.Where(av => av.CodigoAvaliacao == item.CodigoAvaliacao).ToList();
+                        range = worksheet.Range(worksheet.Cell(linha_inicio, currentCol).Address, worksheet.Cell(currentRow, currentCol).Address);
+
+                        range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+                        range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    
+                    currentRow++;
+                        
+                        linha_format = currentRow;
+
+                    col = dados.Where(av => av.CodigoAvaliacao == item.CodigoAvaliacao).ToList();
 
                     foreach (var itemcol in tabelacriterio)
                     {
@@ -212,7 +277,8 @@ namespace AcompanhamentoDocente.Controllers
 
                         if (col.Any(l => l.CodigoCriterio == itemcol.Codigo))
                         {
-                            worksheet.Cell(currentRow, currentCol).Value = col.Where(con => con.CodigoCriterio == item.CodigoCriterio).Select(con => con.Conceito);
+                            var conceito = col.Where(c => c.CodigoCriterio == itemcol.Codigo).First();
+                            worksheet.Cell(currentRow, currentCol).Value = conceito.Conceito;
                             currentRow++;
                         }
                         else
@@ -223,54 +289,32 @@ namespace AcompanhamentoDocente.Controllers
 
                     }
 
-                    
+                    range = worksheet.Range(worksheet.Cell(linha_format, currentCol).Address, worksheet.Cell(currentRow-1, currentCol).Address);
+
+                    range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+                    range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                    currentCol++;
+
+                    currentRow = linha_inicio;
 
                 }
 
-                currentCol = currentCol++;
-                currentRow = linha_inicio;
+                
 
             }
+
+
             
+
             
-
-            var linha_final = currentRow;
-            var coluna_final = currentCol + 1;
-
-            IXLRange range = worksheet.Range(worksheet.Cell(linha_inicio, coluna_inicio).Address, worksheet.Cell(linha_final, coluna_final).Address);
-
-            range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-            range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
-            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Justify;
-
-            currentRow = currentRow + 2;
-            currentCol = 1;
-
-           
-
-            linha_inicio = currentRow;
-            coluna_final = currentCol + 3;
-            range = worksheet.Range(worksheet.Cell(linha_inicio, coluna_inicio).Address, worksheet.Cell(linha_final, coluna_final).Address);
-            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-
-            currentRow++;
-
-
-           
-
-            range = worksheet.Range(worksheet.Cell(linha_inicio, coluna_inicio).Address, worksheet.Cell(currentRow - 1, coluna_final).Address);
-
-            range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-            range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
-
-            range = worksheet.Range(worksheet.Cell(linha_inicio + 1, coluna_inicio).Address, worksheet.Cell(currentRow - 1, coluna_final).Address);
-            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Justify;
+            range = worksheet.Range(worksheet.Cell(1, 1).Address, worksheet.Cell(linha_final, coluna_final).Address);
             range.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
 
-            range = worksheet.Range(worksheet.Cell(linha_inicio + 1, coluna_inicio + 2).Address, worksheet.Cell(currentRow - 1, coluna_final).Address);
-            range.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+            
 
-            for (int i = 1; i < 100; i++)
+            for (int i = 1; i < coluna_final+1 ; i++)
             {
                 worksheet.Column(i).AdjustToContents();
             }
@@ -280,7 +324,7 @@ namespace AcompanhamentoDocente.Controllers
             await using var memory = new MemoryStream();
             workbook.SaveAs(memory);
 
-            return File(memory.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "avaliacao.xlsx");
+            return File(memory.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "avaliacoes"+componentecurr+ano.ToString()+".xlsx");
 
 
         }
