@@ -1,0 +1,69 @@
+﻿@model AcompanhamentoDocente.ViewModel.CriterioViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="center"><h1>Editar Critério</h1></div>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div class="form-group">
+                <label asp-for="Criterio" class="control-label">Critério</label>
+                <textarea name="Criterio" value="@ViewBag.texto" class="form-control" rows="10" cols="40" maxlength="500">@ViewBag.texto</textarea>
+                <span asp-validation-for="Criterio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoClassificacaoCriterio" class="control-label">Classificação do Critério</label>
+                @Html.DropDownListFor(model => model.CodigoClassificacaoCriterio, (IEnumerable<SelectListItem>)ViewBag.CodigoClassificacaoCriterio, "--Selecione", new { @id = "CodigoClassificacaoCriterio", @class = "form-control" })
+                <span asp-validation-for="CodigoClassificacaoCriterio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoCCUrricular" class="control-label">Componente Curricular</label>
+                @Html.DropDownListFor(model => model.CCurricular, (IEnumerable<SelectListItem>)ViewBag.CodigoCCurricular, "--Selecione Componentes ", new { @id = "CodigoClassificacaoCriterio", @class = "select", @multiple = "true", @style = "width:350px" })
+                <span asp-validation-for="CodigoClassificacaoCriterio" class="text-danger"></span>
+            </div>
+            <div class="center">
+
+                <h>
+                    Inativo
+                    <input asp-for="Ativa" type="range" min="0" max="1" class="range-field" />
+                    Ativo
+                </h>
+                <span asp-validation-for="Ativa" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="center">
+                    <p id="l_botao">
+                        <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                            Salvar
+                            <i class="material-icons left">save</i>
+                        </button>
+                        <a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                            <span class="material-icons">
+
+                                view_list
+
+                            </span>
+                            Lista
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
+            <input type="hidden" asp-for="Codigo" />
+
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

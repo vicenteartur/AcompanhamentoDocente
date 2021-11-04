@@ -1,0 +1,52 @@
+﻿@model AcompanhamentoDocente.ViewModel.AtribCCColEscViewModel
+
+@{
+    ViewData["Title"] = "Atribuição de Componente para o Professor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center"><h1>Detalhes da Atribuição</h1></div>
+
+
+
+<div>
+    
+    
+    <dl class="row">
+        
+        <dd class="col-sm-10">
+            <label class="negrito">Nome: </label>@Html.DisplayFor(model => model.Nome)
+        </dd>
+        
+        <dd class="col-sm-10">
+            <label class="negrito">E-mail: </label>@Html.DisplayFor(model => model.Email)
+        </dd>
+        
+        <dd class="col-sm-10">
+            <label class="negrito">Cargo: </label>@Html.DisplayFor(model => model.Cargo)
+        </dd>
+        
+        <dd class="col-sm-10">
+            <label class="negrito">Componente: </label>@Html.DisplayFor(model => model.CompCurr)
+        </dd>
+        
+        <dd class="col-sm-10">
+            <label class="negrito">Turma: </label>@Html.DisplayFor(model => model.Ano)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a href='@Url.Action("Edit", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atribu = Model.Codigo  })' class="waves-effect waves-light btn" >
+        <span class="material-icons">
+            mode_edit
+        </span>
+        Modificar
+    </a>
+</p>
+<a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atribu = Model.Codigo  })' class="waves-effect waves-light btn">
+    <span class="material-icons">
+        view_list
+    </span>
+    Atribuições
+</a>
+

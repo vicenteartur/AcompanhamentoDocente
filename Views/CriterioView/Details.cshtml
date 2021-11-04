@@ -1,0 +1,51 @@
+﻿@model AcompanhamentoDocente.ViewModel.CriterioViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center"><h1>Detalhes do Critério</h1></div>
+
+    <div>
+
+        <dl class="row">
+            <dd class="col-sm-10">
+                <label class="negrito">Critério: </label>@Html.DisplayFor(model => model.Criterio)</p>
+            </dd>
+
+            <dd class="col-sm-10">
+                <label class="negrito">Classificação do Critério: </label>@Html.DisplayFor(model => model.clcriterio)</p>
+            </dd>
+
+            <dd class="col-sm-10">
+                <label class="negrito">Ativo: </label>
+                @if (Model.Ativa != 1)
+                {<b>Não</b>}
+                else
+                { <b>Sim</b>}
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <div class="center">
+            <p id="l_botao">
+                <a href='@Url.Action("Edit", "CriterioView", new { id = ViewBag.Admin.Codigo, criterio = Model.Codigo })' class="waves-effect waves-light btn-small" id="btmodificarpequeno">
+                    <span class="material-icons">
+                        mode_edit
+                    </span>
+                    Modificar
+                </a>
+                
+                <a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.Admin.Codigo, criterio = Model.Codigo })' class="waves-effect waves-light btn-small" id="btlistapequeno1">
+                    <span class="material-icons">
+
+                        view_list
+
+                    </span>
+                    Componentes
+                </a>
+            </p>
+        </div>
+       
+    </div>

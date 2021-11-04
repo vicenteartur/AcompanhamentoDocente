@@ -1,0 +1,109 @@
+﻿@model AcompanhamentoDocente.ViewModel.ColaboradorViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center"><h1>Editar Informações Colaborador</h1></div>
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">more_horiz</i>
+    </a>
+    <ul>
+        <li>
+            <a href='@Url.Action("Create", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    add
+                </i>
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    person
+                </i>
+                Voltar
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, email = "null" })' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    person_search
+                </i>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="btn-floating btn-large waves-effect waves-light">
+                <span class="material-icons">
+                    supervised_user_circle
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+                <input type="hidden" asp-for="Codigo" class="browser-default" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label">Nome do Colaborador</label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">E-mail Corporativo</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+               <input asp-for="CodigoCargo" type="hidden" class="form-control" />
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CodigoCargo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.CodigoCargo, Model.cargo, new { @id = "CodigoCargo", @class = "browser-default" })
+
+                </div>
+                
+                <div class="center">
+
+                    <h>Inativo
+                    <input asp-for="Ativo" type="range" min="0" max="1" class="range-field" />
+                    Ativo</h>
+                    <span asp-validation-for="Ativo" class="text-danger"></span>
+                </div>
+                
+                   
+                <input type="hidden" asp-for="CodigoEscola" class="form-control" />
+                <input type="hidden" asp-for="CodigoAdministrador" class="form-control" />
+                    
+                <div class="form-group">
+                    <div class="center">
+                        <p id="l_botao">
+                            <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                                Salvar
+                                <i class="material-icons left">save</i>
+                            </button>
+                            
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

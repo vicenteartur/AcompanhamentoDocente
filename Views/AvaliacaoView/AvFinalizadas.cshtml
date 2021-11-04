@@ -1,0 +1,72 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.AvaliacaoViewModel>
+
+@{
+    ViewData["Title"] = "AvFinalizadas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="center"><h1>Avaliações Finalizadas</h1></div>
+
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">more_horiz</i>
+    </a>
+    <ul>
+        <li>
+            <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    donut_large
+                </i>
+                Voltar
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, email = "null" })' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    view_list
+                </i>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="btn-floating btn-large waves-effect waves-light">
+                <span class="material-icons">
+                    supervised_user_circle
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<table class="highlight">
+    <thead>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="linha_tabela">
+
+                <td>
+                    <p><label class="negrito">Nome: </label>@Html.DisplayFor(modelItem => item.NomeColaborador)</p>
+                    <p><label class="negrito">Componente: </label>@Html.DisplayFor(modelItem => item.ccurric)</p>
+                    <p><label class="negrito">Turma: </label>@Html.DisplayFor(modelItem => item.ano)</p>
+                    <p><label class="negrito">Data: </label>@item.dataavaliacao.ToString("d")</p>
+                </td>
+                <td></td>
+                <td>
+                    <p>
+                        <a href='@Url.Action("Details", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = item.CodigoACECCA, aval = item.Codigo  })' class="waves-effect waves-light btn" id="btdetalhes">
+                            <span class="material-icons">
+                                info
+                            </span>
+                        </a>
+                    </p>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

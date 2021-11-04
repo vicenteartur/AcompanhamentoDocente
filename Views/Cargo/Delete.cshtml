@@ -5,30 +5,43 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Delete</h1>
+<div class="center">
+    <h1>Apagar Cargo</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+    <h3>Tem certeza que deseja apagar o Cargo?</h3>
+</div>
+
 <div>
-    <h4>TbCargo</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cargo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cargo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NiveldeAcesso)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NiveldeAcesso)
-        </dd>
-    </dl>
+
+        <dl class="row">
     
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Codigo" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+            <dd class="col-sm-10">
+                <label class="negrito">Cargo: </label> @Html.DisplayFor(model => model.Cargo)
+            </dd>
+    
+            <dd class="col-sm-10">
+                <label class="negrito">Nivel de Acesso: </label> @Html.DisplayFor(model => model.NiveldeAcesso)
+            </dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Codigo" />
+            <div class="center">
+                <p id="l_botao">
+                    <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                        <i class="material-icons left">delete</i>
+                        Remover
+                    </button>
+
+                    <a href='@Url.Action("Index", "Cargo", new { id = ViewBag.admin.Codigo , codigo = Model.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                        <span class="material-icons">
+
+                            view_list
+
+                        </span>
+                        Lista
+                    </a>
+                </p>
+            </div>
+        </form>
 </div>

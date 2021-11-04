@@ -5,44 +5,58 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="center"><h1>Nova Turma</h1></div>
 
-<h4>TbAno</h4>
-<hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Ano" class="control-label"></label>
+                <label asp-for="Ano" class="control-label">Ano</label>
                 <input asp-for="Ano" class="form-control" />
                 <span asp-validation-for="Ano" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Turma" class="control-label"></label>
+                <label asp-for="Turma" class="control-label">Turma</label>
                 <input asp-for="Turma" class="form-control" />
                 <span asp-validation-for="Turma" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <label asp-for="Modalidade" class="control-label"></label>
-                <input asp-for="Modalidade" class="form-control" />
-                <span asp-validation-for="Modalidade" class="text-danger"></span>
+                <label asp-for="CodigoModalidade" class="control-label">Modalidade</label>
+                @Html.DropDownListFor(model => model.CodigoModalidade, (IEnumerable<SelectListItem>) ViewBag.CodigoModalidade, "--Selecione", new { @id = "CodigoModalidade", @class = "browser-default" })
             </div>
+            
             <div class="form-group">
-                <label asp-for="Periodo" class="control-label"></label>
+                <label asp-for="Periodo" class="control-label">Período</label>
                 <input asp-for="Periodo" class="form-control" />
                 <span asp-validation-for="Periodo" class="text-danger"></span>
             </div>
+            <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <div class="center">
+                    <p id="l_botao">
+                        <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                            Salvar
+                            <i class="material-icons left">save</i>
+                        </button>
+                        <a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                            <span class="material-icons">
+
+                                view_list
+
+                            </span>
+                            Lista
+                        </a>
+                    </p>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

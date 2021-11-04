@@ -1,0 +1,81 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.ColaboradorViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center"><h1>Professores da Unidade</h1></div>
+
+
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">more_horiz</i>
+    </a>
+    <ul>
+
+
+        <li>
+            <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    donut_large
+                </i>
+                Voltar
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    person
+                </i>
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, email = "null" })' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    person_search
+                </i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<table class="highlight">
+    <thead>
+        
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="linha_tabela">
+                <td>
+                    <p><label class="negrito">Nome: </label>@Html.DisplayFor(modelItem => item.Nome)</p>
+                    <p><label class="negrito">E-mail: </label>@Html.DisplayFor(modelItem => item.Email)</p>
+                </td>
+                <td>
+                    <p>
+                        <a href='@Url.Action("Create", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, col = item.Codigo  })' class="waves-effect waves-light btn" id="bteditar">
+                            <span class="material-icons">
+                                assignment
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("ListaAtribuicaoProfessor", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, col = item.Codigo  })' class="waves-effect waves-light btn" id="btlistar">
+                            <span class="material-icons">
+                                view_list
+                            </span>
+                        </a>
+                    </p>
+                </td>
+            </tr>
+        }
+
+        
+
+    </tbody>
+</table>

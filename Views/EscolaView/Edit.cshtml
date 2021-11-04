@@ -1,0 +1,96 @@
+﻿@model AcompanhamentoDocente.ViewModel.EscolaViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="center"><h1>Modificar dados da Escola</h1></div>
+
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="Codigo" class="browser-default" />
+    <input type="hidden" asp-for="CodigoColaborador" value="@ViewBag.admin.Codigo" class="browser-default" />
+
+    <div class="form-group">
+        <label asp-for="Escola" class="control-label">Escola</label>
+        <input asp-for="Escola" class="form-control" />
+        <span asp-validation-for="Escola" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Rua" class="control-label">Rua</label>
+        <input asp-for="Rua" class="form-control" />
+        <span asp-validation-for="Rua" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Bairro" class="control-label">Bairro</label>
+        <input asp-for="Bairro" class="form-control" />
+        <span asp-validation-for="Bairro" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CodigoEstado, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.CodigoEstado, Model.estado, new { @id = "CodigoEstado", @class = "browser-default" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CodigoCidade, "Cidade", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.CodigoCidade, Model.cidade, "--Selecione", new { @id = "CodigoCidade", @class = "browser-default" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="INEP" class="control-label">INEP</label>
+        <input asp-for="INEP" class="form-control" />
+        <span asp-validation-for="INEP" class="text-danger"></span>
+    </div>
+
+    <div class="center">
+
+        <h>
+            Inativa
+            <input asp-for="Ativa" type="range" min="0" max="1" class="range-field" />
+            Ativa
+        </h>
+        <span asp-validation-for="Ativa" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-primary" />
+        <div class="center">
+            <p id="l_botao">
+                <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                    Salvar
+                    <i class="material-icons left">save</i>
+                </button>
+                <a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.admin.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                    <span class="material-icons">
+
+                        view_list
+
+                    </span>
+                    Lista
+                </a>
+            </p>
+        </div>
+    </div>
+
+</form>
+
+
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="~/Scripts/SelecionaCidade.js"></script>

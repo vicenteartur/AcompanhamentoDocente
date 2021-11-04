@@ -1,0 +1,97 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.ColaboradorViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center"><h1>Lista de Professores da Unidade</h1></div>
+
+
+<p></p>
+    
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">more_horiz</i>
+    </a>
+    <ul>
+       <li>
+            <a href='@Url.Action("Create", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    add
+                </i>
+            </a>
+        </li>
+        
+        <li>
+            <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    donut_large
+                </i>
+                    Voltar
+            </a>
+        </li>
+
+        <li><a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, email = "null" })' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    person_search
+                </i>
+            </a>
+        </li>
+        <li><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="btn-floating btn-large waves-effect waves-light">
+            <span class="material-icons">
+                supervised_user_circle
+            </span>
+            </a>
+        </li>
+    </ul>
+</div>
+   
+        <table class="highlight">
+            <thead>
+
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr class="linha_tabela">
+                        <td>
+                            <p><label class="negrito">Nome: </label> @Html.DisplayFor(modelItem => item.Nome)</p>
+                            <p><label class="negrito">E-mail: </label>@Html.DisplayFor(modelItem => item.Email)</p>
+                            <p><label class="negrito">Cargo: </label> @Html.DisplayFor(modelItem => item.Cargo)</p>
+                        </td>
+                        <td>
+                            <p>
+                                <a href='@Url.Action("Edit", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn" id="bteditar">
+                                    <span class="material-icons">
+                                        mode_edit
+                                    </span>
+                                </a>
+                            </p>
+                            <p>
+                                <a href='@Url.Action("Details", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn" id="btdetalhes">
+                                    <span class="material-icons">
+                                        info
+                                    </span>
+                                </a>
+                            </p>
+                            @if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User"))
+                            {
+                            <p>
+                                <a href='@Url.Action("Delete", "ColaboradorView", new { id = item.CodigoAdministrador, esc = item.CodigoEscola, col = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
+                                    <span class="material-icons">
+                                        person_remove
+                                    </span>
+                                </a>
+                            </p>
+                            }
+                        </td>
+                    </tr>
+
+                }
+
+
+
+            </tbody>
+        </table>

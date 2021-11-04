@@ -3,7 +3,13 @@
     "secrets1": {
       "type": "secrets.user"
     },
+    "mssql2": {
+      "type": "mssql.onprem",
+      "connectionId": "ConnectionStrings:ConnectionStrings:AcompanhamentoDocente",
+      "secretStore": "LocalSecretsFile"
+    },
     "mssql1": {
+      "resourceId": null,
       "type": "mssql.onprem",
       "connectionId": "ConnectionStrings:AcompanhamentoDocente",
       "secretStore": "LocalSecretsFile"

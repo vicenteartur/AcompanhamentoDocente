@@ -1,0 +1,46 @@
+﻿@model AcompanhamentoDocente.Models.TbCriterioAvaliacao
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>TbCriterioAvaliacao</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Codigo" />
+            <div class="form-group">
+                <label asp-for="Criterio" class="control-label"></label>
+                <input asp-for="Criterio" class="form-control" />
+                <span asp-validation-for="Criterio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoClassificacaoCriterio" class="control-label"></label>
+                @Html.DropDownListFor(model => model.CodigoClassificacaoCriterio, (IEnumerable<SelectListItem>)ViewBag.CodigoClassificacaoCriterio, "--Selecione", new { @id = "CodigoClassificacaoCriterio", @class = "browser-default" })
+                <span asp-validation-for="CodigoClassificacaoCriterio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ativa" class="control-label"></label>
+                <input asp-for="Ativa" class="form-control" />
+                <span asp-validation-for="Ativa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-id="@ViewBag.admin.Codigo">Lista de Critérios</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

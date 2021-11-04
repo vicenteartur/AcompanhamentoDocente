@@ -1,37 +1,243 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AcompanhamentoDocente</title>
-    <link rel="stylesheet" href="~/lib/materialize/css/materialize.min.css" />
-    <link href="~/lib/material-design-icons-iconfont/dist/material-design-icons.min.css" rel="stylesheet">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <title>Acompanhamento Docente</title>
+    <link href="~/lib/material-design-icons-iconfont/dist/material-design-icons.css" rel="stylesheet" />
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="~/lib/materialize/css/materialize.css" media="screen,projection" />
+    
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AcompanhamentoDocente</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#!" class="">Acompanhamento Docente</a>
+                
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    @*Se o usuário esta logado exibir o link de logout*@
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+
+                        if (User.IsInRole("Admin"))
+                        {
+
+                            if (ViewBag.admin != null)
+                            {
+                                <a class='dropdown-trigger btn' href='#' id="btadministrar1" data-target='dropdown1'>Administrar</a>
+                                <ul id='dropdown1' class='dropdown-content'>
+                                    <li><a href='@Url.Action("Index", "Estado", new { id = ViewBag.admin.Codigo })' id="btestado1" class="waves-effect">Estados</a></li>
+                                    <li><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.admin.Codigo })' id="btcidade1" class="waves-effect">Cidades</a></li>
+                                    <li><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.admin.Codigo })' id="btescola1" class="waves-effect">Escolas</a></li>
+                                    <li><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.admin.Codigo })' id="btcargo1" class="waves-effect">Cargos</a></li>
+                                </ul>
+                                
+                            }
+                            
+
+                        }
+                        if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User"))
+                        {
+
+                            if (ViewBag.admin != null)
+                            {
+
+                                <a class='dropdown-trigger btn' href='#' data-target='dropdown4' id="btsupervisionar">Supervisão</a>
+                                <ul id='dropdown4' class='dropdown-content'>
+                                    <li><a href='@Url.Action("Index", "Modalidade", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Modalidade</a></li>
+                                    <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' id="btano" class="waves-effect">Anos</a></li>
+                                    <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Componente Curricular</a></li>
+                                    <li><a href='@Url.Action("Index", "ClassificacaoCriterio", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Classificação Critérios</a></li>
+                                    <li><a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Critérios</a></li>
+                                </ul>
+                            }
+                            
+
+                        }
+                        if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User")|| User.IsInRole("Operador"))
+                        {
+
+                            if (ViewBag.admin != null)
+                            {
+
+                                <a class='dropdown-trigger btn' href='#' data-target='dropdown5' id="btoperar">Operações</a>
+                                <ul id='dropdown5' class='dropdown-content'>
+                                    <li><a href='@Url.Action("DashBoard", "Home", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Selecionar Escola</a></li>
+                                    @if (ViewBag.escola != null)
+                                    {
+                                        <li><a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect" id="btcolaborador">Colaborador</a></li>
+                                        <li><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular" class="waves-effect">Atribuições</a></li>
+                                        <li><a href='@Url.Action("Index", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular" class="waves-effect">Avaliações Abertas</a></li>
+                                        <li><a href='@Url.Action("AvFinalizadas", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular" class="waves-effect">Avaliações Finalizadas</a></li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <li>
+                                    <form method="post" asp-controller="account" asp-action="montar">
+                                        <input type="hidden" name="Email" value="@User.Identity.Name" />
+                                        <input type="hidden" name="Password" value="-" />
+                                        <input type="hidden" name="RememberMe" value="false" />
+                                        <button type="submit" style="width:auto"
+                                                class="waves-effect waves-light btn">
+                                            <span class="material-icons">
+                                                login
+                                            </span>
+                                            DashBoard
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+
+                        }
+                        <li>
+
+                            <form method="post" asp-controller="account" asp-action="logout">
+                                <button type="submit" style="width:auto"
+                                        class="waves-effect waves-light btn">
+                                    <span class="material-icons">logout</span>
+                                    @User.Identity.Name
+                                </button>
+                            </form>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+
+
+
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="account" asp-action="register">
+                                Registrar
+                            </a>
                         </li>
-                    </ul>
-                </div>
+                        <li>
+                            <a asp-controller="account" asp-action="login">
+                                Login
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         </nav>
-    </header>
+
+        <ul class="sidenav" id="mobile-demo">
+            @*Se o usuário esta logado exibir o link de logout*@
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <li>
+                    <form method="post" asp-controller="account" asp-action="logout">
+                        <button type="submit" style="width:auto"
+                                class="waves-effect waves-light btn">
+                            Logout @User.Identity.Name
+                        </button>
+                    </form>
+                </li>
+                if (User.IsInRole("Admin"))
+                {
+                    if (ViewBag.admin != null)
+                    {
+                        <a class='dropdown-trigger btn' href='#' data-target='dropdown2' id="btadministrar">Administrar</a>
+                        <ul id='dropdown2' class='dropdown-content'>
+                            <li><a href='@Url.Action("Index", "Estado", new { id = ViewBag.admin.Codigo })' id="btestado" class="waves-effect">Estados</a></li>
+                            <li><a href='@Url.Action("Index", "Cidade", new { id = ViewBag.admin.Codigo })' id="btcidade" class="waves-effect">Cidades</a></li>
+                            <li><a href='@Url.Action("Index", "EscolaView", new { id = ViewBag.admin.Codigo })' id="btescola" class="waves-effect">Escolas</a></li>
+                            <li><a href='@Url.Action("Index", "Cargo", new { id = ViewBag.admin.Codigo })' id="btcargo" class="waves-effect">Cargos</a></li>
+
+                        </ul>
+
+                        
+                    }
+                    
+
+                }
+
+                if (User.IsInRole("Admin")|| User.IsInRole("Supervisor") || User.IsInRole("User"))
+                {
+                    if (ViewBag.admin != null)
+                    {
+                        <a class='dropdown-trigger btn' href='#' data-target='dropdown3' id="btsupervisionar1">Supervisão</a>
+                        <ul id='dropdown3' class='dropdown-content'>
+                            <li><a href='@Url.Action("Index", "Modalidade", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Modalidade</a></li>
+                            <li><a href='@Url.Action("Index", "Ano", new { id = ViewBag.admin.Codigo })' id="btano" class="waves-effect">Anos</a></li>
+                            <li><a href='@Url.Action("Index", "CCurricular", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Componente Curricular</a></li>
+                            <li><a href='@Url.Action("Index", "ClassificacaoCriterio", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Classificação Critérios</a></li>
+                            <li><a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo })' id="btccurricular" class="waves-effect">Critérios</a></li>
+                        </ul>
+                    }
+                    
+
+                }
+
+                if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User") || User.IsInRole("Operador"))
+                {
+                    if (ViewBag.admin != null)
+                    {
+                        <a class='dropdown-trigger btn' href='#' data-target='dropdown6' id="btoperar1">Operações</a>
+                        <ul id='dropdown6' class='dropdown-content'>
+                            <li><a href='@Url.Action("DashBoard", "Home", new { id = ViewBag.admin.Codigo })' id="btmodalidade" class="waves-effect">Selecionar Escola</a></li>
+                            @if (ViewBag.escola != null)
+                            {
+                                <li><a href='@Url.Action("Index", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect" id="btcolaborador">Colaborador</a></li>
+                                <li><a href='@Url.Action("Index", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular1" class="waves-effect">Atribuições</a></li>
+                                <li><a href='@Url.Action("Index", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular1" class="waves-effect">Avaliações Abertas</a></li>
+                                <li><a href='@Url.Action("AvFinalizadas", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="btccurricular" class="waves-effect">Avaliações Finalizadas</a></li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <li>
+                            <form method="post" asp-controller="account" asp-action="montar">
+                                <input type="hidden" name="Email" value="@User.Identity.Name" />
+                                <input type="hidden" name="Password" value="-" />
+                                <input type="hidden" name="RememberMe" value="false" />
+                                <button type="submit" style="width:auto"
+                                        class="waves-effect waves-light btn">
+                                    <span class="material-icons">
+                                        login
+                                    </span>
+                                    DashBoard
+                                </button>
+                            </form>
+                        </li>
+                    }
+
+                }
+
+            }
+
+            else
+            {
+
+                <li>
+                    <a asp-controller="account" asp-action="register">Registrar</a>
+                </li>
+
+                <li>
+                    <a asp-controller="account" asp-action="login">
+                        Login
+                    </a>
+                </li>
+            }
+        </ul>
+
+
+</header>
     <div class="container">
+        <div class="center"><img class="responsive-img" src="~/img/logo.png"></div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -39,15 +245,37 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - AcompanhamentoDocente - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - SESI-SP - Divisão de Educação
         </div>
     </footer>
-    <script type="text/javascript" src="~/lib/materialize/js/materialize.min.js"></script>
-    <script type="text/javascript" src="~/lib/materialize/js/materialize.min.js"></script>
-    <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script type="text/javascript" src="~/js/site.js"></script>
+
+    
     <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/lib/materialize/js/materialize.js"></script>
+    <script type="text/javascript" src="~/lib/materialize/js/materialize.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="false"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+            $('.select').formSelect();
+            $('select').formSelect();
+            $('.dropdown-trigger').dropdown();
+            var elems = document.querySelectorAll('.fixed-action-btn');
+            var instances = M.FloatingActionButton.init(elems, {
+                direction: 'left',
+                hoverEnabled: true
+            });
+            
+                
+        });
+
+
+
+    </script>
+
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

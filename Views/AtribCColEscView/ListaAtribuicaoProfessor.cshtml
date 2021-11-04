@@ -1,0 +1,92 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.AtribCCColEscViewModel>
+
+
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<div class="center"><h1>Atribuições de @ViewBag.Colaborador.Nome</h1></div>
+
+<p>
+    <a href='@Url.Action("ListaProfessor", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' class="waves-effect waves-light btn">
+        <span class="material-icons">
+            person
+        </span>
+        Atribuir
+    </a>
+</p>
+
+<p>
+    <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="waves-effect waves-light btn">
+        <i class="material-icons">
+            arrow_back
+        </i>
+        Gerenciar Escola
+    </a>
+</p>
+
+
+
+
+<p><input type="hidden" disabled="" value="@ViewBag.admin.Codigo" /></p>
+<p><input type="hidden" disabled="" value="@ViewBag.admin.Nome" /></p>
+<p><input type="hidden" disabled="" value="@ViewBag.admin.Email" /></p>
+
+
+
+<table class="highlight">
+    <thead>
+
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr class="linha_tabela">
+                <td>
+                    <p><label class="negrito">Componente: </label>@Html.DisplayFor(modelItem => item.CompCurr)</p>
+                    <p><label class="negrito">Turma: </label>@Html.DisplayFor(modelItem => item.Ano)</p>
+                </td>
+
+
+                <td>
+                    <p>
+                        <a href='@Url.Action("Edit", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atribu = item.Codigo  })' class="waves-effect waves-light btn" id="bteditar">
+                            <span class="material-icons">
+                                mode_edit
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Details", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atribu = item.Codigo })' class="waves-effect waves-light btn" id="btdetalhes">
+                            <span class="material-icons">
+                                info
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Delete", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atribu = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
+                            <span class="material-icons">
+                                person_remove
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Avaliar", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atribu = item.Codigo })' class="waves-effect waves-light btn" id="btavaliar">
+                            <span class="material-icons">
+
+                                trending_up
+
+                            </span>
+                        </a>
+                    </p>
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>

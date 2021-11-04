@@ -1,0 +1,111 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.AtribCCColEscViewModel>
+
+
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<div class="center"><h1>Atribuições</h1></div>
+
+<p></p>
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">more_horiz</i>
+    </a>
+    <ul>
+        <li>
+            <a href='@Url.Action("ListaProfessor", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo })' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    add
+                </i>
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    donut_large
+                </i>
+                Voltar
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("ListaColab", "ColaboradorView", new { id = ViewBag.admin.Codigo, esc = ViewBag.escola.Codigo, email = "null" })' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    person_search
+                </i>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+
+<p><input type="hidden" disabled="" value="@ViewBag.admin.Codigo" /></p>
+<p><input type="hidden" disabled="" value="@ViewBag.admin.Nome" /></p>
+<p><input type="hidden" disabled="" value="@ViewBag.admin.Email" /></p>
+
+
+
+<table class="highlight">
+    <thead>
+
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr class="linha_tabela">
+                <td>
+                    <p><label class="negrito">Nome: </label>@Html.DisplayFor(modelItem => item.Nome)</p>
+                    <p><label class="negrito">Cargo: </label>@Html.DisplayFor(modelItem => item.Cargo)</p>
+                    <p><label class="negrito">Componente: </label>@Html.DisplayFor(modelItem => item.CompCurr)</p>
+                    <p><label class="negrito">Turma: </label>@Html.DisplayFor(modelItem => item.Ano)</p>
+                </td>
+
+                
+                <td>
+                    <p>
+                        <a href='@Url.Action("Edit", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atribu = item.Codigo  })' class="waves-effect waves-light btn" id="bteditar">
+                            <span class="material-icons">
+                                mode_edit
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Details", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atribu = item.Codigo })' class="waves-effect waves-light btn" id="btdetalhes">
+                            <span class="material-icons">
+                                info
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Delete", "AtribCColEscView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atribu = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
+                            <span class="material-icons">
+                                person_remove
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("ListaAbertaAvaliacaoAtribuicao", "AvaliacaoView", new { id = ViewBag.admin.Codigo, esc = @ViewBag.escola.Codigo, atrib = item.Codigo })' class="waves-effect waves-light btn" id="btavaliar" alt="continuar avaliando">
+                            <span class="material-icons">
+                                
+                                    trending_up
+                                
+                            </span>
+                        </a>
+                    </p>
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>

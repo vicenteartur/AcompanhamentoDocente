@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AcompanhamentoDocente.Models.TbCriterioAvaliacao>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewBag.admin.Codigo">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Criterio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ativa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoClassificacaoCriterioNavigation.Classificacao)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Criterio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ativa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoClassificacaoCriterioNavigation.Classificacao)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo }) |
+                @Html.ActionLink("Details", "Details", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.Admin.Codigo, criterio = item.Codigo })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

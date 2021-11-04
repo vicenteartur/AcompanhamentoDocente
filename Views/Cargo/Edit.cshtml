@@ -5,18 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="center"><h1>Editar Cargo</h1></div>
 
-<h4>TbCargo</h4>
-<hr />
+
 <div class="row">
     <div class="col-md-4">
+
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Codigo" />
+
             <div class="form-group">
-                <label asp-for="Cargo" class="control-label"></label>
-                <input asp-for="Cargo" class="form-control" />
+                <label asp-for="Cargo" class="control-label">Cargo</label>
+                <input asp-for="Cargo" name="Cargo" value="@Model.Cargo" class="form-control" />
                 <span asp-validation-for="Cargo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -25,15 +25,30 @@
                 <span asp-validation-for="NiveldeAcesso" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+                <input type="hidden" asp-for="Codigo" />
+                <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
+                <div class="center">
+                    <p id="l_botao">
+                        <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                            Salvar
+                            <i class="material-icons left">save</i>
+                        </button>
+                        <a href='@Url.Action("Index", "Cargo", new { id = ViewBag.admin.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                            <span class="material-icons">
+
+                                view_list
+
+                            </span>
+                            Lista
+                        </a>
+                    </p>
+
+                </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -1,39 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
+using AcompanhamentoDocente.Services;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Controllers
 {
     public class AnoController : Controller
     {
-        private readonly dbContext _context;
+        private readonly IAno _ano;
 
-        public AnoController(dbContext context)
+        public AnoController()
         {
-            _context = context;
+            _ano = new AnoService();
         }
 
         // GET: Ano
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.TbAnos.ToListAsync());
+            var admin = await _ano.MontarAdmin((int)id);
+            var alunos = await _ano.Index();
+            ViewData["admin"] = admin;
+            return View(alunos);
         }
 
         // GET: Ano/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int Codigo)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var admin = await _ano.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
 
-            var tbAno = await _context.TbAnos
-                .FirstOrDefaultAsync(m => m.Codigo == id);
+            var tbAno = await _ano.Details(Codigo);
             if (tbAno == null)
             {
                 return NotFound();
@@ -43,8 +41,11 @@ namespace AcompanhamentoDocente.Controllers
         }
 
         // GET: Ano/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? id)
         {
+            var admin = await _ano.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+            ViewData["CodigoModalidade"] = _ano.ListaModalidade();
             return View();
         }
 
@@ -53,30 +54,32 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Codigo,Ano,Turma,Modalidade,Periodo")] TbAno tbAno)
+        public async Task<IActionResult> Create(int id, [Bind("Codigo,Ano,Turma,CodigoModalidade,Periodo")] TbAno tbAno)
         {
+            var admin = await _ano.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
             if (ModelState.IsValid)
             {
-                _context.Add(tbAno);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _ano.Create(tbAno);
+
+                return RedirectToAction("Index", new { id = id });
             }
             return View(tbAno);
         }
 
         // GET: Ano/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int Codigo)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var admin = await _ano.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
 
-            var tbAno = await _context.TbAnos.FindAsync(id);
+            var tbAno = await _ano.Details(Codigo);
+
             if (tbAno == null)
             {
                 return NotFound();
             }
+            ViewData["CodigoModalidade"] = _ano.ListaModalidadeUp(tbAno);
             return View(tbAno);
         }
 
@@ -85,23 +88,23 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Codigo,Ano,Turma,Modalidade,Periodo")] TbAno tbAno)
+        public async Task<IActionResult> Edit(int id, [Bind("Codigo,Ano,Turma,CodigoModalidade,Periodo")] TbAno tbAno)
         {
-            if (id != tbAno.Codigo)
-            {
-                return NotFound();
-            }
+            var admin = await _ano.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(tbAno);
-                    await _context.SaveChangesAsync();
+                    _ano.Edit(id, tbAno);
+
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!TbAnoExists(tbAno.Codigo))
+                    if (!_ano.TbAnoExists(tbAno.Codigo))
                     {
                         return NotFound();
                     }
@@ -110,21 +113,18 @@ namespace AcompanhamentoDocente.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = id });
             }
             return View(tbAno);
         }
 
         // GET: Ano/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int Codigo)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var admin = await _ano.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
 
-            var tbAno = await _context.TbAnos
-                .FirstOrDefaultAsync(m => m.Codigo == id);
+            var tbAno = await _ano.Details(Codigo);
             if (tbAno == null)
             {
                 return NotFound();
@@ -136,17 +136,13 @@ namespace AcompanhamentoDocente.Controllers
         // POST: Ano/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int? Codigo)
         {
-            var tbAno = await _context.TbAnos.FindAsync(id);
-            _context.TbAnos.Remove(tbAno);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var tbAno = await _ano.Details(Codigo);
+            _ano.Delete((TbAno)tbAno);
+            return RedirectToAction("Index", new { id = id });
         }
 
-        private bool TbAnoExists(int id)
-        {
-            return _context.TbAnos.Any(e => e.Codigo == id);
-        }
+
     }
 }

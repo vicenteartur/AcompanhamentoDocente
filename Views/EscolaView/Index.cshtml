@@ -1,0 +1,73 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.EscolaViewModel>
+
+
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<div class="center"><h1>Escolas Credenciadas</h1></div>
+
+<p></p>
+
+<div class="fixed-action-btn">
+    <a href='@Url.Action("Create", "EscolaView", new { id = ViewBag.admin.Codigo})' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+        <i class="large material-icons">
+            add
+        </i>
+    </a>
+</div>
+
+
+<table class="highlight">
+    <thead>
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr class="linha_tabela">
+                    <td>
+                        <p><label class="negrito">Nome da Escola: </label>  @Html.DisplayFor(modelItem => item.Escola)</p>
+
+                        <p><label class="negrito">INEP: </label> @Html.DisplayFor(modelItem => item.INEP)</p>
+
+                        <p><label class="negrito">Cidade: </label>  @Html.DisplayFor(modelItem => item.nomeCidade)</p>
+
+                        <p><label class="negrito">Estado: </label>    @Html.DisplayFor(modelItem => item.sigla)</p>
+                    </td>
+                    <td>
+                        <p>
+                            <a href='@Url.Action("Edit", "EscolaView", new { col = ViewBag.Admin.Codigo, id = item.Codigo})' class="waves-effect waves-light btn" id="bteditar">
+                                <span class="material-icons">
+                                    mode_edit
+                                </span>
+                            </a>
+                        </p>
+                        <p>
+                            <a href='@Url.Action("Details", "EscolaView", new { col = ViewBag.Admin.Codigo, id = item.Codigo})' class="waves-effect waves-light btn" id="btdetalhes">
+                                <span class="material-icons">
+                                    info
+                                </span>
+                            </a>
+                        </p>
+
+                        @if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("User"))
+                        {
+                            <p>
+                                <a href='@Url.Action("Delete", "EscolaView", new { col = ViewBag.Admin.Codigo, id = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
+                                    <span class="material-icons">
+                                        delete
+                                    </span>
+                                </a>
+                            </p>
+                        }
+                        
+                    </td>
+            </tr>
+         }
+    </tbody>
+
+</table>

@@ -1,5 +1,3 @@
-using System;
-
 namespace AcompanhamentoDocente.Models
 {
     public class ErrorViewModel

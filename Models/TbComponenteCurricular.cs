@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 #nullable disable
 
@@ -10,13 +9,17 @@ namespace AcompanhamentoDocente.Models
         public TbComponenteCurricular()
         {
             TbAtribuicaoComponenteCurricularAnoColaboradorEscolas = new HashSet<TbAtribuicaoComponenteCurricularAnoColaboradorEscola>();
+            TbCriterioComponenteCurriculars = new HashSet<TbCriterioComponenteCurricular>();
         }
 
         public int Codigo { get; set; }
         public string ComponenteCurricular { get; set; }
         public string SubArea { get; set; }
+        public int CodigoModalidade { get; set; }
         public byte Ativa { get; set; }
 
+        public virtual TbModalidade CodigoModalidadeNavigation { get; set; }
         public virtual ICollection<TbAtribuicaoComponenteCurricularAnoColaboradorEscola> TbAtribuicaoComponenteCurricularAnoColaboradorEscolas { get; set; }
+        public virtual ICollection<TbCriterioComponenteCurricular> TbCriterioComponenteCurriculars { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 #nullable disable
 
@@ -12,7 +10,7 @@ namespace AcompanhamentoDocente.Models
         {
             TbEscolas = new HashSet<TbEscola>();
         }
-        [Key]
+
         public int Codigo { get; set; }
         public string Cidade { get; set; }
         public int CodigoEstado { get; set; }

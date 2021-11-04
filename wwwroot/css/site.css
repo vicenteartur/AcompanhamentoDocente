@@ -1,6 +1,12 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+:root {
+    --primary: #8e558e;
+    --secondary: #8e558e;
+    --title: #e0e0e0;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -9,13 +15,31 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
+   }
+
+.btn-primary, .btn-floating, .waves-effect, .linha_tabela {
+    color: #fff;
+    text-emphasis-color: white;
+    text-decoration-color: white;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    width:180px;
+    text-align: center;
+    font-size: 12px;
+    
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.btn-floating {
+    float: left;
+}
+
+.linha_tabela {
+    color: #fff;
+    text-emphasis-color: white;
+    text-decoration-color: white;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -59,8 +83,9 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: #f1f0f1;
 }
 .footer {
   position: absolute;
@@ -69,8 +94,147 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
-#modal1{
-    max-width:fit-content;
-    width:max-content;
-    max-height:max-content;
+
+/*
+    inicia personalizacao do site
+*/
+
+#rotulo{
+    text-align : left;
+
 }
+.material-icons {
+    vertical-align: middle;
+}
+
+.negrito {
+    font: bolder ;
+}
+
+#adicionar {
+    background-color: var(--primary);
+}
+
+h1 {
+    font-size: x-large;
+    color: var(--primary);
+}
+h3 {
+    font-size: xx-large;
+    color: var(--primary);
+}
+.range-field {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    max-width:50px;
+    padding: 0;
+}
+.linha_tabela {
+    color: black;
+    text-emphasis-color: white;
+    text-decoration-color: white;
+    background-color: white;
+    border-color: var(--primary);
+}
+#btestado, #btcidade, #btescola, #btcargo, #btmodalidade, #btano, #btccurricular, #btadministrar,
+#btestado1, #btcidade1, #btescola1, #btcargo1, #btmodalidade1, #btano1, #btccurricular1, #btsupervisionar1, #btoperar1, #btcolaborador{
+    background-color: white;
+    color: var(--primary);
+    width: 195px;
+    text-align: center;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+}
+#btadministrar1, btnDetalhes, #btsupervisionar, #btoperar {
+    background-color: var(--primary);
+    color: white;
+    width: 200px;
+    text-align: center;
+}
+
+#bteditar, #btdetalhes, #btremover, #btavaliar, #btlistar{
+    background-color: var(--primary);
+    color: white;
+    width: 50px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.dropdown-content {
+    height: 500px;
+    background-color: white;
+}
+
+select, textarea {
+    background-color: #f1f0f1;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-family: sans-serif;
+    /* 1 */
+    font-size: 100%;
+    /* 1 */
+    line-height: 1.15;
+    /* 1 */
+    margin: 0;
+    /* 2 */
+    text-transform: none;
+    border-bottom: 1px solid #9e9e9e;
+}
+    
+select:focus {
+        outline: 1px solid #c9f3ef;
+    }
+
+#l_botao {
+    line-height: 3;
+}
+
+#btsalvarpequeno, #btlistapequeno, #btmodificarpequeno, #btlistapequeno1, #btprocurar {
+    color: #fff;
+    text-emphasis-color: white;
+    text-decoration-color: white;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    width: 170px;
+    text-align: center;
+    font-size: 12px;
+
+}
+
+.graph {
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    line-height: 60px;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    text-decoration: none;
+    font-size: 14px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    fill: transparent;
+    stroke-width: 12px;
+    stroke: #ddd;
+}
+
+.graph svg.cor {
+    stroke: #8e558e;
+    stroke-dasharray: 255;
+    transform: rotate(-90deg);
+    transform-origin: center;
+}
+
+

@@ -1,0 +1,44 @@
+﻿@model AcompanhamentoDocente.Models.TbClassificacaoCriterio
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center"><h1>Nova Classificação de Critério</h1></div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Classificacao" class="control-label"></label>
+                <input asp-for="Classificacao" class="form-control" />
+                <span asp-validation-for="Classificacao" class="text-danger"></span>
+            </div>
+            <div class="center">
+                <p id="l_botao">
+                    <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">
+                        Salvar
+                        <i class="material-icons left">save</i>
+                    </button>
+                    <a href='@Url.Action("Index", "ClassificacaoCriterio", new { id = ViewBag.admin.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno">
+                        <span class="material-icons">
+
+                            view_list
+
+                        </span>
+                        Lista
+                    </a>
+                </p>
+            </div>
+            <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

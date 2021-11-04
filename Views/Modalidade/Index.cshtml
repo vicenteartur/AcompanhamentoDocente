@@ -1,0 +1,86 @@
+﻿@model IEnumerable<AcompanhamentoDocente.Models.TbModalidade>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center"><h1>Modalidades</h1></div>
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+        <i class="large material-icons">more_horiz</i>
+    </a>
+    <ul>
+        <li>
+            <a href='@Url.Action("Create", "Modalidade", new { id = ViewBag.admin.Codigo})' id="adcionar" class="btn-floating btn-large waves-effect waves-light">
+                <i class="large material-icons">
+                    add
+                </i>
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("Index", "CriterioView", new { id = ViewBag.admin.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    checklist
+                </i>
+                Voltar
+            </a>
+        </li>
+
+        <li>
+            <a href='@Url.Action("Home", "DashBoard", new { id = ViewBag.admin.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <i class="material-icons">
+                    dashboard
+                </i>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "ClassificacaoCriterio", new { id = ViewBag.admin.Codigo})' class="btn-floating btn-large waves-effect waves-light">
+                <span class="material-icons">
+                    class
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>
+<table class="highlight">
+    <thead>
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="linha_tabela">
+                <td>
+                    <p><label class="negrito">Modalidade: </label>@Html.DisplayFor(modelItem => item.Modalidade)
+                </td>
+                <td>
+                    <p>
+                        <a href='@Url.Action("Edit", "Modalidade", new { id = ViewBag.Admin.Codigo, mod = item.Codigo})' class="waves-effect waves-light btn" id="bteditar">
+                            <span class="material-icons">
+                                mode_edit
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Details", "Modalidade", new { id = ViewBag.Admin.Codigo, mod = item.Codigo})' class="waves-effect waves-light btn" id="btdetalhes">
+                            <span class="material-icons">
+                                info
+                            </span>
+                        </a>
+                    </p>
+                    <p>
+                        <a href='@Url.Action("Delete", "Modalidade", new { id = ViewBag.Admin.Codigo, mod = item.Codigo })' class="waves-effect waves-light btn" id="btremover">
+                            <span class="material-icons">
+                                delete
+                            </span>
+                        </a>
+                    </p>
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

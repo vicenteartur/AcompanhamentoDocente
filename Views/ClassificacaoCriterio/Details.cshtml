@@ -1,0 +1,38 @@
+﻿@model AcompanhamentoDocente.Models.TbClassificacaoCriterio
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="center"><h1>Detalhes da Classificação</h1></div>
+
+<div>
+    
+    <dl class="row">
+        
+        <dd class = "col-sm-10">
+            <label class="negrito">Classificação: </label> @Html.DisplayFor(model => model.Classificacao)
+        </dd>
+    </dl>
+</div>
+<div>
+    <p id="l_botao">
+        <a href='@Url.Action("Edit", "ClassificacaoCriterio", new { id = ViewBag.Admin.Codigo, classificacao = Model.Codigo })' class="waves-effect waves-light btn-small" id="btmodificarpequeno">
+            <span class="material-icons">
+                mode_edit
+            </span>
+            Modificar
+        </a>
+
+        <a href='@Url.Action("Index", "ClassificacaoCriterio", new { id = ViewBag.Admin.Codigo})' class="waves-effect waves-light btn-small" id="btlistapequeno1">
+            <span class="material-icons">
+
+                view_list
+
+            </span>
+            Classificação
+        </a>
+    </p>
+    
+</div>

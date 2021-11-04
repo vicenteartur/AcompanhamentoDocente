@@ -1,39 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using AcompanhamentoDocente.Interface;
 using AcompanhamentoDocente.Models;
+using AcompanhamentoDocente.Services;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace AcompanhamentoDocente.Controllers
 {
     public class CargoController : Controller
     {
-        private readonly dbContext _context;
+        private readonly ICargo _cargo;
 
-        public CargoController(dbContext context)
+        public CargoController()
         {
-            _context = context;
+            _cargo = new CargoService();
         }
 
         // GET: Cargo
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.TbCargos.ToListAsync());
+            var admin = await _cargo.MontarAdmin((int)id);
+
+            ViewData["admin"] = admin;
+
+            return View(await _cargo.ListaCargo());
         }
 
         // GET: Cargo/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? cargo)
         {
+            var admin = await _cargo.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbCargo = await _context.TbCargos
-                .FirstOrDefaultAsync(m => m.Codigo == id);
+            var tbCargo = await _cargo.Detalhes((int)cargo);
+
             if (tbCargo == null)
             {
                 return NotFound();
@@ -43,8 +47,10 @@ namespace AcompanhamentoDocente.Controllers
         }
 
         // GET: Cargo/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync(int? id)
         {
+            var admin = await _cargo.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
             return View();
         }
 
@@ -53,26 +59,33 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Codigo,Cargo,NiveldeAcesso")] TbCargo tbCargo)
+        public async Task<IActionResult> Create(int? id, [Bind("Codigo,Cargo,NiveldeAcesso")] TbCargo tbCargo)
         {
+            var admin = await _cargo.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (ModelState.IsValid)
             {
-                _context.Add(tbCargo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await _cargo.Inserir(tbCargo);
+
+                return RedirectToAction("Index", new { id = id });
             }
             return View(tbCargo);
         }
 
         // GET: Cargo/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? cargo)
         {
+            var admin = await _cargo.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (id == null)
             {
                 return NotFound();
             }
+            var tbCargo = new TbCargo();
+            tbCargo = await _cargo.Detalhes((int)cargo);
 
-            var tbCargo = await _context.TbCargos.FindAsync(id);
             if (tbCargo == null)
             {
                 return NotFound();
@@ -85,9 +98,12 @@ namespace AcompanhamentoDocente.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Codigo,Cargo,NiveldeAcesso")] TbCargo tbCargo)
+        public async Task<IActionResult> Edit(int? id, [Bind("Codigo,Cargo,NiveldeAcesso")] TbCargo tbCargo)
         {
-            if (id != tbCargo.Codigo)
+            var admin = await _cargo.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
+            if (id == null)
             {
                 return NotFound();
             }
@@ -96,12 +112,12 @@ namespace AcompanhamentoDocente.Controllers
             {
                 try
                 {
-                    _context.Update(tbCargo);
-                    await _context.SaveChangesAsync();
+                    await _cargo.Atualizar(tbCargo);
+
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!TbCargoExists(tbCargo.Codigo))
+                    if (!_cargo.TbCargoExists(tbCargo.Codigo))
                     {
                         return NotFound();
                     }
@@ -110,21 +126,23 @@ namespace AcompanhamentoDocente.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = id });
             }
             return View(tbCargo);
         }
 
         // GET: Cargo/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int? cargo)
         {
+            var admin = await _cargo.MontarAdmin((int)id);
+            ViewData["admin"] = admin;
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tbCargo = await _context.TbCargos
-                .FirstOrDefaultAsync(m => m.Codigo == id);
+            var tbCargo = await _cargo.Detalhes((int)cargo);
             if (tbCargo == null)
             {
                 return NotFound();
@@ -136,17 +154,12 @@ namespace AcompanhamentoDocente.Controllers
         // POST: Cargo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int? codigo)
         {
-            var tbCargo = await _context.TbCargos.FindAsync(id);
-            _context.TbCargos.Remove(tbCargo);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            var tbEstado = await _cargo.Detalhes((int)codigo);
+            await _cargo.Deletar(tbEstado);
 
-        private bool TbCargoExists(int id)
-        {
-            return _context.TbCargos.Any(e => e.Codigo == id);
+            return RedirectToAction("Index", new { id = id });
         }
     }
 }

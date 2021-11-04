@@ -1,0 +1,33 @@
+﻿@model IEnumerable<AcompanhamentoDocente.ViewModel.EscolaViewModel>
+
+@{
+}
+
+
+
+
+
+@if (ViewBag.admin.CodigoCargoNavigation.NiveldeAcesso > 0)
+
+{
+    <table class="highlight">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <p><label class="negrito">Escola: </label> @Html.DisplayFor(modelItem => item.Escola)</p>
+                    <p><label class="negrito">INEP: </label>@Html.DisplayFor(modelItem => item.INEP)</p>
+                    <p><label class="negrito">Cidade: </label> @Html.DisplayFor(modelItem => item.nomeCidade) - @Html.DisplayFor(modelItem => item.sigla)</p>
+                </td>
+                <td>
+                    <a href='@Url.Action("GerenciarEscola", "Home", new { id = ViewBag.admin.Codigo, esc = item.Codigo })' class="waves-effect waves-light btn">
+                        <span class="material-icons">
+                            admin_panel_settings
+                        </span>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+}

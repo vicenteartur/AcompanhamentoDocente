@@ -5,39 +5,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="center"><h1>Detalhes da Turma</h1></div>
 
 <div>
-    <h4>TbAno</h4>
-    <hr />
+    
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ano)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ano)
+        
+        <dd class="col-sm-10">
+            <label class="negrito">Ano: </label>@Html.DisplayFor(model => model.Ano)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Turma)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Turma)
+        
+        <dd class="col-sm-10">
+            <label class="negrito">Turma: </label>@Html.DisplayFor(model => model.Turma)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Modalidade)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Modalidade)
+        
+        <dd class="col-sm-10">
+            <label class="negrito">Modalidade: </label>@Html.DisplayFor(model => model.CodigoModalidadeNavigation.Modalidade)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Periodo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Periodo)
+        
+        <dd class="col-sm-10">
+            <label class="negrito">Período: </label>@Html.DisplayFor(model => model.Periodo)
         </dd>
+        <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Codigo">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="center">
+        <p id="l_botao">
+            <a href='@Url.Action("Edit", "Ano", new { id = ViewBag.Admin.Codigo, codigo = Model.Codigo })' class="waves-effect waves-light btn-small" id="btmodificarpequeno">
+                <span class="material-icons">
+                    mode_edit
+                </span>
+                Modificar
+            </a>
+
+            <a href='@Url.Action("Index", "Ano", new { id = ViewBag.Admin.Codigo })' class="waves-effect waves-light btn-small" id="btlistapequeno1">
+                <span class="material-icons">
+
+                    view_list
+
+                </span>
+                Lista
+            </a>
+        </p>
+    </div>
+    
 </div>

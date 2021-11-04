@@ -1,0 +1,36 @@
+﻿@model AcompanhamentoDocente.ViewModel.RegisterViewModel
+@{
+    ViewBag.Title = "Registro de Usuário";
+}
+
+
+<div class="row">
+    <div class="col s12 nav-wrapper">
+        <div class="containerBodyLogin">
+            <div class="col l6 push-l3 white z-depth-3 redondo">
+                <div class="center"><img class="responsive-img" src="~/img/logo.png"></div>
+                <form method="post">
+                    <div class="center"><h1>Registrar Usuário</h1></div>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Email"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ConfirmPassword"></label>
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="waves-effect waves-light btn">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

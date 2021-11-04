@@ -1,0 +1,143 @@
+﻿@model AcompanhamentoDocente.ViewModel.AvaliacaoViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/js/site.js"></script>
+<script src="~/lib/Jquery3/jquery-3.4.1.js"></script>
+<script src="~/lib/Jquery3/jquery-3.4.1.min.js"></script>
+
+
+
+<div class="center"><h1>Avaliação da Atividade Docente</h1></div>
+
+    
+    <div id="xamego" class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+
+                <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
+                <input type="hidden" name="esc" value="@ViewBag.escola.Codigo" />
+                <input type="hidden" asp-for="Codigo" />
+                <input type="hidden" asp-for="CodigoColaboradorAvaliador" value="@ViewBag.admin.Codigo" />
+                <input type="hidden" asp-for="CodigoACECCA" />
+                <input type="hidden" asp-for="dataavaliacao" />
+                
+
+
+
+
+
+                <dl class="row">
+
+                    <dd class="col-sm-10">
+                        <label class="negrito">Nome do Avaliador: </label>@Html.DisplayFor(model => model.NomeAvaliador)
+                    </dd>
+
+                    <dd class="col-sm-10">
+                        <label class="negrito">Nome do Colaborador: </label>@Html.DisplayFor(model => model.NomeColaborador)
+                    </dd>
+
+                    <dd class="col-sm-10">
+                        <label class="negrito">Data de Criação: </label>@Model.dataavaliacao.ToString("d")
+                    </dd>
+
+                    <dd class="col-sm-10">
+                        <label class="negrito">Componente: </label>@Html.DisplayFor(model => model.ccurric)
+                    </dd>
+
+                    <dd class="col-sm-10">
+                        <label class="negrito">Turma: </label>@Html.DisplayFor(model => model.ano)
+                    </dd>
+                </dl>
+
+                <div class="center"><h1>Critérios Padronizados por Área</h1></div>
+                <table class="highlight">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CriterioAvaliado)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.CodigoClassificacaoCriterioNavigation.Classificacao)
+                            </td>
+                            <td></td>
+                            <td>
+                                
+
+                                @Html.DisplayFor(modelItem => item.CodigoCriterioAvaliacaoNavigation.Criterio)
+                            </td>
+                            <td></td>
+                            <td>
+                                @if (item.Comentario != "-")
+                                {
+                                    <a href="#" id="btnCriterio" class="btn btn-default btnCriterio" style = "background-color:#41780a" data-value="@item.Codigo" onclick="setColor(event, 'button', '#101010')">Avaliar</a>
+                                }
+
+                                else
+                                {
+                                    <a href="#" id="btnCriterio" class="btn btn-default btnCriterio" background-color="#8e558e" data-value="@item.Codigo" onclick="setColor(event, 'button', '#101010')">Avaliar</a>
+                                }
+                                
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <input type="submit" value="Finalizar" class="btn btn-primary" name="action" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div id="teste"></div>
+                            </div>
+                            <div class="modal-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $.ajaxSetup({ cache: false });
+
+            $(".btnCriterio").click(function () {
+
+                var id = $(this).data("value");
+
+                $("#teste").load("/AvaliacaoView/AtualizaCriAv/" + id, function () {
+                    $('#myModal').modal().modal('open');
+                });
+            });
+        });
+    </script>
+
+<script type ="text/javascript">
+    function setColor(e, btn, color) {
+        var target = e.target,
+            count = +target.dataset.count;
+
+        target.style.backgroundColor = count === 1 ? "#8e558e" : "#41780a";
+        target.dataset.count = count === 1 ? 0 : 1;
+    }
+</script>
+
+
+
