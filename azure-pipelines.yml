@@ -1,4 +1,8 @@
 # ASP.NET Core (.NET Framework)
+- task: CopyFiles@2
+  inputs:
+    Contents: '**'
+    TargetFolder: 'SESI-ACOMPANHAMENTO-DOCENTE/DEV'
 # Build and test ASP.NET Core projects targeting the full .NET Framework.
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
