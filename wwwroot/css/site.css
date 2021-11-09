@@ -237,4 +237,9 @@ svg {
     transform-origin: center;
 }
 
+#invalido,#perigo{
+    color:red;
+}
+
+
 

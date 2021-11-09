@@ -9,21 +9,26 @@
         <div class="containerBodyLogin">
             <div class="col l6 push-l3 white z-depth-3 redondo">
                 <div class="center"><img class="responsive-img" src="~/img/logo.png"></div>
-                <form method="post">
+                <form method="post" onsubmit="validar_registro(this);return false" name="registro">
                     <div class="center"><h1>Registrar Usuário</h1></div>
                         <div asp-validation-summary="All" class="text-danger"></div>
+                        
+                    @if (ViewBag.usuario != null)
+            {
+                <p id="invalido">Usuário não encontrado</p>
+            }
                         <div class="form-group">
-                            <label asp-for="Email"></label>
+                            <label asp-for="Email">E-mail Corporativo</label>
                             <input asp-for="Email" class="form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="Password"></label>
+                            <label asp-for="Password">Senha</label>
                             <input asp-for="Password" class="form-control" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="ConfirmPassword"></label>
+                            <label asp-for="ConfirmPassword">Confirme a Senha</label>
                             <input asp-for="ConfirmPassword" class="form-control" />
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
@@ -34,3 +39,4 @@
     </div>
 </div>
 
+<script src="~/js/site.js"></script>

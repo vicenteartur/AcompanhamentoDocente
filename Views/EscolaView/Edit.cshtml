@@ -11,7 +11,7 @@
 
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-<form asp-action="Edit">
+<form asp-action="Edit" onsubmit="validar_escola(this);return false" >
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <input type="hidden" asp-for="Codigo" class="browser-default" />
@@ -68,7 +68,7 @@
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Salvar" class="btn btn-primary" />
+        
         <div class="center">
             <p id="l_botao">
                 <button id="btsalvarpequeno" class="btn-small waves-effect waves-light" type="submit" name="action">

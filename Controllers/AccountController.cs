@@ -41,6 +41,13 @@ namespace AcompanhamentoDocente.Controllers
                 var cl = db.TbColaboradors.Any(c => c.Email == model.Email);
                 var novo = db.Users.Any(u => u.Email == model.Email);
 
+                if (cl == false)
+                {
+                    ViewData["usuario"] = "usuario não encontrado";
+                    return View(model);
+                    
+                }
+
                 if (cl == true && novo == false)
                 {
                     var user = new IdentityUser
@@ -102,10 +109,12 @@ namespace AcompanhamentoDocente.Controllers
                          foreach (var error in result.Errors)
                             {
                               ModelState.AddModelError(string.Empty, error.Description);
-                             }
+                            
+                        }
                     }
                 }
             }
+            
             return View(model);
         }
 
