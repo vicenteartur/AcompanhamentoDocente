@@ -1,12 +1,8 @@
 {
   "dependencies": {
-    "mssql2": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:ConnectionStrings:AcompanhamentoDocente"
-    },
     "mssql1": {
       "type": "mssql",
-      "connectionId": "ConnectionStrings:AcompanhamentoDocente"
+      "connectionId": "AcompanhamentoDocente"
     },
     "secrets1": {
       "type": "secrets",

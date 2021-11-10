@@ -1,11 +1,22 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 
-
-<div class="text-center">
-    <h1 class="display-4">Bem Vindo, Toque em DashBoard para acessar todos nossos Recursos</h1>
-    <p>© 2021 - SESI-SP - Divisão de Educação</p>
-</div>
-
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="text-center">
+        <h1 class="display-4">Bem Vindo, Toque em DashBoard para acessar todos nossos Recursos</h1>
+        <p>© 2021 - SESI-SP - Divisão de Educação</p>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Bem Vindo, Registre - se ou efetue o Login</h1>
+        <p>© 2021 - SESI-SP - Divisão de Educação</p>
+    </div>
+}

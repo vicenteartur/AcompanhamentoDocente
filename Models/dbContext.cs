@@ -42,7 +42,7 @@ namespace AcompanhamentoDocente.Models
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile("appsettings.json")
             .Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("ConnectionStrings:AcompanhamentoDocente"));
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("AcompanhamentoDocente"));
 
             //if (!optionsBuilder.IsConfigured)
             //{
