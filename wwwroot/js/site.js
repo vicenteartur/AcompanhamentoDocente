@@ -99,7 +99,7 @@ function validar_escola() {
     var CodigoEstado = document.getElementById("CodigoEstado");
     var CodigoCidade = document.getElementById("CodigoCidade");
     var INEP = document.getElementById("INEP");
-    var formulario = document.getElementsByName("login");
+    var formulario = document.getElementsByName("escolaform");
 
 
     if (Escola.value == "") {
@@ -136,6 +136,160 @@ function validar_escola() {
     formulario.submit();
 
 }
+
+function validar_criterio() {
+
+    var Criterio = document.getElementById("Criterio");
+    var CodigoClassificacaoCriterio = document.getElementById("CodigoClassificacaoCriterio");
+    var Componentes = document.getElementById("Componentes");
+    var formulario = document.getElementsByName("criterioform");
+
+
+    if (Criterio.value == "") {
+        alert("Informe o Critério");
+        Criterio.focus();
+        return false;
+    }
+    if (CodigoClassificacaoCriterio.value == "") {
+        alert("Classificação não pode ser vazio");
+        CodigoClassificacaoCriterio.focus();
+        return false;
+    }
+    if (Componentes.value == "") {
+        alert("Os componentes ao qual se aplicam o critério devem ser selecionados");
+        Componentes.focus();
+        return false;
+    }
+
+
+    
+    formulario.submit();
+
+}
+
+function validar_classcriterio() {
+
+    var Classificacao = document.getElementById("Classificacao");
+    var formulario = document.getElementsByName("classcriterioform");
+
+
+    if (Classificacao.value == "") {
+        alert("Informe a Classificação");
+        Classificacao.focus();
+        return false;
+    }
+    
+    formulario.submit();
+
+}
+
+function validar_componente() {
+
+    var ComponenteCurricular = document.getElementById("ComponenteCurricular");
+    var SubArea = document.getElementById("SubArea");
+    var CodigoModalidade = document.getElementById("CodigoModalidade");
+    var formulario = document.getElementsByName("criterioform");
+
+
+    if (ComponenteCurricular.value == "") {
+        alert("Informe o Componente");
+        ComponenteCurricular.focus();
+        return false;
+    }
+    if (SubArea.value == "") {
+        alert("Informe a Sub-Área");
+        SubArea.focus();
+        return false;
+    }
+    if (CodigoModalidade.value == "") {
+        alert("A modalidade deve ser selecionada");
+        CodigoModalidade.focus();
+        return false;
+    }
+
+
+
+    formulario.submit();
+
+}
+
+function validar_atribuicao() {
+
+    var Nome = document.getElementById("Nome");
+    var Cargo = document.getElementById("Cargo");
+    var CodigoModalidade = document.getElementById("CodigoModalidade");
+    var CodigoAno = document.getElementById("CodigoAno");
+    var CodigoCC = document.getElementById("CodigoCC");
+    var formulario = document.getElementsByName("atribform");
+
+
+    if (Nome.value == "") {
+        alert("O nome não pode ser vazio");
+        Nome.focus();
+        return false;
+    }
+    if (Cargo.value == "") {
+        alert("O cargo não pode ser vazio");
+        Cargo.focus();
+        return false;
+    }
+    if (CodigoModalidade.value == "") {
+        alert("A modalidade não pode ser vazia");
+        CodigoModalidade.focus();
+        return false;
+    }
+
+    if (CodigoAno.value == "") {
+        alert("Selecione o ano");
+        CodigoAno.focus();
+        return false;
+    }
+
+    if (CodigoCC.value == "") {
+        alert("Selecione o Componente Curricular");
+        CodigoCC.focus();
+        return false;
+    }
+
+    formulario.submit();
+
+}
+
+function validar_ano() {
+
+    var Ano = document.getElementById("Ano");
+    var Turma = document.getElementById("Turma");
+    var CodigoModalidade = document.getElementById("CodigoModalidade");
+    var Periodo = document.getElementById("Periodo");
+    var formulario = document.getElementsByName("anoform");
+
+
+    if (Ano.value == "") {
+        alert("O ano não pode ser vazio");
+        Ano.focus();
+        return false;
+    }
+    if (Turma.value == "") {
+        alert("A turma não pode ser vazia");
+        Turma.focus();
+        return false;
+    }
+    if (CodigoModalidade.value == "") {
+        alert("Informe a modalidade");
+        CodigoModalidade.focus();
+        return false;
+    }
+
+    if (Periodo.value == "") {
+        alert("Informe o Período");
+        Periodo.focus();
+        return false;
+    }
+
+    formulario.submit();
+
+}
+
 
 /*function validar() {
     // pegando o valor do nome pelos names

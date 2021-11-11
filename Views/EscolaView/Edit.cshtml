@@ -11,7 +11,7 @@
 
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-<form asp-action="Edit" onsubmit="validar_escola(this);return false" >
+<form asp-action="Edit" method="post" name = "escolaform" onsubmit="validar_escola(this);return false" >
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <input type="hidden" asp-for="Codigo" class="browser-default" />

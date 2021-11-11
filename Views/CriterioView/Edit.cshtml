@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post" onsubmit="validar_criterio(this);return false" name="criterioform">
             <div class="form-group">
                 <label asp-for="Criterio" class="control-label">Critério</label>
                 <textarea name="Criterio" value="@ViewBag.texto" class="form-control" rows="10" cols="40" maxlength="500">@ViewBag.texto</textarea>
@@ -20,12 +20,12 @@
             <div class="form-group">
                 <label asp-for="CodigoClassificacaoCriterio" class="control-label">Classificação do Critério</label>
                 @Html.DropDownListFor(model => model.CodigoClassificacaoCriterio, (IEnumerable<SelectListItem>)ViewBag.CodigoClassificacaoCriterio, "--Selecione", new { @id = "CodigoClassificacaoCriterio", @class = "form-control" })
-                <span asp-validation-for="CodigoClassificacaoCriterio" class="text-danger"></span>
+                
             </div>
             <div class="form-group">
                 <label asp-for="CodigoCCUrricular" class="control-label">Componente Curricular</label>
                 @Html.DropDownListFor(model => model.CCurricular, (IEnumerable<SelectListItem>)ViewBag.CodigoCCurricular, "--Selecione Componentes ", new { @id = "CodigoClassificacaoCriterio", @class = "select", @multiple = "true", @style = "width:350px" })
-                <span asp-validation-for="CodigoClassificacaoCriterio" class="text-danger"></span>
+                
             </div>
             <div class="center">
 

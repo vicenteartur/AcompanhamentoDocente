@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Create">
+            <form asp-action="Create"  method="post" onsubmit="validar_criterio(this);return false" name="criterioform">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Criterio" class="negrito"></label>
@@ -21,12 +21,12 @@
                 <div class="form-group">
                     <label asp-for="CodigoClassificacaoCriterio" class="negrito">Classificação Critério</label>
                     @Html.DropDownListFor(model => model.CodigoClassificacaoCriterio, (IEnumerable<SelectListItem>)ViewBag.CodigoClassificacaoCriterio, "--Selecione", new { @id = "CodigoClassificacaoCriterio", @class = "browser-default", @placeholder = "Selecione a Classificação" })
-                    <span asp-validation-for="CodigoClassificacaoCriterio" class="text-danger"></span>
+                    
                 </div>
                 <div class="form-group">
                     <label asp-for="CodigoCCUrricular" class="control-label">Componente Curricular</label>
-                    @Html.DropDownListFor(model => model.CCurricular, (IEnumerable<SelectListItem>)ViewBag.CodigoCCurricular, "--Selecione", new { @id = "Componentes", @class = "select", @multiple = "true", @style = "width:350px", @placeholder = "Selecione a Classificação" })
-                    <span asp-validation-for="CodigoClassificacaoCriterio" class="text-danger"></span>
+                    @Html.DropDownListFor(model => model.CCurricular, (IEnumerable<SelectListItem>)ViewBag.CodigoCCurricular, "--Selecione", new { @id = "Componentes", @class = "browser-default", @multiple = "true", @style = "width:350px", @placeholder = "Selecione a Classificação" })
+                    
                 </div>
 
 

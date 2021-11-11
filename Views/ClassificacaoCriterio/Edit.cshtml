@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-md-4">
         <input type="hidden" name="id" value="@ViewBag.admin.Codigo" />
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post" onsubmit="validar_classcriterio(this);return false" name="classcriterioform">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Codigo" />
             <div class="form-group">
